@@ -60,6 +60,19 @@ export default function DataPage() {
         off, or open its breaker at Uranus. Kite can carry the instruments on solar power and still
         be legal at Earth. It cannot heat the bus at Uranus, and mission control scrubs that flight.
       </p>
+      <h2>Space agency partners</h2>
+      <p>
+        The 2026 challenge invites use of Space Agency Partner material alongside NASA data. This build
+        stays with sources that can change a decision on screen: the NASA Exoplanet Archive, JPL Horizons,
+        the JPL Small-Body Database, NASA NeoWs, EPIC, and the NASA image library. Partner agencies named
+        for 2026, and not claimed as a live feed here, are the Angola National Space Programme Management
+        Office, Bahrain Space Agency, Brazilian Space Agency, the Canadian Space Agency, ESA, ISRO, the
+        Italian Space Agency, JAXA, KASA, the Mohammed Bin Rashid Space Centre, Argentina&apos;s National
+        Space Activities Commission, Nigeria&apos;s National Space Research and Development Agency, the
+        Paraguayan Space Agency, the Senegalese Space Studies Agency, the Spanish Space Agency, the Turkish
+        Space Agency, and the UK Space Agency. Photographs are credited to NASA and the instrument team
+        named on the plate. Nothing here implies NASA endorsement.
+      </p>
       <h2>What is original</h2>
       <p>
         Dialogue, portraits, and the low-poly ship are original. Nori&apos;s lines are written. She

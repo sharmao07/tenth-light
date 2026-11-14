@@ -4,6 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { Group, Mesh, MeshStandardMaterial, Scene, SphereGeometry } from "three";
 import type { PartId } from "@/lib/game/types";
+import { blip } from "./audio";
 import { ShipMesh } from "./ShipMesh";
 
 type Craft = { mesh: Group; x: number; z: number; phase: number; alive: boolean };
@@ -109,6 +110,7 @@ function Battle({
       mesh.position.set(world.x, 0, 4.2);
       state.scene.add(mesh);
       world.shots.push({ mesh, x: world.x, z: 4.2, alive: true });
+      blip("shoot");
     }
     for (const shot of world.shots) {
       if (!shot.alive) continue;

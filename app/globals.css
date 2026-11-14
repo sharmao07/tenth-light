@@ -169,6 +169,61 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   line-height: 1.35;
 }
 
+.pixel {
+  width: 112px;
+  height: auto;
+  display: block;
+  background: #14120e;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+.talk-stage {
+  position: relative;
+  min-height: calc(100vh - 6.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: #0c0b09;
+}
+
+.dialogue-dock {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 4px solid #1a1714;
+  padding: 0.75rem 1rem 0.9rem;
+}
+
+.dialogue-dock .dialogue-copy {
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  margin: 0.2rem 0 0.55rem;
+}
+
+.dialogue-dock .who { color: #6d645b; }
+
+.hint {
+  position: fixed;
+  left: 50%;
+  top: 18%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: min(420px, calc(100% - 2rem));
+  background: var(--paper);
+  color: var(--ink);
+  border: 4px solid #1a1714;
+  padding: 1rem 1.1rem 1.15rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.hint p { margin: 0; }
+
 .dialogue-stage {
   min-height: calc(100vh - 6.5rem);
   display: grid;
@@ -352,14 +407,25 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .ending {
   position: relative;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
   min-height: calc(100vh - 6.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
+  background: #0c0b09;
 }
-.ending-copy { padding: 1.5rem; display: grid; align-content: center; }
-.ending .dialogue { width: 100%; }
-.window { margin: 1.25rem; background: #0c0b09; border: 1px solid var(--line); padding: 0.8rem; }
+.ending-copy { position: relative; z-index: 2; }
+.ending .dialogue { width: 100%; border: 0; border-top: 4px solid #1a1714; }
+.window {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: min(360px, 40vw);
+  background: #0c0b09;
+  border: 1px solid var(--line);
+  padding: 0.8rem;
+  z-index: 1;
+}
 
 footer.bar {
   display: flex;
@@ -396,6 +462,8 @@ footer.bar ul { margin: 0.4rem 0 0; padding-left: 1rem; }
   .hangar { grid-template-areas: "stage" "ledger" "parts"; grid-template-columns: 1fr; grid-template-rows: 320px auto auto; }
   .ledger { border-right: 0; border-top: 1px solid var(--line); }
   .title-stage, .hangar .stage, .maze-stage { min-height: 280px; height: 320px; }
+  .dialogue-dock { grid-template-columns: 96px 1fr; }
+  .dialogue-dock .row { grid-column: 1 / -1; }
   .dialogue-stage { padding: 0.6rem; }
   .portrait-frame { padding: 0.6rem; }
   .dodge { position: static; transform: none; padding: 1rem; }

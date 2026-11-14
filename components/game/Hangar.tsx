@@ -53,6 +53,9 @@ export function Hangar({
         <Meter label="Watts at Earth" value={Math.round(report.drawEarth)} max={Math.max(report.drawEarth, report.supplyEarth, 1)} warn={report.supplyEarth + 0.05 < report.drawEarth} />
         <Meter label="Delta-v m/s" value={report.dv} max={7200} warn={report.dv < 6700} />
         <p>Uranus supply {report.supplyUranus.toFixed(1)} W. Heater bus {report.aliveDraw} W.</p>
+        <button type="button" data-testid="auto" onClick={() => dispatch({ type: "autobuild" })}>
+          Auto-build the certifying stack
+        </button>
         {report.hard.map((line) => <p key={line} className="bad">{line}</p>)}
         {report.warnings.map((line) => <p key={line} className="warn">{line}</p>)}
         <button
@@ -71,7 +74,7 @@ export function Hangar({
         onDrop={onDrop}
       >
         <HangarScene parts={state.ship.parts} />
-        <p className="caption">Drag a part onto the ship, or press its card. Orbit the view.</p>
+        <p className="caption">Side view, like a vehicle assembly building. Parts snap into a vertical stack. Drag a card onto the ship, or press it. Orbit to walk around.</p>
       </div>
       <div className="parts">
         {OPTIONAL.map((id) => {

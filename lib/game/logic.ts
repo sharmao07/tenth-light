@@ -48,6 +48,7 @@ export type Action =
   | { type: "next-line" }
   | { type: "briefing-done" }
   | { type: "vehicle"; id: VehicleId }
+  | { type: "autobuild" }
   | { type: "add"; id: PartId }
   | { type: "remove"; id: PartId }
   | { type: "launch" }
@@ -189,6 +190,16 @@ export function reduce(state: GameState, action: Action): GameState {
     case "vehicle":
       if (state.phase.kind !== "hangar") return state;
       return { ...state, ship: { ...state.ship, vehicle: action.id } };
+    case "autobuild":
+      if (state.phase.kind !== "hangar") return state;
+      return {
+        ...state,
+        ship: {
+          vehicle: "keel",
+          parts: ["command", "engine", "antenna", "tank", "tank", "tank", "rtg", "spectrometer", "drill"],
+        },
+        log: [...state.log, "Auto stack: Keel, three tanks, radioisotope unit, spectrometer, drill."],
+      };
     case "add": {
       if (state.phase.kind !== "hangar") return state;
       if (action.id !== "tank" && state.ship.parts.includes(action.id)) return state;

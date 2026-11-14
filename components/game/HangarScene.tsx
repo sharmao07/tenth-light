@@ -7,8 +7,8 @@ import { ShipMesh } from "./ShipMesh";
 
 export default function HangarScene({ parts, spin = false }: { parts: PartId[]; spin?: boolean }) {
   return (
-    <Canvas camera={{ position: [2.8, 1.35, 4.6], fov: 40 }}>
-      <color attach="background" args={["#14120e"]} />
+    <Canvas camera={{ position: [7.2, 1.1, 7.2], fov: 32 }}>
+      <color attach="background" args={["#0c0b09"]} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[4, 6, 2]} intensity={1.7} />
       <ShipMesh parts={parts} spin={spin} />

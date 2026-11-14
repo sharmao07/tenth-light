@@ -59,7 +59,7 @@ export function Game() {
   const [state, dispatch] = useReducer(reduce, initialState);
   const client = useClient();
   const canResume = useSavedRun();
-  const [muted, setMuteState] = useState(true);
+  const [muted, setMuteState] = useState(false);
   const [worlds, setWorlds] = useState<WorldCard[]>(ARCHIVE_SNAPSHOT);
   const [archiveSource, setArchiveSource] = useState("snapshot");
 
@@ -89,8 +89,11 @@ export function Game() {
 
   function send(action: Action) {
     if (action.type === "dodge") blip(action.hit ? "ok" : "miss");
-    if (action.type === "fight-hit") blip("miss");
-    if (action.type === "fight-win" || action.type === "puzzle-pass") blip("ok");
+    else if (action.type === "fight-hit") blip("miss");
+    else if (action.type === "fight-win" || action.type === "puzzle-pass" || action.type === "maze-done") blip("ok");
+    else if (action.type === "launch" || action.type === "autobuild") blip("launch");
+    else if (action.type === "next-line" || action.type === "talk-next") blip("talk");
+    else blip("ui");
     dispatch(action);
   }
 
@@ -131,6 +134,10 @@ export function Game() {
             : "Earth";
 
   const here = currentStop(state);
+  const beat = beatId(state);
+  const [closedHint, setClosedHint] = useState("");
+  const hint = HINTS[beat];
+  const showHint = Boolean(hint) && closedHint !== beat;
 
   return (
     <div className="game-root">
@@ -186,6 +193,8 @@ export function Game() {
 
         {state.phase.kind === "briefing" && (
           <Talk
+            parts={state.ship.parts}
+            showScene={client}
             who={briefingLines(state.callsign || "Wren")[state.phase.line].who}
             name={briefingLines(state.callsign || "Wren")[state.phase.line].name}
             text={briefingLines(state.callsign || "Wren")[state.phase.line].text}
@@ -228,6 +237,8 @@ export function Game() {
 
         {state.phase.kind === "talk" && (
           <Talk
+            parts={state.ship.parts}
+            showScene={client}
             who={SCRIPTS[state.phase.script](state.callsign)[state.phase.line].who}
             name={SCRIPTS[state.phase.script](state.callsign)[state.phase.line].name}
             text={SCRIPTS[state.phase.script](state.callsign)[state.phase.line].text}
@@ -273,6 +284,15 @@ export function Game() {
         {state.phase.kind === "ending" && (
           <Ending kind={endingKind(state)} callsign={state.callsign} onAgain={again} />
         )}
+        {showHint && hint && (
+          <div className="hint" role="dialog" aria-label="How to clear this gate">
+            <p className="eyebrow">How to clear this gate</p>
+            <p>{hint}</p>
+            <button type="button" className="primary" onClick={() => setClosedHint(beat)}>
+              Got it
+            </button>
+          </div>
+        )}
       </main>
       <footer className="bar">
         <p>Real places through the heliopause. Harbor is a labeled simulation.</p>
@@ -296,6 +316,8 @@ function Talk({
   onNext,
   onCta,
   children,
+  parts,
+  showScene,
 }: {
   who: Who;
   name: string;
@@ -304,28 +326,56 @@ function Talk({
   onNext: () => void;
   onCta: () => void;
   children?: ReactNode;
+  parts: PartId[];
+  showScene: boolean;
 }) {
   return (
-    <section className="dialogue-stage">
-      <div className="dialogue" aria-live="polite">
-        <div className="portrait-frame">
-          <Portrait who={who} />
-        </div>
-        <div className="dialogue-body">
+    <section className="talk-stage">
+      {showScene && <TransitScene parts={parts} approaching={false} />}
+      <div className="dialogue-dock" aria-live="polite">
+        <Portrait who={who} />
+        <div>
           <p className="who">{name}</p>
           <p className="dialogue-copy">{text}</p>
           {children}
-          <div className="row">
-            {cta ? (
-              <button type="button" className="primary" data-testid="cta" onClick={onCta}>{cta}</button>
-            ) : (
-              <button type="button" className="primary" data-testid="continue" onClick={onNext}>Continue</button>
-            )}
-          </div>
+        </div>
+        <div className="row">
+          {cta ? (
+            <button type="button" className="primary" data-testid="cta" onClick={onCta}>{cta}</button>
+          ) : (
+            <button type="button" className="primary" data-testid="continue" onClick={onNext}>Continue</button>
+          )}
         </div>
       </div>
     </section>
   );
+}
+
+const HINTS: Record<string, string> = {
+  hangar: "Stack a launcher, tanks, power, and the two sample tools. Auto-build loads the stack that can certify water and soil and still heat the bus at Uranus. Launch when the red lines are gone.",
+  dodge: "Click when the white mark sits on the amber arc. The name, size, and speed are a real near-Earth object. A miss spends a life.",
+  moon: "Turn the dish until the bearing is within 14 degrees of the Horizons number.",
+  mars: "Drop the souvenir. The harness stays on Nori.",
+  ceres: "Pick the largest body. Dawn orbited that one. The diameters come from the Small-Body Database.",
+  fight: "Move and shoot. Three waves of saucers. A hit spends one of the three lives.",
+  enceladus: "Point at the south-pole jets. That is the plume Cassini flew through.",
+  uranus: "Heater, computer, and radio stay on. If the bus is over the supply, open the imager breaker. No radioisotope power means a scrub.",
+  neptune: "Send one command, then wait. A second command collides with the first. The hours on screen are the real light time.",
+  pluto: "Mark the heart. A photograph is not a soil sample.",
+  whisper: "Order the manifest: samples, then the power log, then the postcard.",
+  maze: "You stay in the ship. Walk Nori with the arrows. Collect two water nodes and two soil nodes. The exit opens after that.",
+};
+
+function beatId(state: GameState): string {
+  if (state.phase.kind === "hangar") return "hangar";
+  if (state.phase.kind === "transit" && state.phase.dodgesLeft > 0 && state.phase.showTip) return "dodge";
+  if (state.phase.kind === "puzzle") {
+    const names = ["", "moon", "mars", "ceres", "", "enceladus", "uranus", "neptune", "pluto", "whisper"];
+    return names[state.phase.stop] ?? "";
+  }
+  if (state.phase.kind === "fight") return "fight";
+  if (state.phase.kind === "maze") return "maze";
+  return "";
 }
 
 function currentStop(state: GameState): number {
