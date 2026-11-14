@@ -1,0 +1,302 @@
+@import "tailwindcss";
+
+:root {
+  --space: #14120e;
+  --space-2: #1c1914;
+  --paper: #e6dfd0;
+  --paper-2: #f4efe6;
+  --ink: #1a1714;
+  --amber: #e39b12;
+  --blood: #c4452d;
+  --line: #3a342c;
+  --mute: #8a8175;
+  --font-sans: var(--font-plex);
+  --font-serif: var(--font-news);
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--space);
+  color: var(--paper);
+  font-family: var(--font-sans), "IBM Plex Sans", sans-serif;
+}
+
+button, input { font: inherit; color: inherit; }
+
+button, a { cursor: pointer; }
+
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+a { color: var(--amber); }
+
+.game-root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.hud, footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+footer {
+  border-bottom: 0;
+  border-top: 1px solid var(--line);
+  align-items: start;
+  color: var(--mute);
+  font-size: 0.82rem;
+}
+
+footer p { max-width: 62rem; margin: 0; }
+
+.brand {
+  margin: 0;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.hud-meta, .eyebrow, .caption, .who {
+  margin: 0;
+  color: var(--mute);
+  font-size: 0.85rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.lives { display: flex; gap: 0.4rem; }
+
+.life {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid var(--paper);
+  background: transparent;
+}
+
+.life.on { background: var(--blood); border-color: var(--blood); }
+
+h1, h2, h3 { font-family: var(--font-serif), Georgia, serif; font-weight: 500; }
+
+h1 { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 0.9; margin: 0.2rem 0; }
+
+h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin: 0.2rem 0 0.6rem; }
+
+.lede { font-size: 1.3rem; max-width: 28rem; }
+
+.title, .ending, .hangar, .return {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  min-height: calc(100vh - 8rem);
+}
+
+.title, .hangar, .ending, .return, .puzzle-screen, .maze-wrap {
+  padding: 1.25rem;
+  gap: 1.25rem;
+}
+
+.title-stage, .stage, .maze-stage, .transit, .fight {
+  background: var(--space-2);
+  position: relative;
+  height: 640px;
+}
+
+.transit, .fight, .maze-stage { height: calc(100vh - 9rem); min-height: 520px; }
+
+.title-stage canvas, .stage canvas, .maze-stage canvas, .transit canvas, .fight canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.stage-loading { padding: 2rem; color: var(--mute); }
+
+label { display: grid; gap: 0.35rem; margin: 1rem 0; max-width: 18rem; }
+
+input[type="text"], input:not([type="range"]) {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--amber);
+  padding: 0.4rem 0;
+}
+
+.row, .vehicle-row, .choices, .pad { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+.vehicle-row button,
+.part-card button,
+.choices button {
+  display: grid;
+  gap: 0.2rem;
+  line-height: 1.35;
+}
+
+button, .part-card button {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+}
+
+button.primary {
+  background: var(--amber);
+  color: var(--ink);
+  border-color: var(--amber);
+  font-weight: 600;
+}
+
+button.selected, .card.fly { border-color: var(--amber); }
+
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.dialogue {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 1.25rem;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 1.25rem;
+  min-height: 70vh;
+}
+
+.portrait { width: 100%; height: auto; display: block; }
+
+.dialogue-copy {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+  line-height: 1.2;
+  margin: 0.4rem 0 1rem;
+}
+
+.who { color: #6d645b; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+
+.card, .part-card, .neo-card, .return-card, .window {
+  border: 1px solid var(--line);
+  padding: 0.8rem;
+}
+
+.dialogue .card { border-color: #cfc6b6; }
+
+.card h3 { margin: 0.2rem 0; }
+
+.hangar { align-items: start; grid-template-columns: 280px 1fr 300px; }
+
+.ledger, .parts { display: grid; gap: 0.7rem; align-content: start; }
+
+.part-card p, .bad, .warn { margin: 0; font-size: 0.92rem; }
+
+.bad { color: var(--blood); }
+.warn { color: var(--amber); }
+
+.meter-label, .meter { display: grid; gap: 0.25rem; }
+
+.meter-label { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--mute); }
+
+.meter-track { height: 8px; background: var(--space-2); }
+
+.dialogue .meter-track { background: #d9d0c2; }
+
+.meter-fill { height: 100%; background: var(--amber); }
+
+.transit, .fight, .return { position: relative; }
+
+.dodge, .return-card {
+  position: absolute;
+  inset: 1rem auto auto 1rem;
+  display: grid;
+  grid-template-columns: auto 220px;
+  gap: 0.8rem;
+  z-index: 2;
+}
+
+.return-card { position: absolute; left: 1rem; bottom: 1rem; top: auto; background: var(--space); max-width: 28rem; }
+
+.ring-button {
+  width: 240px;
+  height: 240px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  position: relative;
+}
+
+.ring { width: 240px; height: 240px; }
+
+.ring-label {
+  position: absolute;
+  left: 2.2rem;
+  right: 2.2rem;
+  bottom: 4.2rem;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.neo-card { background: var(--space); }
+
+.neo-name { font-family: var(--font-serif), Georgia, serif; font-size: 1.4rem; margin: 0 0 0.4rem; }
+
+.puzzle, .puzzle-screen { display: grid; gap: 0.8rem; max-width: 52rem; }
+
+.plate img, .window img { width: 100%; max-height: 280px; object-fit: cover; display: block; }
+
+.diagram { width: min(100%, 420px); height: auto; border: 1px solid var(--line); }
+
+.choices button { min-width: 12rem; display: grid; }
+
+.fight-hud, .maze-copy { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; z-index: 2; display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
+
+.maze-wrap { display: grid; grid-template-columns: 240px 1fr; }
+.maze-stage { min-height: 560px; position: relative; }
+.maze-copy { position: static; display: block; }
+
+.data-page { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+.data-page li { margin: 0.45rem 0; }
+.ending { position: relative; overflow: hidden; }
+
+.window { background: var(--space-2); }
+
+.confetti { position: absolute; inset: 0; pointer-events: none; }
+
+.confetti span {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 14px;
+  animation: fall 3.2s linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(100vh) rotate(160deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti { display: none; }
+}
+
+@media (max-width: 900px) {
+  .title, .ending, .hangar, .return, .maze-wrap, .dialogue, .dodge, .cards {
+    grid-template-columns: 1fr;
+  }
+  .title-stage, .stage, .maze-stage { min-height: 280px; }
+  .dialogue { min-height: 0; }
+  .fight-hud { flex-direction: column; }
+}
