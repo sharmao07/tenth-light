@@ -50,7 +50,7 @@ export function Hangar({
         </div>
         <Meter label="Mass kg" value={report.mass} max={report.massCap} warn={report.mass > report.massCap} />
         <Meter label="Cost" value={report.cost} max={report.budget} warn={report.cost > report.budget} />
-        <Meter label="Watts at Earth" value={Math.round(report.drawEarth)} max={Math.max(1, Math.round(report.supplyEarth))} warn={report.supplyEarth < report.drawEarth} />
+        <Meter label="Watts at Earth" value={Math.round(report.drawEarth)} max={Math.max(report.drawEarth, report.supplyEarth, 1)} warn={report.supplyEarth + 0.05 < report.drawEarth} />
         <Meter label="Delta-v m/s" value={report.dv} max={7200} warn={report.dv < 6700} />
         <p>Uranus supply {report.supplyUranus.toFixed(1)} W. Heater bus {report.aliveDraw} W.</p>
         {report.hard.map((line) => <p key={line} className="bad">{line}</p>)}

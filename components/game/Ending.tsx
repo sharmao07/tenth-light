@@ -58,8 +58,10 @@ export function Ending({
       <div className="ending-copy">
         <p className="eyebrow">{title}</p>
         <div className="dialogue">
-          <Portrait who={line.who} />
-          <div>
+          <div className="portrait-frame">
+            <Portrait who={line.who} />
+          </div>
+          <div className="dialogue-body">
             <p className="who">{line.name}</p>
             <p className="dialogue-copy">{line.text}</p>
             <div className="row">

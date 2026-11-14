@@ -130,6 +130,8 @@ export function Game() {
             ? "Earth"
             : "Earth";
 
+  const here = currentStop(state);
+
   return (
     <div className="game-root">
       <header className="hud">
@@ -137,17 +139,24 @@ export function Game() {
           <p className="brand">Tenth Light</p>
           <p className="hud-meta">{stopName}{state.phase.kind !== "title" && state.phase.kind !== "briefing" && state.phase.kind !== "hangar" ? ` · ${state.dv} m/s left` : ""}</p>
         </div>
+        <ol className="rail" aria-label="Corridor">
+          {STOPS.map((stop) => (
+            <li key={stop.id} className={stop.id === here ? "here" : stop.id < here ? "done" : ""} title={stop.name}>
+              {stop.id}
+            </li>
+          ))}
+        </ol>
         <div className="lives" aria-label={`${state.lives} lives`}>
           {[0, 1, 2].map((index) => (
             <span key={index} className={index < state.lives ? "life on" : "life"} />
           ))}
         </div>
-        <button type="button" onClick={toggleSound}>{muted ? "Turn sound on" : "Turn sound off"}</button>
+        <button type="button" onClick={toggleSound}>{muted ? "Sound" : "Mute"}</button>
       </header>
       <main>
         {state.phase.kind === "title" && (
           <section className="title">
-            <div>
+            <div className="title-copy">
               <p className="eyebrow">NASA Space Apps 2026 · Space Mission Design Game</p>
               <h1>Tenth Light</h1>
               <p className="lede">Design the ship. Stay in the seat. Send the cat.</p>
@@ -265,15 +274,15 @@ export function Game() {
           <Ending kind={endingKind(state)} callsign={state.callsign} onAgain={again} />
         )}
       </main>
-      <footer>
-        <p>{HONESTY}</p>
+      <footer className="bar">
+        <p>Real places through the heliopause. Harbor is a labeled simulation.</p>
         <details>
-          <summary>Mission log</summary>
+          <summary>Log</summary>
           <ul>
             {state.log.slice(-8).map((line, index) => <li key={`${line}-${index}`}>{line}</li>)}
           </ul>
         </details>
-        <a href="/data">Data and credits</a>
+        <a href="/data">Data</a>
       </footer>
     </div>
   );
@@ -297,22 +306,34 @@ function Talk({
   children?: ReactNode;
 }) {
   return (
-    <section className="dialogue" aria-live="polite">
-      <Portrait who={who} />
-      <div>
-        <p className="who">{name}</p>
-        <p className="dialogue-copy">{text}</p>
-        {children}
-        <div className="row">
-          {cta ? (
-            <button type="button" className="primary" data-testid="cta" onClick={onCta}>{cta}</button>
-          ) : (
-            <button type="button" className="primary" data-testid="continue" onClick={onNext}>Continue</button>
-          )}
+    <section className="dialogue-stage">
+      <div className="dialogue" aria-live="polite">
+        <div className="portrait-frame">
+          <Portrait who={who} />
+        </div>
+        <div className="dialogue-body">
+          <p className="who">{name}</p>
+          <p className="dialogue-copy">{text}</p>
+          {children}
+          <div className="row">
+            {cta ? (
+              <button type="button" className="primary" data-testid="cta" onClick={onCta}>{cta}</button>
+            ) : (
+              <button type="button" className="primary" data-testid="continue" onClick={onNext}>Continue</button>
+            )}
+          </div>
         </div>
       </div>
     </section>
   );
+}
+
+function currentStop(state: GameState): number {
+  if (state.phase.kind === "transit") return state.phase.to;
+  if (state.phase.kind === "talk" || state.phase.kind === "puzzle") return state.phase.stop;
+  if (state.phase.kind === "fight") return 4;
+  if (state.phase.kind === "maze" || state.phase.kind === "return") return 10;
+  return 0;
 }
 
 function Puzzle({

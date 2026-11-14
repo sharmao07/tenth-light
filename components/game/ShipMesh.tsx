@@ -35,10 +35,16 @@ export function ShipMesh({ parts, spin = false }: { parts: PartId[]; spin?: bool
         </mesh>
       )}
       {parts.includes("antenna") && (
-        <mesh position={[0, 0.62, nose]}>
-          <cylinderGeometry args={[0.26, 0.04, 0.08, 16]} />
-          <meshStandardMaterial color="#e39b12" />
-        </mesh>
+        <group position={[0, 0.55, nose]}>
+          <mesh>
+            <cylinderGeometry args={[0.03, 0.03, 0.55, 8]} />
+            <meshStandardMaterial color="#efe6d6" />
+          </mesh>
+          <mesh position={[0, 0.32, 0]} rotation={[0.5, 0, 0]}>
+            <cylinderGeometry args={[0.28, 0.08, 0.06, 16]} />
+            <meshStandardMaterial color="#e39b12" />
+          </mesh>
+        </group>
       )}
       {parts.includes("solar") && (
         <group position={[0, 0, -0.35]}>

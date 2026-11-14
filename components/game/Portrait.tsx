@@ -25,12 +25,15 @@ export function Portrait({ who }: { who: Who }) {
 function Wren() {
   return (
     <g>
-      <circle cx="100" cy="108" r="46" fill="#c96b4a" />
-      <path d="M54 96c8-40 84-40 92 0v8H54z" fill="#1a1714" />
-      <rect x="62" y="128" width="76" height="70" fill="#e6dfd0" />
-      <rect x="70" y="96" width="60" height="8" fill="#e39b12" />
-      <circle cx="84" cy="112" r="3" fill="#1a1714" />
-      <circle cx="116" cy="112" r="3" fill="#1a1714" />
+      <path d="M46 168 h108 l-10 48 H56 z" fill="#efe6d6" />
+      <path d="M58 168 h84 v18 H58 z" fill="#e39b12" />
+      <circle cx="100" cy="108" r="48" fill="#c96b4a" />
+      <path d="M52 104c6-46 90-46 96 0v10H52z" fill="#1a1714" />
+      <path d="M64 112 h72 v16 H64 z" fill="#1a1714" opacity="0.9" />
+      <path d="M68 114 h64 v6 H68 z" fill="#e39b12" />
+      <circle cx="84" cy="128" r="3.5" fill="#1a1714" />
+      <circle cx="116" cy="128" r="3.5" fill="#1a1714" />
+      <path d="M92 142 h16" stroke="#1a1714" strokeWidth="3" />
     </g>
   );
 }
@@ -38,13 +41,19 @@ function Wren() {
 function Nori() {
   return (
     <g>
-      <path d="M58 108 L78 48 L96 96 Z" fill="#e39b12" />
-      <path d="M142 108 L122 48 L104 96 Z" fill="#e39b12" />
-      <circle cx="100" cy="124" r="48" fill="#e39b12" />
-      <circle cx="100" cy="132" r="22" fill="#f3eee4" />
-      <circle cx="84" cy="118" r="5" fill="#1a1714" />
-      <circle cx="116" cy="118" r="5" fill="#1a1714" />
-      <path d="M96 132 h8 l-4 6 z" fill="#c4452d" />
+      <path d="M48 118 L74 36 L98 104 Z" fill="#e39b12" />
+      <path d="M58 112 L74 52 L88 104 Z" fill="#f3eee4" />
+      <path d="M152 118 L126 36 L102 104 Z" fill="#e39b12" />
+      <path d="M142 112 L126 52 L112 104 Z" fill="#f3eee4" />
+      <ellipse cx="100" cy="132" rx="54" ry="48" fill="#e39b12" />
+      <ellipse cx="100" cy="146" rx="24" ry="18" fill="#f3eee4" />
+      <ellipse cx="82" cy="128" rx="7" ry="8" fill="#1a1714" />
+      <ellipse cx="118" cy="128" rx="7" ry="8" fill="#1a1714" />
+      <circle cx="84" cy="126" r="2" fill="#efe6d6" />
+      <circle cx="120" cy="126" r="2" fill="#efe6d6" />
+      <path d="M96 146 h8 l-4 7 z" fill="#c4452d" />
+      <path d="M46 140 h28 M126 140 h28 M50 152 h22 M128 152 h22" stroke="#1a1714" strokeWidth="1.5" />
+      <rect x="78" y="176" width="44" height="8" fill="#1a1714" />
     </g>
   );
 }
@@ -121,9 +130,13 @@ function Shore() {
 function Control() {
   return (
     <g>
-      <circle cx="100" cy="108" r="40" fill="#d9d2c5" />
-      <path d="M60 108 h-12 v28 h12 M140 108 h12 v28 h-12" fill="none" stroke="#e39b12" strokeWidth="6" />
-      <rect x="70" y="150" width="60" height="40" fill="#2a261f" />
+      <path d="M48 170 h104 l-8 46 H56 z" fill="#2a261f" />
+      <circle cx="100" cy="112" r="42" fill="#d9d2c5" />
+      <path d="M58 108 c4-36 80-36 84 0 v6 H58 z" fill="#1a1714" />
+      <path d="M62 118 h-16 v22 h16 M138 118 h16 v22 h-16" fill="none" stroke="#e39b12" strokeWidth="5" />
+      <circle cx="86" cy="122" r="3" fill="#1a1714" />
+      <circle cx="114" cy="122" r="3" fill="#1a1714" />
+      <path d="M94 136 h12" stroke="#1a1714" strokeWidth="2" />
     </g>
   );
 }
