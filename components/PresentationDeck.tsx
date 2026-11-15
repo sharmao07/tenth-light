@@ -260,7 +260,7 @@ export function PresentationDeck() {
       content: (
         <div className="space-y-6 text-left">
           <p className="text-xs md:text-sm text-[#e9e6dc]/80 font-sans leading-relaxed">
-            Players navigate an authentic 11-stop corridor where scientific puzzles, real historical milestones, and orbital obstacles must be overcome to maintain mission certification:
+            Players navigate an authentic 11-stop corridor where destination-specific puzzles, real historical milestones, and orbital obstacles must be overcome to maintain mission certification:
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs ">

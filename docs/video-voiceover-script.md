@@ -2,7 +2,7 @@
 
 NASA Space Apps Challenge 2026 entry  
 Target duration: 29.5 seconds (under 30s limit)  
-Video file: `submission-kit/Tenth-Light-30s-Demo.mp4` (1920x1080, 30 fps)  
+Video file: `Tenth-Light-30s-Demo.mp4` (1920x1080, 30 fps, uploaded to submission portal)  
 Audio: Stereo mix with procedural cabin hum, ready for presenter voiceover.
 
 ## Storyboard and voiceover timing
@@ -64,7 +64,7 @@ Timecode      Visual scene and gameplay footage           On-screen text        
 
 ## Video specifications
 
-- File: `submission-kit/Tenth-Light-30s-Demo.mp4`
+- Demonstration Video: `Tenth-Light-30s-Demo.mp4` (exported & submitted)
 - Resolution: 1920x1080 (16:9 widescreen)
 - Frame rate: 30 fps
 - Duration: 29.5 seconds

@@ -42,7 +42,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className="h-full bg-[#0a0c10] text-[#e9e6dc] overflow-x-hidden antialiased">{children}</body>
+      <body className="h-full bg-[#0a0c10] text-[#e9e6dc] overflow-x-hidden antialiased">
+        <noscript>
+          <div className="bg-[#12151b] border-b border-[#f0562b] p-6 text-center font-mono text-sm text-[#e9e6dc] space-y-3">
+            <p className="font-bold text-[#f0562b] text-base">The Tenth Light &mdash; Space Mission Design Game</p>
+            <p className="italic text-[#7d8591]">&ldquo;Design the ship. Stay in the seat. Send the droid.&rdquo;</p>
+            <p className="max-w-2xl mx-auto text-xs leading-relaxed text-[#e9e6dc]/80">
+              An interactive 3D space mission design game built for the NASA Space Apps Challenge 2026.
+              Follow Specialist Wren and astromech droid Nori through an 11-stop corridor across the Solar System to exoplanet TOI-700 e.
+            </p>
+            <p className="text-xs text-[#f0562b]">
+              Interactive 3D vehicle assembly and real-time telemetry require JavaScript. Please enable JavaScript to launch the simulation.
+            </p>
+            <div className="flex justify-center gap-4 text-xs pt-2">
+              <a href="https://github.com/sharmao07/tenth-light" className="underline hover:text-[#f0562b]">GitHub Repository</a>
+              <span>&bull;</span>
+              <a href="/data" className="underline hover:text-[#f0562b]">NASA Data Disclosures</a>
+              <span>&bull;</span>
+              <a href="https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE" className="underline hover:text-[#f0562b]">Demonstration Deck</a>
+            </div>
+          </div>
+        </noscript>
+        {children}
+      </body>
     </html>
   );
 }

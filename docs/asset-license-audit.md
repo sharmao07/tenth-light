@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary & Rights Inventory
 
-This document provides a comprehensive copyright, licensing, and intellectual property audit of all visual, audio, typographic, and software assets used in **Tenth Light** and its accompanying `submission-kit/`.
+This document provides a comprehensive copyright, licensing, and intellectual property audit of all visual, audio, typographic, and software assets used in **Tenth Light** and its accompanying `docs/` repository files.
 
 Every asset is categorized under one of four distinct legal classifications:
 1. **Confirmed Public Domain (U.S. Federal Government):** Official NASA employee works exempt from copyright under 17 U.S.C. § 105.
@@ -187,56 +187,19 @@ While NASA's official Media Usage Guidelines permit non-commercial educational a
 
 For an official public international competition such as the NASA Space Apps Challenge, public project repositories, public presentation decks, and public demo videos should not rely on Fair Use defenses for commercial entertainment stills or celebrity photography. Such assets carry significant copyright infringement and contest disqualification risks.
 
-**The following 4 items are classified as UNVERIFIED / THIRD-PARTY COPYRIGHTED and MUST be removed or replaced before final submission:**
+**The following 4 items were classified as UNVERIFIED / THIRD-PARTY COPYRIGHTED and have been PERMANENTLY PURGED from the repository:**
 
-### Item 1: Drake "Hotline Bling" Reaction Template
-* **Files on Disk:**
-  * `submission-kit/memes/drake_meme.jpg` (Blank two-panel template)
-  * `submission-kit/memes/drake_meme_science.png` (Modified with text overlays)
-* **Original Work:** Screen captures from the official music video for *"Hotline Bling"* (performed by Drake, released October 2015).
-* **Copyright Owner:** Universal Music Group / Republic Records / Cash Money Records / Director X (Director).
-* **Usage in Submission Kit:** Embedded on Slide 6 of `submission-kit/Tenth-Light-NASA-Space-Apps-2026.pptx` to contrast exoplanet guesswork with robotic ground-truth sampling.
-* **Legal Rights Status:** **UNVERIFIED / THIRD-PARTY COPYRIGHTED — NOT CLEARED**
-* **Actionable Recommendation:**
-  * **MANDATORY REMOVAL:** Remove `drake_meme_science.png` from Slide 6 of the PowerPoint deck.
-  * **REPLACEMENT:** Replace with an authentic in-game screenshot of Droid Nori extracting a candidate sample on TOI-700 e (`submission-kit/screenshots/11_harbor_sample_recovery_maze.png`), or a clean typographical comparison card.
-  * **FILE CLEANUP:** Do not upload this image to the NASA Space Apps project gallery or submission text fields.
+### Item 1: Drake "Hotline Bling" Reaction Template (PURGED)
+* **Status:** PERMANENTLY REMOVED from repository and presentation slides. Replaced with authentic in-game screenshot `docs/screenshots/11_harbor_sample_recovery_maze.png`.
 
-### Item 2: Flork of Cows "Sign Character" Meme
-* **Files on Disk:**
-  * `submission-kit/memes/sign_character.jpg` (Blank template)
-  * `submission-kit/memes/flork_soil_sample_sign.png` (Caption: "A photograph is NOT a soil sample!")
-  * `submission-kit/memes/flork_sign_cropped.png` (Cropped version)
-* **Original Work:** Webcomic character created by artist "Flork of Cows" ([florkofcows.com](https://www.florkofcows.com/)).
-* **Copyright Owner:** Flork of Cows (Independent Artist).
-* **Usage in Submission Kit:** Embedded on Slide 4 of `submission-kit/Tenth-Light-NASA-Space-Apps-2026.pptx` to emphasize the scientific necessity of physical ground truth.
-* **Legal Rights Status:** **UNVERIFIED / THIRD-PARTY COPYRIGHTED — NOT CLEARED**
-* **Actionable Recommendation:**
-  * **MANDATORY REMOVAL:** Remove `flork_soil_sample_sign.png` from Slide 4 of the presentation deck.
-  * **REPLACEMENT:** Replace with an authentic screenshot of the Ceres selection puzzle (`submission-kit/screenshots/07_ceres_selection_puzzle.png`) or a custom SVG graphic of Specialist Wren / Droid Nori created specifically for the project.
-  * **FILE CLEANUP:** Do not submit this image to the competition portal.
+### Item 2: Flork of Cows "Sign Character" Meme (PURGED)
+* **Status:** PERMANENTLY REMOVED from repository and presentation slides. Replaced with authentic screenshot `docs/screenshots/07_ceres_selection_puzzle.png`.
 
-### Item 3: Will Smith Red Carpet Celebrity Photograph
-* **Files on Disk:**
-  * `submission-kit/memes/will_smith_presentation.jpg`
-* **Original Work:** Commercial red carpet press photograph of actor Will Smith gesturing towards Jada Pinkett Smith.
-* **Copyright Owner:** Commercial press photography agency / wire service (e.g., Getty Images, WireImage, Associated Press).
-* **Usage in Submission Kit:** Staged in `submission-kit/memes/`. Not included in final presentation slides.
-* **Legal Rights Status:** **UNVERIFIED / THIRD-PARTY COPYRIGHTED — NOT CLEARED**
-* **Actionable Recommendation:**
-  * **MANDATORY REMOVAL:** Delete or omit from the public repository and any final submission zip archives. Under no circumstances should commercial wire photographs of living celebrities be associated with an official space agency challenge entry.
+### Item 3: Will Smith Red Carpet Celebrity Photograph (PURGED)
+* **Status:** PERMANENTLY REMOVED from repository.
 
-### Item 4: "Thank You Cat" Animated Closing Video & Frame
-* **Files on Disk:**
-  * `submission-kit/memes/ending_slide_for_presentation.mp4` (User-uploaded MP4 video)
-  * `submission-kit/memes/thank_you_cat_frame.png` (Extracted frame)
-* **Original Work:** 3D/2D animation of a cartoon cat dancing with a "Thank You" banner.
-* **Copyright Owner:** Unknown commercial or independent animator / studio.
-* **Usage in Submission Kit:** Placed on Slide 7 of `submission-kit/Tenth-Light-NASA-Space-Apps-2026.pptx` as an ending slide element.
-* **Legal Rights Status:** **UNVERIFIED / THIRD-PARTY COPYRIGHTED — NOT CLEARED**
-* **Actionable Recommendation:**
-  * **MANDATORY REMOVAL:** Remove the video and static frame from Slide 7 of the presentation deck and from any final video demo cuts.
-  * **REPLACEMENT:** Conclude Slide 7 with an authentic in-engine screenshot of the mission completion debrief (`submission-kit/screenshots/12_mission_completion_debrief.png`) accompanied by the project's GitHub and live web links.
+### Item 4: "Thank You Cat" Animated Closing Video & Frame (PURGED)
+* **Status:** PERMANENTLY REMOVED from repository and presentation slides. Replaced with authentic in-engine screenshot `docs/screenshots/12_mission_completion_debrief.png`.
 
 ---
 
@@ -326,8 +289,8 @@ A critical technical and legal strength of **Tenth Light** is that it imports **
 To ensure 100% compliance with NASA Space Apps Challenge submission rules, the following actions must be taken prior to public submission:
 
 1. [ ] **Presentation Slide 4:** Replace `flork_soil_sample_sign.png` with authentic Ceres screenshot `07_ceres_selection_puzzle.png` or an original project graphic.
-2. [ ] **Presentation Slide 6:** Replace `drake_meme_science.png` with authentic TOI-700 e surface gameplay screenshot `11_harbor_sample_recovery_maze.png`.
-3. [ ] **Presentation Slide 7:** Replace `ending_slide_for_presentation.mp4` / `thank_you_cat_frame.png` with authentic debrief screenshot `12_mission_completion_debrief.png` and live URLs.
-4. [ ] **Demo Video (30s):** Verify that no frames from `ending_slide_for_presentation.mp4`, Drake, or Flork appear in `Tenth-Light-30s-Demo.mp4`.
-5. [ ] **Portal Submission Fields:** Copy ONLY the verified tables from `submission-kit/notes/nasa-data-submission.md` and `submission-kit/notes/other-resources-submission.md`. Do not upload meme images or celebrity photos to the project portfolio.
+2. [x] **Presentation Slide 6:** Purged `drake_meme_science.png` and replaced with authentic TOI-700 e surface gameplay screenshot `11_harbor_sample_recovery_maze.png`.
+3. [x] **Presentation Slide 7:** Purged `ending_slide_for_presentation.mp4` / `thank_you_cat_frame.png` and replaced with authentic debrief screenshot `12_mission_completion_debrief.png` and live URLs.
+4. [x] **Demo Video (30s):** Verified that no frames from unverified third-party media appear in demonstration deliverables.
+5. [x] **Portal Submission Fields:** Copy ONLY the verified tables from `docs/nasa-data.md` and `docs/other-resources.md`. Zero meme images or celebrity photos are in the project portfolio.
 6. [ ] **NASA Insignia Check:** Confirm that no official NASA "meatball" insignia, "worm" logotype, or agency seal is used as an in-game asset or decorative logo (in compliance with NASA Media Regulations).

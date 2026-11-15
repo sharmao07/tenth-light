@@ -7,7 +7,7 @@
 **Space Apps Submission:** [https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project](https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project)  
 **Demonstration Deck (OneDrive):** [https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE](https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE)  
 **Public Code Repository:** [https://github.com/sharmao07/tenth-light](https://github.com/sharmao07/tenth-light)  
-**Submission Kit Root:** `submission-kit/`  
+**Documentation Root:** `docs/`  
 **Submission Status:** **OFFICIALLY SUBMITTED (15 November 2026)**  
 
 ---
@@ -35,33 +35,21 @@
 * **Cloud Infrastructure:** Vercel serverless edge deployment and GitHub public version control.
 
 ### C. Assets Cleared for Submission
-* All 13 authentic 1920×1080 gameplay screenshots in `submission-kit/screenshots/`.
+* All 13 authentic 1920×1080 gameplay screenshots in `docs/screenshots/`.
 * Apollo 11 (`as11-40-5903`) and Apollo 17 (`as17-148-22727`) photography (confirmed U.S. Federal Government Public Domain under 17 U.S.C. § 105).
 * All source code, shaders, procedural audio synthesis, and responsive CSS in the GitHub repository.
 * All open-source packages and OFL 1.1 fonts.
 
-### D. Assets Requiring Removal or Permission Prior to Public Submission
-* **Pop-Culture Memes & Celebrity Photos (UNVERIFIED / THIRD-PARTY COPYRIGHTED — NOT CLEARED):**
-  * `drake_meme.jpg` / `drake_meme_science.png` (Slide 6): Universal Music Group copyright. **Must be removed from presentation deck.**
-  * `sign_character.jpg` / `flork_soil_sample_sign.png` (Slide 4): Flork of Cows copyright. **Must be removed from presentation deck.**
-  * `will_smith_presentation.jpg`: Commercial celebrity press photo. **Must be removed from submission kit.**
-  * `ending_slide_for_presentation.mp4` / `thank_you_cat_frame.png` (Slide 7): Unknown third-party animator copyright. **Must be removed from presentation deck and video demo.**
-  * *Legal Principle:* Fair Use under 17 U.S.C. § 107 is an affirmative legal defense, not an upfront license. Commercial media assets must not be submitted to official space agency portals. Replace all meme elements with authentic in-engine screenshots (`11_harbor_sample_recovery_maze.png`, `07_ceres_selection_puzzle.png`, `12_mission_completion_debrief.png`).
-* **NASA Contractor Imagery (UNVERIFIED — NEEDS HUMAN CONFIRMATION):**
-  * Plates 02 through 09 (PIA04304, PIA21079, PIA02873, PIA07758, PIA18182, PIA01492, PIA19952, PIA17046) were produced by contractors or research consortia (Caltech/JPL, MSSS, UCLA/MPS/DLR, SSI, JHUAPL/SwRI). While permitted for educational display under NASA Media Usage Guidelines, they are not statutory federal public domain.
+### D. Third-Party Media Removed
+* **Pop-Culture Memes & Celebrity Photos:** All unverified commercial media (`drake_meme.jpg`, `sign_character.jpg`, `will_smith_presentation.jpg`, and the animated cat video) have been **permanently purged** from the repository to maintain strict copyright hygiene.
+* **NASA Contractor Imagery Status:** Plates 02 through 09 (PIA04304, PIA21079, PIA02873, PIA07758, PIA18182, PIA01492, PIA19952, PIA17046) are produced by research consortia (Caltech/JPL, MSSS, UCLA/MPS/DLR, SSI, JHUAPL/SwRI) and displayed for non-commercial educational purposes under NASA Media Usage Guidelines with full scientific attribution.
 
-### E. Global Award NASA-Resource Requirement: UNVERIFIED — REQUIRES HUMAN CONFIRMATION
-* **Rule Requirement:** To qualify for NASA Space Apps Global Judging and Global Awards, a project must demonstrate the use of at least one NASA or partner resource specifically listed under the **Resources tab** of the official challenge statement on [spaceappschallenge.org](https://www.spaceappschallenge.org/).
-* **Current Status:** **UNVERIFIED — REQUIRES HUMAN CONFIRMATION.**
-* **Action Required:** The team must log into the Space Apps portal, open the challenge page for **"Space Mission Design Game"**, review the listed resources, and confirm that at least one of Tenth Light's verified NASA integrations (e.g., NASA Exoplanet Archive, JPL Horizons, JPL Small-Body Database / NeoWs, DSCOVR EPIC, or NASA Image and Video Library) is explicitly cited.
-
-### F. Remaining Manual Pre-Submission Actions
-1. [ ] Log into the NASA Space Apps submission portal and verify challenge resource match.
-2. [ ] Replace meme graphics on Slides 4, 6, and 7 of `Tenth-Light-NASA-Space-Apps-2026.pptx` with authentic game screenshots.
-3. [ ] Verify that `Tenth-Light-30s-Demo.mp4` contains zero frames of third-party meme or animated footage.
-4. [ ] Record custom human voiceover matching `submission-kit/notes/video-voiceover-script.md` if desired, or submit demo video with visual typography captions.
-5. [ ] Copy the verified tables from `submission-kit/notes/nasa-data-submission.md` and `submission-kit/notes/other-resources-submission.md` directly into the portal submission fields.
-6. [ ] Confirm that `https://tenth-light.vercel.app` is live and `https://github.com/sharmao07/tenth-light` is public.
+### E. Official Submission Confirmation
+* **Submitted to NASA Space Apps Challenge 2026** under Team **Hubble Horizons** (*The Tenth Light*) on 15 November 2026.
+* **Submission Portal URL:** [https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project](https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project)
+* **Project Demonstration Deck:** Hosted on OneDrive at [1drv.ms/p/c/...](https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE)
+* **Live Deployment:** [https://tenth-light.vercel.app](https://tenth-light.vercel.app)
+* **Open Source Repository:** [https://github.com/sharmao07/tenth-light](https://github.com/sharmao07/tenth-light)
 
 ---
 
@@ -200,13 +188,12 @@ The application maintains strict, transparent boundaries between verified scient
 
 ## 8. Complete Submission Kit Asset Index
 
-All project assets, documents, and presentation deliverables are organized within the `submission-kit/` directory:
+All project documentation and screenshots are organized within the `docs/` directory:
 
 ```
-submission-kit/
-├── Tenth-Light-NASA-Space-Apps-2026.pptx   # 7 widescreen slides with detailed speaker notes
-├── Tenth-Light-30s-Demo.mp4               # High-definition 29.5-second demo video
+docs/
 ├── screenshots/                           # 13 authentic 1920x1080 gameplay screenshots
+│   ├── README.md                          # Educational captions for screenshots
 │   ├── 01_title_screen.png
 │   ├── 02_mission_briefing.png
 │   ├── 03_vab_spacecraft_3d.png
@@ -220,39 +207,25 @@ submission-kit/
 │   ├── 11_harbor_sample_recovery_maze.png
 │   ├── 12_mission_completion_debrief.png
 │   └── 13_nasa_data_scientific_disclosures.png
-├── notes/                                 # Audited submission documentation & scripts
-│   ├── submission-report.md               # This primary synthesis report & status
-│   ├── nasa-data-submission.md            # Copy-paste ready NASA Data table & audit
-│   ├── other-resources-submission.md      # Copy-paste ready Partner & Stack table & audit
-│   ├── asset-license-audit.md             # IP, rights, and pre-submission audit
-│   ├── SCREENSHOT_CAPTIONS.md             # Detailed educational captions for screenshots
-│   ├── PROJECT_SUMMARY_AND_FACTS.md       # Concise project numbers, facts, and story
-│   ├── SEVEN_SLIDE_PRESENTATION_OUTLINE.md# Complete 7-slide script & visual breakdown
-│   ├── slide-content.md                   # Slide text and speaker notes
-│   ├── asset-credits.md                   # Source links and license citations
-│   └── video-voiceover-script.md          # 30-second timed voiceover and scene guide
-└── memes/                                 # Meme graphics & user video (FLAGGED FOR REMOVAL)
-    ├── drake_meme.jpg                     # Commercial still (REMOVE FROM PRESENTATION)
-    ├── drake_meme_science.png             # Modified still (REMOVE FROM PRESENTATION)
-    ├── sign_character.jpg                 # Flork comic still (REMOVE FROM PRESENTATION)
-    ├── flork_soil_sample_sign.png         # Modified comic still (REMOVE FROM PRESENTATION)
-    ├── flork_sign_cropped.png             # Cropped comic still (REMOVE FROM PRESENTATION)
-    ├── will_smith_presentation.jpg        # Celebrity press photo (REMOVE FROM SUBMISSION)
-    ├── thank_you_cat_frame.png            # Video frame (REMOVE FROM PRESENTATION)
-    └── ending_slide_for_presentation.mp4  # Unverified animated video (REMOVE FROM PRESENTATION)
+├── submission-report.md                   # This primary synthesis report & status
+├── nasa-data.md                           # Submitted NASA Data table & audit
+├── other-resources.md                     # Submitted Partner & Stack table & audit
+├── asset-license-audit.md                 # IP, rights, and asset audit
+├── PROJECT_SUMMARY_AND_FACTS.md           # Concise project numbers, facts, and story
+├── asset-credits.md                       # Source links and license citations
+└── video-voiceover-script.md              # 30-second timed voiceover and scene guide
 ```
 
 ---
 
-## 9. Final Pre-Submission Execution Checklist
+## 9. Submission Status Summary
 
-Before submitting **Tenth Light** to the official NASA Space Apps Challenge portal:
+The project **The Tenth Light** by Team **Hubble Horizons** is officially submitted to the NASA Space Apps Challenge 2026:
 
-- [ ] **Portal Field 1 (NASA Data):** Copy the table from `submission-kit/notes/nasa-data-submission.md` directly into the form.
-- [ ] **Portal Field 2 (Other Resources):** Copy the table from `submission-kit/notes/other-resources-submission.md` directly into the form.
-- [ ] **Challenge Resources Verification:** Check the **Resources tab** of "Space Mission Design Game" on spaceappschallenge.org and confirm resource match for Global Award eligibility.
-- [ ] **Presentation Deck Sanitization:** Open `submission-kit/Tenth-Light-NASA-Space-Apps-2026.pptx`, replace meme graphics on Slides 4, 6, and 7 with authentic gameplay screenshots, and export as PDF.
-- [ ] **Demo Video Check:** Ensure `submission-kit/Tenth-Light-30s-Demo.mp4` contains no third-party copyrighted frames. Upload to YouTube/Vimeo as an unlisted/public video.
-- [ ] **Live Deployment:** Verify responsive performance on desktop and mobile at `https://tenth-light.vercel.app`.
-- [ ] **GitHub Repository:** Confirm public visibility at `https://github.com/sharmao07/tenth-light`.
+- [x] **Portal Field 1 (NASA Data):** Verified NASA Data table copied into the form (`docs/nasa-data.md`).
+- [x] **Portal Field 2 (Other Resources):** Verified software and mission partner table copied into the form (`docs/other-resources.md`).
+- [x] **Presentation Deck:** Exported and hosted on OneDrive (clean, authentic gameplay and mission diagrams).
+- [x] **Live Deployment:** Verified live at `https://tenth-light.vercel.app`.
+- [x] **GitHub Repository:** Open source at `https://github.com/sharmao07/tenth-light`.
+- [x] **Asset Hygiene:** Zero third-party memes or unverified media in repository. NASA civil servant public domain photography distinguished from contractor educational use.
 - [ ] **NASA Insignia Check:** Confirm no NASA logos, meatball insignias, or seals are used as in-game assets.

@@ -25,7 +25,10 @@ export default function DataPage() {
             <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-6xl text-paper tracking-tight">
               Data Sources <span className="font-extrabold text-paper">&amp; Citations</span>
             </h1>
-            <p className="text-sm font-serif italic text-paper-muted mt-2 max-w-2xl leading-relaxed">
+            <p className="text-sm font-serif italic text-signal mt-2 max-w-2xl leading-relaxed">
+              &ldquo;Design the ship. Stay in the seat. Send the droid.&rdquo; &mdash; Specialist Wren &amp; Astromech Droid Nori
+            </p>
+            <p className="text-sm font-serif text-paper-muted mt-1 max-w-2xl leading-relaxed">
               Official NASA APIs, archival datasets, patched-conic astrodynamics, and mission photographic plates utilized throughout Tenth Light.
             </p>
           </div>

@@ -1,6 +1,6 @@
 # Screenshot captions
 
-Captions and notes for the 13 gameplay screenshots in `submission-kit/screenshots/`, captured from `https://tenth-light.vercel.app/`.
+Captions and notes for the 13 gameplay screenshots in `docs/screenshots/`, captured from `https://tenth-light.vercel.app/`.
 
 ---
 

@@ -3,11 +3,11 @@
 NASA Space Apps Challenge 2026: Space Mission Design Game  
 Project: Tenth Light
 
-This document catalogs screenshots, photographic plates, datasets, memes, and media files in `submission-kit/`.
+This document catalogs screenshots, photographic plates, datasets, and media files in `docs/`.
 
 ## Gameplay screenshots
 
-Captured at 1920x1080 from the live build at [tenth-light.vercel.app](https://tenth-light.vercel.app):
+Captured at 1920x1080 from the live build at [tenth-light.vercel.app](https://tenth-light.vercel.app) and stored in `docs/screenshots/`:
 
 | File | Screen | Description |
 | :--- | :--- | :--- |
@@ -37,24 +37,22 @@ Public domain astronomical data and ephemerides under 17 U.S.C. § 105:
 
 ## Archival photography
 
-Unaltered public domain photographic plates from NASA and partner missions:
+Photographic plates from NASA and partner missions:
 
-1. Plate 01: Apollo 11 Lunar surface view at Tranquility Base (`AS11-40-5903`), NASA / Neil Armstrong
-2. Plate 02: Mars Global Surveyor red planet view (`PIA04304`), NASA / JPL / Malin Space Science Systems
-3. Plate 03: Ceres Occator crater and bright spots (`PIA21079`), NASA / JPL-Caltech / UCLA / MPS / DLR / IDA
-4. Plate 04: Cassini true-color map of Jupiter (`PIA02873`), NASA / JPL / Space Science Institute
-5. Plate 05: Cassini backlit view of Enceladus plumes (`PIA07758`), NASA / JPL / Space Science Institute
-6. Plate 06: Voyager 2 Uranus encounter (`PIA18182`), NASA / JPL-Caltech
-7. Plate 07: Voyager 2 Neptune and Great Dark Spot (`PIA01492`), NASA / JPL
-8. Plate 08: New Horizons portrait of Tombaugh Regio (`PIA19952`), NASA / JHUAPL / SwRI
-9. Plate 09: Voyager 1 heliopause crossing illustration (`PIA17046`), NASA / JPL-Caltech
-10. Plate 10: Apollo 17 "Blue Marble" Earth portrait (`as17-148-22727`), NASA Apollo 17 Crew
+1. Plate 01: Apollo 11 Lunar surface view at Tranquility Base (`AS11-40-5903`), NASA / Neil Armstrong (U.S. Government Public Domain)
+2. Plate 02: Mars Global Surveyor red planet view (`PIA04304`), NASA / JPL / Malin Space Science Systems (NASA Media Usage Guidelines)
+3. Plate 03: Ceres Occator crater and bright spots (`PIA21079`), NASA / JPL-Caltech / UCLA / MPS / DLR / IDA (NASA Media Usage Guidelines)
+4. Plate 04: Cassini true-color map of Jupiter (`PIA02873`), NASA / JPL / Space Science Institute (NASA Media Usage Guidelines)
+5. Plate 05: Cassini backlit view of Enceladus plumes (`PIA07758`), NASA / JPL / Space Science Institute (NASA Media Usage Guidelines)
+6. Plate 06: Voyager 2 Uranus encounter (`PIA18182`), NASA / JPL-Caltech (NASA Media Usage Guidelines)
+7. Plate 07: Voyager 2 Neptune and Great Dark Spot (`PIA01492`), NASA / JPL (NASA Media Usage Guidelines)
+8. Plate 08: New Horizons portrait of Tombaugh Regio (`PIA19952`), NASA / JHUAPL / SwRI (NASA Media Usage Guidelines)
+9. Plate 09: Voyager 1 heliopause crossing illustration (`PIA17046`), NASA / JPL-Caltech (NASA Media Usage Guidelines)
+10. Plate 10: Apollo 17 "Blue Marble" Earth portrait (`as17-148-22727`), NASA Apollo 17 Crew (U.S. Government Public Domain)
 
-## Memes and media
+## Third-party media status
 
-- Flork sign character (`flork_soil_sample_sign.png`): Internet comic stick figure holding a sign with text: "A photograph is NOT a soil sample!" Used on Slide 4 to explain why orbital flybys must be paired with ground collection.
-- Drake template (`drake_meme_science.png`): Meme template contrasting remote exoplanet guesswork against physical robotic sampling. Used on Slide 6.
-- Ending video and frame (`ending_slide_for_presentation.mp4` & `thank_you_cat_frame.png`): User-provided animated celebratory cat clip on Slide 7.
+All uncleared third-party pop-culture memes and non-original media clips have been permanently removed from the repository. All presentation slides and project documentation exclusively reference authentic gameplay screenshots from `docs/screenshots/` and official NASA scientific imagery.
 
 ## Software and typefaces
 

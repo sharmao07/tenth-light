@@ -13,7 +13,7 @@
   <a href="https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project"><strong>Space Apps Submission</strong></a> &nbsp;&bull;&nbsp;
   <a href="https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE"><strong>Demo Deck (OneDrive)</strong></a> &nbsp;&bull;&nbsp;
   <a href="https://tenth-light.vercel.app/data"><strong>NASA Data Disclosures</strong></a> &nbsp;&bull;&nbsp;
-  <a href="submission-kit/"><strong>Submission Kit</strong></a>
+  <a href="docs/"><strong>Documentation &amp; Reports</strong></a>
 </p>
 
 ---
@@ -37,7 +37,7 @@ The project grounds its choices in actual aerospace constraints:
 ### 1. Vehicle Assembly Bay (VAB)
 
 <p align="center">
-  <img src="submission-kit/screenshots/03_vab_spacecraft_3d.png" width="100%" alt="Vehicle Assembly Bay - 3D Spacecraft Configuration & Engineering Trade-offs" />
+  <img src="docs/screenshots/03_vab_spacecraft_3d.png" width="100%" alt="Vehicle Assembly Bay - 3D Spacecraft Configuration & Engineering Trade-offs" />
   <br/>
   <em>Figure 1: Vehicle Assembly Bay — configuring launcher capacity, structural mass fractions, and propulsion in real-time 3D.</em>
 </p>
@@ -52,7 +52,7 @@ Before launch, you configure the spacecraft across four interlocked engineering 
 ### 2. The Solar System expedition route
 
 <p align="center">
-  <img src="submission-kit/screenshots/06_moon_horizons_telemetry.png" width="100%" alt="Stop 1: Moon Station - Real-time NASA JPL Horizons Topocentric Dish Alignment" />
+  <img src="docs/screenshots/06_moon_horizons_telemetry.png" width="100%" alt="Stop 1: Moon Station - Real-time NASA JPL Horizons Topocentric Dish Alignment" />
   <br/>
   <em>Figure 2: Moon Station — aligning the high-gain dish using live topocentric azimuth and elevation calculated via the NASA JPL Horizons API.</em>
 </p>
@@ -117,18 +117,29 @@ The project insignia and favicon represent **Astromech Droid Nori**, Wren's loya
 
 ---
 
-## Submission kit
+## Documentation & submission dossier
 
-All competition submission files are compiled in the [`submission-kit/`](submission-kit/) directory:
+All technical documentation, audited NASA data citations, and authentic gameplay captures are compiled in the [`docs/`](docs/) directory:
 
-- **Presentation:** [`Tenth-Light-NASA-Space-Apps-2026.pptx`](submission-kit/Tenth-Light-NASA-Space-Apps-2026.pptx) (7 widescreen slides with speaker notes)
-- **Video Demo:** [`Tenth-Light-30s-Demo.mp4`](submission-kit/Tenth-Light-30s-Demo.mp4) (29.5-second high-definition gameplay walkthrough)
-- **Screenshots:** 13 authentic 1920×1080 gameplay captures in [`submission-kit/screenshots/`](submission-kit/screenshots/)
-- **Audited Reports:**
-  - [`nasa-data-submission.md`](submission-kit/notes/nasa-data-submission.md): Copy-paste ready NASA data table and consumed API fields
-  - [`other-resources-submission.md`](submission-kit/notes/other-resources-submission.md): Copy-paste ready software and partner table
-  - [`asset-license-audit.md`](submission-kit/notes/asset-license-audit.md): Individual NASA image plate audit and IP breakdown
-  - [`submission-report.md`](submission-kit/notes/submission-report.md): Master report with pre-submission checklist
+- **Official Space Apps Entry:** [Hubble Horizons Project Page](https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project)
+- **Project Demonstration Deck:** [OneDrive Presentation (7 Slides)](https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE)
+- **Gameplay Screenshots:** 13 authentic 1920×1080 captures in [`docs/screenshots/`](docs/screenshots/) (see [`README.md`](docs/screenshots/README.md) for educational captions)
+- **Audited Reports & Dossiers:**
+  - [`nasa-data.md`](docs/nasa-data.md): Complete list of NASA datasets, APIs, and consumed fields
+  - [`other-resources.md`](docs/other-resources.md): External software stack, typography, and partner mission citations
+  - [`asset-license-audit.md`](docs/asset-license-audit.md): Individual NASA image plate audit and copyright breakdown
+  - [`submission-report.md`](docs/submission-report.md): Master technical dossier and submission record
+  - [`PROJECT_SUMMARY_AND_FACTS.md`](docs/PROJECT_SUMMARY_AND_FACTS.md): Concise physics breakdown, learning objectives, and disclosures
+  - [`video-voiceover-script.md`](docs/video-voiceover-script.md): 30-second timed voiceover and scene guide
+
+### AI-Use Disclosure
+
+In accordance with competition rules, AI tools (Google DeepMind Antigravity, Claude, Gemini) were utilized for:
+1. **Research & Information Gathering:** Cross-referencing NASA TAP API schema, JPL Horizons endpoint parameters, and planetary distances.
+2. **Coding, Debugging & Troubleshooting:** Refactoring TypeScript components, procedural Three.js rendering, and writing Playwright integration tests.
+3. **Presentation & Documentation:** Structuring slides, formatting markdown tables, and synthesizing the technical dossier.
+
+All gameplay rules, astrodynamic models, systems trade-offs, and narrative writing were verified and approved by the human project team.
 
 ---
 
@@ -162,6 +173,6 @@ npm run test
 ## License & credits
 
 - **Source Code:** Open source under the [MIT License](LICENSE).
-- **Astronaut Photography:** Apollo 11 (`as11-40-5903`) and Apollo 17 (`as17-148-22727`) photography by NASA astronauts are public domain works of the United States Government under 17 U.S.C. § 105.
-- **Planetary Mission Imagery:** Plates from Cassini, Dawn, Mars Global Surveyor, Voyager, and New Horizons are displayed unaltered with credits to NASA, JPL-Caltech, and their respective science teams in accordance with NASA Media Usage Guidelines.
+- **Astronaut Photography:** Apollo 11 (`as11-40-5903`) and Apollo 17 (`as17-148-22727`) photography by NASA civil servant astronauts are works of the United States Government in the public domain under 17 U.S.C. § 105.
+- **Planetary Mission Imagery:** Plates from Cassini, Dawn, Mars Global Surveyor, Voyager, and New Horizons were produced by NASA centers, research universities, and contractor institutions (including JPL-Caltech, Malin Space Science Systems, UCLA/MPS/DLR, Space Science Institute, and JHUAPL/SwRI). These are reproduced for non-commercial educational purposes with scientific attribution in accordance with NASA Media Usage Guidelines; contractor and third-party copyright remains held by their respective institutions and is not claimed as public domain.
 - **Typefaces:** Fraunces, Instrument Sans, and Martian Mono are licensed under the SIL Open Font License 1.1.
