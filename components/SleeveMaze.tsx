@@ -226,45 +226,45 @@ export function SleeveMaze({ isPaused, onVictory, onHit }: SleeveMazeProps) {
   return (
     <div className="flex flex-col items-center justify-center p-3 select-none">
       {/* Header Info */}
-      <div className="w-full max-w-[580px] flex flex-wrap justify-between items-center mb-1.5 text-xs md:text-sm ">
-        <span className="text-[#f0562b] uppercase font-bold tracking-wider">
-          Harbor Surface Sleeve • Top-Down Probe
+      <div className="w-full max-w-[580px] flex flex-wrap justify-between items-center mb-1.5 text-xs md:text-sm">
+        <span className="text-signal uppercase font-bold tracking-wider">
+          Harbor Surface Sleeve &middot; Top-Down Probe
         </span>
-        <span className="text-[#e9e6dc]/80 text-xs italic">
+        <span className="text-paper-muted text-xs italic">
           Educational simulation: Speculative in-situ biosignature and regolith sampling (surface conditions unconfirmed by telescopes).
         </span>
       </div>
 
       {/* Status Bar */}
-      <div className="w-full max-w-[580px] bg-[#12151b] border border-[#e9e6dc]/25 p-3 rounded-lg flex flex-wrap justify-between items-center text-xs md:text-sm mb-2.5 shadow-md">
+      <div className="w-full max-w-[580px] bg-surface border border-paper/20 p-3 flex flex-wrap justify-between items-center text-xs md:text-sm mb-2.5">
         <div className="flex items-center gap-3.5">
-          <span className={`inline-flex items-center gap-1.5 ${hasAmberKey ? 'text-[#f0562b] font-bold' : 'text-[#e9e6dc]/50'}`}>
+          <span className={`inline-flex items-center gap-1.5 ${hasAmberKey ? 'text-signal font-bold' : 'text-paper-muted'}`}>
             <KeyPixelToken size={14} className="inline-block" />
             <span>Key: {hasAmberKey ? 'ACQUIRED' : 'MISSING'}</span>
           </span>
-          <span className="text-[#e9e6dc]/30">|</span>
-          <span className={`inline-flex items-center gap-1.5 ${waterCollected >= 2 ? 'text-[#e9e6dc] font-bold' : 'text-[#e9e6dc]/70'}`}>
+          <span className="text-paper/20">|</span>
+          <span className={`inline-flex items-center gap-1.5 ${waterCollected >= 2 ? 'text-paper font-bold' : 'text-paper-muted'}`}>
             <WaterNodePixelToken size={14} className="inline-block" />
             <span>Water Simulant: {waterCollected}/2</span>
           </span>
-          <span className="text-[#e9e6dc]/30">|</span>
-          <span className={`inline-flex items-center gap-1.5 ${soilCollected >= 2 ? 'text-[#f0562b] font-bold' : 'text-[#e9e6dc]/70'}`}>
+          <span className="text-paper/20">|</span>
+          <span className={`inline-flex items-center gap-1.5 ${soilCollected >= 2 ? 'text-signal font-bold' : 'text-paper-muted'}`}>
             <SoilNodePixelToken size={14} className="inline-block" />
             <span>Soil Simulant: {soilCollected}/2</span>
           </span>
         </div>
         <div>
           {allSamplesCollected ? (
-            <span className="text-[#e9e6dc] animate-pulse font-bold">EXIT IS UNLOCKED!</span>
+            <span className="text-paper animate-pulse font-bold">EXIT IS UNLOCKED!</span>
           ) : (
-            <span className="text-[#e9e6dc]/60">Exit locked until 4 nodes collected</span>
+            <span className="text-paper-muted">Exit locked until 4 nodes collected</span>
           )}
         </div>
       </div>
 
       {/* The 2D Maze Canvas / Grid (Whole maze on screen) */}
-      <div className={`relative border rounded bg-[#0a0c10] p-1 shadow-2xl transition-all ${
-        hitShake ? 'animate-shake border-[#f0562b] bg-[#f0562b]/10' : 'border-[#f0562b]'
+      <div className={`relative border bg-void p-1 transition-all ${
+        hitShake ? 'animate-shake border-signal bg-signal/10' : 'border-signal'
       }`}>
         <div
           className="grid gap-[2px]"
@@ -284,14 +284,14 @@ export function SleeveMaze({ isPaused, onVictory, onHit }: SleeveMazeProps) {
               const isGate = tile === 4;
               const isExit = tile === 7;
 
-              let bg = 'bg-[#12151b]';
-              if (tile === 1) bg = 'bg-[#1b1f26] border border-[#2a3039]'; // Wall
-              if (tile === 2) bg = 'bg-[#0a0c10] border border-[#e9e6dc]/20'; // Mouth
+              let bg = 'bg-surface';
+              if (tile === 1) bg = 'bg-surface-raised border border-paper/15'; // Wall
+              if (tile === 2) bg = 'bg-void border border-paper/20'; // Mouth
 
               return (
                 <div
                   key={`${x}-${y}`}
-                  className={`relative flex items-center justify-center rounded-[2px] transition-colors ${bg}`}
+                  className={`relative flex items-center justify-center transition-colors ${bg}`}
                 >
                   {/* Amber Key */}
                   {isKey && (
@@ -340,8 +340,8 @@ export function SleeveMaze({ isPaused, onVictory, onHit }: SleeveMazeProps) {
 
       {/* On-screen Directional Controls (North/West/East/South) */}
       <div className="flex flex-wrap items-center justify-between w-full max-w-[580px] mt-3 gap-2.5">
-        <div className="text-xs md:text-sm text-[#e9e6dc]/80">
-          Controls: <kbd className="px-1.5 py-0.5 bg-[#12151b] border border-[#e9e6dc]/30 rounded">WASD</kbd> or <kbd className="px-1.5 py-0.5 bg-[#12151b] border border-[#e9e6dc]/30 rounded">Arrow Keys</kbd>
+        <div className="text-xs md:text-sm text-paper-muted">
+          Controls: <kbd className="px-1.5 py-0.5 bg-surface border border-paper/30 text-paper font-mono">WASD</kbd> or <kbd className="px-1.5 py-0.5 bg-surface border border-paper/30 text-paper font-mono">Arrow Keys</kbd>
         </div>
 
         {/* Directional Pad */}
@@ -349,30 +349,30 @@ export function SleeveMaze({ isPaused, onVictory, onHit }: SleeveMazeProps) {
           <button
             onClick={() => tryMove(0, -1)}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-3.5 py-1.5 bg-[#12151b] hover:bg-[#f0562b] hover:text-[#0a0c10] border border-[#e9e6dc]/40 text-xs md:text-sm rounded"
+            className="sensory-btn px-3.5 py-1.5 bg-surface hover:bg-signal hover:text-void border border-paper/40 text-xs md:text-sm text-paper font-mono"
           >
-            ↑ N
+            &uarr; N
           </button>
           <button
             onClick={() => tryMove(-1, 0)}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-3.5 py-1.5 bg-[#12151b] hover:bg-[#f0562b] hover:text-[#0a0c10] border border-[#e9e6dc]/40 text-xs md:text-sm rounded"
+            className="sensory-btn px-3.5 py-1.5 bg-surface hover:bg-signal hover:text-void border border-paper/40 text-xs md:text-sm text-paper font-mono"
           >
-            ← W
+            &larr; W
           </button>
           <button
             onClick={() => tryMove(0, 1)}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-3.5 py-1.5 bg-[#12151b] hover:bg-[#f0562b] hover:text-[#0a0c10] border border-[#e9e6dc]/40 text-xs md:text-sm rounded"
+            className="sensory-btn px-3.5 py-1.5 bg-surface hover:bg-signal hover:text-void border border-paper/40 text-xs md:text-sm text-paper font-mono"
           >
-            ↓ S
+            &darr; S
           </button>
           <button
             onClick={() => tryMove(1, 0)}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-3.5 py-1.5 bg-[#12151b] hover:bg-[#f0562b] hover:text-[#0a0c10] border border-[#e9e6dc]/40 text-xs md:text-sm rounded"
+            className="sensory-btn px-3.5 py-1.5 bg-surface hover:bg-signal hover:text-void border border-paper/40 text-xs md:text-sm text-paper font-mono"
           >
-            → E
+            &rarr; E
           </button>
         </div>
       </div>

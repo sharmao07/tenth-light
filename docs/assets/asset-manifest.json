@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tenth Light - Game Asset Manifest",
+  "description": "Exhaustive inventory, technical frame specifications, palette allocation, and provenance metadata for all 2D vector pixel art assets in Tenth Light, adhering to the create-game-assets discipline.",
+  "project": "Tenth Light (NASA Space Apps 2026)",
+  "version": "1.0.0",
+  "technicalFrame": {
+    "grid": "16x16 integer coordinates",
+    "rendering": "shapeRendering=\"crispEdges\"",
+    "antiAliasing": "none (pure integer alignment)",
+    "format": "Inline SVG component families",
+    "viewBox": "0 0 16 16",
+    "palette": {
+      "void": "#0a0c10",
+      "surface": "#12151b",
+      "surfaceRaised": "#181c24",
+      "surfaceBorder": "#2a3039",
+      "paperMuted": "#7d8591",
+      "paper": "#e9e6dc",
+      "signal": "#f0562b"
+    },
+    "invariants": [
+      "Strict single-accent rule: #f0562b is the sole chroma accent across all assets",
+      "No off-palette blues, cyans, greens, or secondary purples",
+      "No subpixel floating-point offsets (e.g. x=2.5)",
+      "No linear or radial SVG gradient fills",
+      "No gaussian blur filters or drop-shadow filters"
+    ]
+  },
+  "assetFamilies": [
+    {
+      "familyName": "SleeveMazeTokens",
+      "componentPath": "components/SleevePixelTokens.tsx",
+      "role": "Gameplay interactive entities in Act 10 TOI-700 e surface probe exploration",
+      "nativeResolution": "16x16 px",
+      "displaySizes": [20, 22, 24, 28],
+      "assets": [
+        {
+          "id": "token-nori",
+          "name": "Nori Autonomous Droid Token",
+          "component": "NoriPixelToken",
+          "semanticRole": "Player avatar",
+          "silhouette": "Cylindrical dome droid with central optical sensor eye and tripod tread skids",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        },
+        {
+          "id": "token-alien",
+          "name": "Autonomous Defense Drone Token",
+          "component": "AlienPixelToken",
+          "semanticRole": "Hostile patrol hazard",
+          "silhouette": "Predatory horizontal stealth delta disc with sweeping red optical visor slit and ventral thruster",
+          "paletteUsage": ["#0a0c10", "#12151b", "#2a3039", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        },
+        {
+          "id": "token-key",
+          "name": "Cryptographic Key Card Token",
+          "component": "KeyPixelToken",
+          "semanticRole": "Objective pickup (unlocks laser gate)",
+          "silhouette": "L-shaped cryptographic chip key with stepped circuit teeth and paper-white highlight spark",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        },
+        {
+          "id": "token-gate",
+          "name": "Containment Laser Barrier Token",
+          "component": "GatePixelToken",
+          "semanticRole": "Dynamic door obstacle (locked/unlocked states)",
+          "silhouette": "Vertical emitter stanchions spanning 3 high-intensity signal laser lines when locked; retracted dark pylons when unlocked",
+          "paletteUsage": ["#0a0c10", "#12151b", "#2a3039", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        },
+        {
+          "id": "token-water",
+          "name": "Cryogenic Water Vapor Canister Token",
+          "component": "WaterNodePixelToken",
+          "semanticRole": "Scientific sample pickup (biosignature candidate)",
+          "silhouette": "Hermetic double-walled titanium flask with vapor sight glass and graduated measurement graticules",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        },
+        {
+          "id": "token-soil",
+          "name": "Regolith Simulant Coring Tube Token",
+          "component": "SoilNodePixelToken",
+          "semanticRole": "Scientific sample pickup (biosignature candidate)",
+          "silhouette": "Fluted titanium core tube inspired by NASA Perseverance sample hermetic tubes",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        },
+        {
+          "id": "token-exit",
+          "name": "Surface Recovery Airlock Hatch Token",
+          "component": "ExitPixelToken",
+          "semanticRole": "Level completion destination (sealed/unsealed states)",
+          "silhouette": "Heavy structural bulkhead hatch with corner bolts and illuminated signal navigation arrows",
+          "paletteUsage": ["#0a0c10", "#12151b", "#181c24", "#2a3039", "#7d8591", "#e9e6dc", "#f0562b"],
+          "provenance": {
+            "author": "Tenth Light Space Apps Team",
+            "license": "MIT",
+            "createdDate": "2026-11-15",
+            "source": "Handcrafted SVG pixel matrix"
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "CharacterPixelPortraits",
+      "componentPath": "components/PixelPortraits.tsx",
+      "role": "Radio comms portrait avatars for all corridor keepers and companions",
+      "nativeResolution": "16x16 px",
+      "displaySizes": [48, 64],
+      "assets": [
+        {
+          "id": "portrait-wren",
+          "name": "Specialist Flight Helmet",
+          "speaker": "wren",
+          "silhouette": "Full-face EVA pressure helmet with amber visor reflection and boom microphone",
+          "paletteUsage": ["#0a0c10", "#12151b", "#2a3039", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-nori",
+          "name": "Droid Nori",
+          "speaker": "nori",
+          "silhouette": "Astromech droid dome with central amber optical eye and status diode",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-lumen",
+          "name": "Lumen (Moon Keeper)",
+          "speaker": "lumen",
+          "silhouette": "Crescent lunar dish with central high-gain feed horn emitter",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-redline",
+          "name": "Redline (Mars Keeper)",
+          "speaker": "redline",
+          "silhouette": "Industrial ballast scales balancing vehicle mass threshold",
+          "paletteUsage": ["#0a0c10", "#12151b", "#2a3039", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-pebble",
+          "name": "Pebble (Ceres Keeper)",
+          "speaker": "pebble",
+          "silhouette": "Faceted asteroid core with bright sodium carbonate salt reflection ticks",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-bolt",
+          "name": "Bolt (Jupiter Depot Keeper)",
+          "speaker": "bolt",
+          "silhouette": "Hexagonal industrial docking collar with locking clamps and signal guides",
+          "paletteUsage": ["#0a0c10", "#12151b", "#2a3039", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-spray",
+          "name": "Spray (Enceladus Keeper)",
+          "speaker": "spray",
+          "silhouette": "Ice crevasse fracture erupting cryovolcanic vapor columns into space",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-tilt",
+          "name": "Tilt (Uranus Keeper)",
+          "speaker": "tilt",
+          "silhouette": "Extreme 98° axial tilt planet with vertical ring graticules",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-lag",
+          "name": "Lag (Neptune Keeper)",
+          "speaker": "lag",
+          "silhouette": "Deep space digital signal countdown chronometer with signal second hand",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-heart",
+          "name": "Heart (Pluto Keeper)",
+          "speaker": "heart",
+          "silhouette": "Tombaugh Regio nitrogen-ice heart glyph (♥)",
+          "paletteUsage": ["#12151b", "#f0562b"]
+        },
+        {
+          "id": "portrait-whisper",
+          "name": "Whisper (Heliopause Keeper)",
+          "speaker": "whisper",
+          "silhouette": "Solar termination shock wave boundary with outgoing carrier packets",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        },
+        {
+          "id": "portrait-harbor",
+          "name": "Harbor (TOI-700 e Keeper)",
+          "speaker": "harbor",
+          "silhouette": "Exoplanet transit dip silhouette across M-dwarf stellar disk",
+          "paletteUsage": ["#0a0c10", "#12151b", "#7d8591", "#e9e6dc", "#f0562b"]
+        }
+      ]
+    }
+  ]
+}
