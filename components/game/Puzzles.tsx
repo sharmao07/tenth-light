@@ -31,6 +31,7 @@ export function MoonPuzzle({ onPass }: { onPass: () => void }) {
 
   return (
     <div className="puzzle">
+      <Plate id="moon" alt="NASA photograph of the lunar surface" />
       <p>Lock the dish to the azimuth of Earth. Elevation says whether Earth is above the rim.</p>
       {!fix && <p>Asking JPL Horizons…</p>}
       {fix && (
@@ -106,6 +107,7 @@ export function CeresPuzzle({ onPass }: { onPass: () => void }) {
 
   return (
     <div className="puzzle">
+      <Plate id="ceres" alt="NASA photograph of Ceres from the Dawn mission" />
       <p>Dawn orbited the largest of these three. The Small-Body Database is the judge.</p>
       <p className="caption">Source: {source}.</p>
       <div className="choices">
@@ -185,6 +187,7 @@ export function UranusPuzzle({
 
   return (
     <div className="puzzle">
+      <Plate id="uranus" alt="NASA photograph of Uranus" />
       <p>
         Range {URANUS_AU} AU. Solar, if you brought it, is down to{" "}
         {ship.parts.includes("solar") ? (PARTS.solar.watts / (URANUS_AU * URANUS_AU)).toFixed(2) : "0"} W.
@@ -247,6 +250,7 @@ export function NeptunePuzzle({ onPass }: { onPass: () => void }) {
 
   return (
     <div className="puzzle">
+      <Plate id="neptune" alt="NASA photograph of Neptune" />
       <p>One-way light time at about 30.1 AU is {hours.toFixed(2)} hours. The drill timer is seven seconds. Send once.</p>
       <div className="meter-track" aria-hidden="true">
         <div className="meter-fill" style={{ width: `${progress * 100}%` }} />

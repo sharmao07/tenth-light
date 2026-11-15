@@ -136,7 +136,7 @@ export function Game() {
   const here = currentStop(state);
   const beat = beatId(state);
   const [closedHint, setClosedHint] = useState("");
-  const hint = HINTS[beat];
+  const hint = hintFor(beat);
   const showHint = Boolean(hint) && closedHint !== beat;
 
   return (
@@ -285,12 +285,15 @@ export function Game() {
           <Ending kind={endingKind(state)} callsign={state.callsign} onAgain={again} />
         )}
         {showHint && hint && (
-          <div className="hint" role="dialog" aria-label="How to clear this gate">
-            <p className="eyebrow">How to clear this gate</p>
-            <p>{hint}</p>
-            <button type="button" className="primary" onClick={() => setClosedHint(beat)}>
-              Got it
-            </button>
+          <div className="hint-backdrop">
+            <div className="hint" role="dialog" aria-labelledby="hint-title">
+              <p className="eyebrow">How to play</p>
+              <h2 id="hint-title">{hint.gate}</h2>
+              <p>{hint.how}</p>
+              <button type="button" className="primary" onClick={() => { blip("ui"); setClosedHint(beat); }}>
+                Start this gate
+              </button>
+            </div>
           </div>
         )}
       </main>
@@ -351,24 +354,68 @@ function Talk({
   );
 }
 
-const HINTS: Record<string, string> = {
-  hangar: "Stack a launcher, tanks, power, and the two sample tools. Auto-build loads the stack that can certify water and soil and still heat the bus at Uranus. Launch when the red lines are gone.",
-  dodge: "Click when the white mark sits on the amber arc. The name, size, and speed are a real near-Earth object. A miss spends a life.",
-  moon: "Turn the dish until the bearing is within 14 degrees of the Horizons number.",
-  mars: "Drop the souvenir. The harness stays on Nori.",
-  ceres: "Pick the largest body. Dawn orbited that one. The diameters come from the Small-Body Database.",
-  fight: "Move and shoot. Three waves of saucers. A hit spends one of the three lives.",
-  enceladus: "Point at the south-pole jets. That is the plume Cassini flew through.",
-  uranus: "Heater, computer, and radio stay on. If the bus is over the supply, open the imager breaker. No radioisotope power means a scrub.",
-  neptune: "Send one command, then wait. A second command collides with the first. The hours on screen are the real light time.",
-  pluto: "Mark the heart. A photograph is not a soil sample.",
-  whisper: "Order the manifest: samples, then the power log, then the postcard.",
-  maze: "You stay in the ship. Walk Nori with the arrows. Collect two water nodes and two soil nodes. The exit opens after that.",
+const HINTS: Record<string, { gate: string; how: string }> = {
+  hangar: {
+    gate: "Vehicle assembly",
+    how: "Pick a launcher, then stack tanks, power, and the two sample tools. Auto-build loads the ship that can certify water and soil and still heat the bus at Uranus. Launch when the red lines are gone.",
+  },
+  moon: {
+    gate: "The Moon",
+    how: "Turn the dish until your bearing is within 14 degrees of the number from JPL Horizons. Then lock it.",
+  },
+  mars: {
+    gate: "Mars",
+    how: "The scale is nine kilograms over. Drop the souvenir. Leave Nori’s harness where it is.",
+  },
+  ceres: {
+    gate: "Ceres",
+    how: "Three rocks. Dawn orbited the largest. Choose that one. The diameters come from the Small-Body Database.",
+  },
+  fight: {
+    gate: "Jupiter ambush",
+    how: "Move with the arrows and shoot. Clear three waves. Each hit spends one of your three lives.",
+  },
+  enceladus: {
+    gate: "Enceladus",
+    how: "Point at the south-pole jets. That plume is the water Cassini flew through.",
+  },
+  uranus: {
+    gate: "Uranus",
+    how: "Keep the heater, computer, and radio on. If the bus is over the supply, switch the imager off. With no radioisotope power, the flight is scrubbed.",
+  },
+  neptune: {
+    gate: "Neptune",
+    how: "Send one command, then wait. A second command collides with the first. The hours on screen are the real light-time.",
+  },
+  pluto: {
+    gate: "Pluto",
+    how: "Mark the heart on the map. The NASA photograph is evidence. It is not a soil sample.",
+  },
+  whisper: {
+    gate: "Heliopause",
+    how: "Set the return in this order: water and soil readings, then the power log, then the postcard.",
+  },
+  maze: {
+    gate: "Harbor",
+    how: "You stay in the ship. Move Nori with the arrows or the pad. Collect two water nodes and two soil nodes. The exit opens after that.",
+  },
 };
+
+function hintFor(beat: string): { gate: string; how: string } | null {
+  if (beat.startsWith("dodge-")) {
+    return {
+      gate: "Asteroid",
+      how: "A white mark sweeps the ring. Click while it sits on the amber arc. The name, size, and speed belong to a real near-Earth object. A miss spends a life.",
+    };
+  }
+  return HINTS[beat] ?? null;
+}
 
 function beatId(state: GameState): string {
   if (state.phase.kind === "hangar") return "hangar";
-  if (state.phase.kind === "transit" && state.phase.dodgesLeft > 0 && state.phase.showTip) return "dodge";
+  if (state.phase.kind === "transit" && state.phase.dodgesLeft > 0) {
+    return `dodge-${state.phase.from}-${state.phase.to}`;
+  }
   if (state.phase.kind === "puzzle") {
     const names = ["", "moon", "mars", "ceres", "", "enceladus", "uranus", "neptune", "pluto", "whisper"];
     return names[state.phase.stop] ?? "";

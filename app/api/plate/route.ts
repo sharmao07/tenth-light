@@ -5,6 +5,11 @@ export async function GET(request: Request) {
     pluto: { q: "Pluto New Horizons", title: "Pluto" },
     mars: { q: "Perseverance Mars surface", title: "Mars" },
     earth: { q: "Earth from space Apollo", title: "Earth" },
+    moon: { q: "Apollo lunar surface astronaut", title: "The Moon" },
+    ceres: { q: "Ceres Dawn spacecraft", title: "Ceres" },
+    jupiter: { q: "Jupiter Juno", title: "Jupiter" },
+    uranus: { q: "Uranus Voyager 2", title: "Uranus" },
+    neptune: { q: "Neptune Voyager 2", title: "Neptune" },
   };
   const plate = plates[id] ?? plates.earth;
   try {
