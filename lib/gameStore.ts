@@ -31,7 +31,7 @@ export const DEFAULT_SAVE_STATE: GameSaveState = {
   collectedSoil: false,
   isMuted: false,
   reducedMotion: false,
-  soundCaptions: true,
+  soundCaptions: false,
   seenTutorials: {},
   lastUpdated: new Date().toISOString(),
 };

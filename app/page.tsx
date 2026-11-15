@@ -12,7 +12,6 @@ import { sound } from '@/components/AudioController';
 import { PersistentHeader } from '@/components/PersistentHeader';
 import { PauseModal } from '@/components/PauseModal';
 import { MissionLogbookModal } from '@/components/MissionLogbookModal';
-import { PinnedTelemetryPill } from '@/components/PinnedTelemetryPill';
 import { SoundCaptionsHUD } from '@/components/SoundCaptionsHUD';
 import { HangarView } from '@/components/HangarView';
 import { EndingView } from '@/components/EndingView';
@@ -105,7 +104,7 @@ export default function TenthLightGame() {
   const handleToggleSoundCaptions = useCallback(() => {
     setGameState((prev) => ({
       ...prev,
-      soundCaptions: prev.soundCaptions === false ? true : false,
+      soundCaptions: !prev.soundCaptions,
       lastUpdated: new Date().toISOString(),
     }));
   }, []);
@@ -465,7 +464,7 @@ export default function TenthLightGame() {
         }}
         reducedMotion={gameState.reducedMotion}
         onToggleReducedMotion={handleToggleReducedMotion}
-        soundCaptions={gameState.soundCaptions !== false}
+        soundCaptions={Boolean(gameState.soundCaptions)}
         onToggleSoundCaptions={handleToggleSoundCaptions}
         gameState={gameState}
         onImportState={(newState) => {
@@ -474,7 +473,7 @@ export default function TenthLightGame() {
         }}
       />
 
-      <SoundCaptionsHUD enabled={gameState.soundCaptions !== false} />
+      <SoundCaptionsHUD enabled={Boolean(gameState.soundCaptions)} />
 
       <MissionLogbookModal
         isOpen={isLogbookOpen}
@@ -488,18 +487,6 @@ export default function TenthLightGame() {
         stopIndex={gameState.currentStop}
         onClose={handleCloseGateClearance}
       />
-
-      {/* Pinned Telemetry Pill during flight */}
-      {(gameState.phase === 'transit' || gameState.phase === 'gate') && (
-        <PinnedTelemetryPill
-          currentStopIndex={gameState.currentStop}
-          currentDeltaV={gameState.currentDeltaV}
-          lives={gameState.lives}
-          onOpenLogbook={() => setIsLogbookOpen(true)}
-          isMuted={gameState.isMuted}
-          onToggleMute={handleToggleMute}
-        />
-      )}
 
       {/* Main Screen Phase Views */}
       <main className="flex-1 w-full relative flex flex-col justify-center min-h-0">

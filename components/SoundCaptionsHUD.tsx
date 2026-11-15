@@ -36,10 +36,10 @@ export function SoundCaptionsHUD({ enabled = true }: SoundCaptionsHUDProps) {
     <aside 
       aria-live="polite" 
       aria-label="Audio telemetry caption" 
-      className="fixed bottom-24 right-8 z-50 pointer-events-none select-none animate-fadeIn"
+      className="fixed top-20 right-6 z-40 pointer-events-none select-none animate-fadeIn"
     >
-      <div className="bg-void/90 border border-signal text-paper px-4 py-2 font-mono text-xs flex items-center gap-3 backdrop-blur-none">
-        <span className="text-signal font-bold" aria-hidden="true">&sung;</span>
+      <div className="bg-void border border-signal text-paper px-3 py-1.5 font-mono text-xs flex items-center gap-2.5 shadow-none">
+        <span className="text-signal font-bold text-sm" aria-hidden="true">&#9834;</span>
         <span className="tracking-wide text-paper font-medium">{caption}</span>
       </div>
     </aside>
