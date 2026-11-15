@@ -4,6 +4,10 @@
 class AudioController {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
+  private ambientOsc1: OscillatorNode | null = null;
+  private ambientOsc2: OscillatorNode | null = null;
+  private ambientGain: GainNode | null = null;
+  private isAmbientActive: boolean = false;
 
   constructor() {
     // AudioContext will be initialized on first user gesture
@@ -24,10 +28,99 @@ class AudioController {
 
   public setMuted(muted: boolean) {
     this.isMuted = muted;
+    if (this.ambientGain && this.ctx) {
+      const now = this.ctx.currentTime;
+      if (muted) {
+        this.ambientGain.gain.setValueAtTime(this.ambientGain.gain.value, now);
+        this.ambientGain.gain.linearRampToValueAtTime(0.0001, now + 0.2);
+      } else if (this.isAmbientActive) {
+        this.ambientGain.gain.setValueAtTime(0.0001, now);
+        this.ambientGain.gain.linearRampToValueAtTime(0.035, now + 0.5);
+      }
+    }
   }
 
   public getMuted(): boolean {
     return this.isMuted;
+  }
+
+  // Starship Cabin Ambient Drone (Procedural 55Hz & 110Hz cabin resonance)
+  public startAmbientHum() {
+    if (this.isAmbientActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      this.isAmbientActive = true;
+      const now = this.ctx.currentTime;
+
+      const osc1 = this.ctx.createOscillator();
+      const osc2 = this.ctx.createOscillator();
+      const filter = this.ctx.createBiquadFilter();
+      const gain = this.ctx.createGain();
+
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(55, now); // A1 deep cabin hum
+
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(110, now); // A2 harmonic
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(140, now);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      if (!this.isMuted) {
+        gain.gain.linearRampToValueAtTime(0.035, now + 1.2);
+      }
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+
+      this.ambientOsc1 = osc1;
+      this.ambientOsc2 = osc2;
+      this.ambientGain = gain;
+    } catch {
+      // Audio autoplay policy fallback
+    }
+  }
+
+  public stopAmbientHum() {
+    if (!this.isAmbientActive || !this.ctx) return;
+    this.isAmbientActive = false;
+    const now = this.ctx.currentTime;
+    if (this.ambientGain) {
+      this.ambientGain.gain.linearRampToValueAtTime(0.0001, now + 0.4);
+    }
+    setTimeout(() => {
+      try {
+        this.ambientOsc1?.stop();
+        this.ambientOsc2?.stop();
+        this.ambientOsc1?.disconnect();
+        this.ambientOsc2?.disconnect();
+      } catch {}
+      this.ambientOsc1 = null;
+      this.ambientOsc2 = null;
+      this.ambientGain = null;
+    }, 450);
+  }
+
+  public toggleAmbient(): boolean {
+    if (this.isAmbientActive) {
+      this.stopAmbientHum();
+      return false;
+    } else {
+      this.startAmbientHum();
+      return true;
+    }
+  }
+
+  public getIsAmbientActive(): boolean {
+    return this.isAmbientActive;
   }
 
   public playUiClick() {
@@ -63,7 +156,6 @@ class AudioController {
     const now = this.ctx.currentTime;
 
     if (isDroid) {
-      // Droid astromech chirps & warbles
       const freqs = [520, 680, 840, 960, 1120, 1280];
       const f1 = freqs[Math.floor(Math.random() * freqs.length)];
       const f2 = freqs[Math.floor(Math.random() * freqs.length)];
@@ -71,7 +163,6 @@ class AudioController {
       osc.frequency.setValueAtTime(f1, now);
       osc.frequency.exponentialRampToValueAtTime(f2, now + 0.06);
     } else {
-      // Soft teletype / radio blip
       osc.type = 'sine';
       osc.frequency.setValueAtTime(320 + Math.random() * 80, now);
     }
@@ -142,7 +233,6 @@ class AudioController {
     if (!this.ctx) return;
 
     const now = this.ctx.currentTime;
-    // Rocket rumble synth
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 

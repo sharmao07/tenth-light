@@ -8,6 +8,7 @@ interface PersistentHeaderProps {
   currentStopIndex?: number;
   onPause: () => void;
   onMenu: () => void;
+  onOpenLogbook: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
   showSentence?: boolean;
@@ -19,6 +20,7 @@ export function PersistentHeader({
   currentStopIndex,
   onPause,
   onMenu,
+  onOpenLogbook,
   isMuted,
   onToggleMute,
   showSentence = true,
@@ -66,8 +68,21 @@ export function PersistentHeader({
           </div>
         </div>
 
-        {/* Right: Controls (Pause, Menu, Mute) */}
+        {/* Right: Controls (Logbook, Pause, Menu, Mute) */}
         <div className="flex items-center gap-2.5">
+          {/* Mission Logbook Button */}
+          <button
+            onClick={() => {
+              onOpenLogbook();
+              sound.playUiClick();
+            }}
+            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#e39b12]/20 hover:border-[#e39b12] border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors flex items-center gap-1.5 font-bold shadow-sm"
+            title="Open Specialist’s Journal & Mission Archive"
+          >
+            <span>📖</span>
+            <span className="hidden sm:inline">Logbook</span>
+          </button>
+
           {/* Mute Button */}
           <button
             onClick={() => {

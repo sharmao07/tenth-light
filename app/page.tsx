@@ -14,6 +14,7 @@ import { sound } from '@/components/AudioController';
 import { Ship3DView } from '@/components/Ship3DView';
 import { PersistentHeader } from '@/components/PersistentHeader';
 import { PauseModal } from '@/components/PauseModal';
+import { MissionLogbookModal } from '@/components/MissionLogbookModal';
 import { DialogueBar } from '@/components/DialogueBar';
 import { HangarView } from '@/components/HangarView';
 import { DodgeRing } from '@/components/DodgeRing';
@@ -33,6 +34,7 @@ export default function TenthLightGame() {
   const [gameState, setGameState] = useState<GameSaveState>(DEFAULT_SAVE_STATE);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isLogbookOpen, setIsLogbookOpen] = useState(false);
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [activeDialogueLines, setActiveDialogueLines] = useState<DialogueLine[]>([]);
   const [dialoguePhase, setDialoguePhase] = useState<'before' | 'success' | null>(null);
@@ -142,6 +144,7 @@ export default function TenthLightGame() {
   // Title -> Briefing
   const handleStartBriefing = () => {
     sound.playUiClick();
+    sound.startAmbientHum();
     const lines = getBriefingLines(gameState.callsign);
     setActiveDialogueLines(lines);
     setDialogueIndex(0);
@@ -155,6 +158,7 @@ export default function TenthLightGame() {
   // Resume Corridor
   const handleResumeGame = () => {
     sound.playUiClick();
+    sound.startAmbientHum();
     triggerSceneFade(() => {
       // If was in title, resume to saved phase
       if (gameState.phase === 'title') {
@@ -335,6 +339,7 @@ export default function TenthLightGame() {
             sound.playUiClick();
             updateGameState({ phase: 'title' });
           }}
+          onOpenLogbook={() => setIsLogbookOpen(true)}
           isMuted={gameState.isMuted}
           onToggleMute={handleToggleMute}
           showSentence={true}
@@ -349,6 +354,14 @@ export default function TenthLightGame() {
           setIsPaused(false);
           updateGameState({ phase: 'title' });
         }}
+      />
+
+      {/* Specialist’s Mission Logbook Modal */}
+      <MissionLogbookModal
+        isOpen={isLogbookOpen}
+        onClose={() => setIsLogbookOpen(false)}
+        maxUnlockedStop={gameState.currentStop}
+        callsign={gameState.callsign}
       />
 
       {/* Main Screen Views */}
@@ -410,6 +423,17 @@ export default function TenthLightGame() {
                   Resume Corridor (Stop {gameState.currentStop})
                 </button>
               )}
+
+              <button
+                onClick={() => {
+                  sound.playUiClick();
+                  setIsLogbookOpen(true);
+                }}
+                className="px-6 py-3.5 bg-[#1a1714] hover:bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors flex items-center gap-2 font-bold"
+              >
+                <span>📖</span>
+                <span>Mission Logbook</span>
+              </button>
 
               <Link
                 href="/data"
