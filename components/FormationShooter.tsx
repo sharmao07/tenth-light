@@ -94,7 +94,10 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
 
   // Initialize Wave 1
   useEffect(() => {
-    initWave(1);
+    const timer = setTimeout(() => {
+      initWave(1);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [initWave]);
 
   // Window key capture phase
@@ -151,9 +154,9 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
 
       if (isPaused) {
         // Render paused indicator on canvas
-        ctx.fillStyle = 'rgba(16, 14, 12, 0.4)';
+        ctx.fillStyle = 'rgba(10, 12, 16, 0.4)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#e39b12';
+        ctx.fillStyle = '#f0562b';
         ctx.font = 'bold 16px monospace';
         ctx.textAlign = 'center';
         ctx.fillText('PAUSED', canvas.width / 2, canvas.height / 2);
@@ -272,7 +275,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
                 vy: Math.sin(angle) * spd,
                 life: 0.26,
                 maxLife: 0.26,
-                color: Math.random() > 0.4 ? '#e39b12' : '#efe6d6',
+                color: Math.random() > 0.4 ? '#f0562b' : '#e9e6dc',
               });
             }
 
@@ -328,11 +331,11 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
       ctx.save();
       ctx.translate(shakeX, shakeY);
 
-      ctx.fillStyle = '#100e0c';
+      ctx.fillStyle = '#0a0c10';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Star dots
-      ctx.fillStyle = '#3a342c';
+      ctx.fillStyle = '#2a3039';
       for (let i = 0; i < 20; i++) {
         const sx = (i * 47) % canvas.width;
         const sy = (i * 83 + (now * 0.04)) % canvas.height;
@@ -342,33 +345,33 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
       // Draw Saucers (Original pixel saucers)
       for (const s of aliveSaucers) {
         // Saucer dome
-        ctx.fillStyle = '#e39b12';
+        ctx.fillStyle = '#f0562b';
         ctx.beginPath();
         ctx.arc(s.x, s.y - 3, 7, Math.PI, 0);
         ctx.fill();
 
         // Saucer disc
-        ctx.fillStyle = '#efe6d6';
+        ctx.fillStyle = '#e9e6dc';
         ctx.beginPath();
         ctx.ellipse(s.x, s.y + 1, 14, 5, 0, 0, Math.PI * 2);
         ctx.fill();
 
         // Dark cockpit slits
-        ctx.fillStyle = '#1a1714';
+        ctx.fillStyle = '#12151b';
         ctx.fillRect(s.x - 3, s.y - 4, 6, 2);
-        ctx.fillStyle = '#c4452d';
+        ctx.fillStyle = '#f0562b';
         ctx.fillRect(s.x - 1, s.y - 4, 2, 2);
       }
 
       // Draw Bullets
       for (const b of st.bullets) {
         if (b.isEnemy) {
-          ctx.fillStyle = '#c4452d';
+          ctx.fillStyle = '#f0562b';
           ctx.beginPath();
           ctx.arc(b.x, b.y, 3, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          ctx.fillStyle = '#5bc0be';
+          ctx.fillStyle = '#e9e6dc';
           ctx.fillRect(b.x - 1.5, b.y - 6, 3, 9);
         }
       }
@@ -377,7 +380,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
       const blink = st.isInvulnerable && Math.floor(now * 0.015) % 2 === 0;
       if (!blink) {
         // Thruster flame
-        ctx.fillStyle = '#e39b12';
+        ctx.fillStyle = '#f0562b';
         ctx.beginPath();
         ctx.moveTo(st.playerX - 6, st.playerY + 8);
         ctx.lineTo(st.playerX + 6, st.playerY + 8);
@@ -386,7 +389,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         ctx.fill();
 
         // Wings
-        ctx.fillStyle = '#544c42';
+        ctx.fillStyle = '#3a414c';
         ctx.beginPath();
         ctx.moveTo(st.playerX, st.playerY - 14);
         ctx.lineTo(st.playerX - 16, st.playerY + 8);
@@ -395,7 +398,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         ctx.fill();
 
         // Capsule core
-        ctx.fillStyle = '#efe6d6';
+        ctx.fillStyle = '#e9e6dc';
         ctx.beginPath();
         ctx.moveTo(st.playerX, st.playerY - 12);
         ctx.lineTo(st.playerX - 8, st.playerY + 6);
@@ -404,7 +407,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         ctx.fill();
 
         // Visor
-        ctx.fillStyle = '#e39b12';
+        ctx.fillStyle = '#f0562b';
         ctx.fillRect(st.playerX - 3, st.playerY - 5, 6, 3);
 
         // Muzzle Flash on Cannon Nose (game-feel principle)
@@ -413,7 +416,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
           ctx.beginPath();
           ctx.arc(st.playerX, st.playerY - 18, 5, 0, Math.PI * 2);
           ctx.fill();
-          ctx.fillStyle = '#e39b12';
+          ctx.fillStyle = '#f0562b';
           ctx.beginPath();
           ctx.arc(st.playerX, st.playerY - 18, 8, 0, Math.PI * 2);
           ctx.fill();
@@ -447,15 +450,15 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
   return (
     <div className="flex flex-col items-center justify-center p-3 select-none">
       <div className="flex justify-between items-center w-full max-w-[440px] mb-2.5 px-1.5">
-        <span className="font-mono text-sm uppercase tracking-wider text-[#e39b12] font-bold">
+        <span className="text-sm uppercase tracking-wider text-[#f0562b] font-bold">
           Jupiter Depot Defense • Wave {wave}/3
         </span>
-        <span className="font-mono text-xs md:text-sm text-[#efe6d6]/80 font-bold">
+        <span className="text-xs md:text-sm text-[#e9e6dc]/80 font-bold">
           Saucers Remaining: {saucersLeft}
         </span>
       </div>
 
-      <div className="relative border-2 border-[#e39b12] rounded-lg bg-[#100e0c] shadow-2xl">
+      <div className="relative border border-[#f0562b] rounded-lg bg-[#0a0c10] shadow-2xl">
         <canvas
           ref={canvasRef}
           width={420}
@@ -464,12 +467,12 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         />
 
         {/* Controls Overlay Footer */}
-        <div className="flex justify-between items-center bg-[#1a1714] px-4 py-2 border-t border-[#efe6d6]/20 text-xs md:text-sm font-mono text-[#efe6d6]/90">
+        <div className="flex justify-between items-center bg-[#12151b] px-4 py-2 border-t border-[#e9e6dc]/20 text-xs md:text-sm text-[#e9e6dc]/90">
           <div>
-            Move: <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">A</kbd>/<kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">D</kbd> or <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">←</kbd>/<kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">→</kbd>
+            Move: <kbd className="px-1.5 py-0.5 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded">A</kbd>/<kbd className="px-1.5 py-0.5 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded">D</kbd> or <kbd className="px-1.5 py-0.5 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded">←</kbd>/<kbd className="px-1.5 py-0.5 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded">→</kbd>
           </div>
           <div>
-            Fire: <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">Space</kbd> / <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">W</kbd>
+            Fire: <kbd className="px-1.5 py-0.5 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded">Space</kbd> / <kbd className="px-1.5 py-0.5 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded">W</kbd>
           </div>
         </div>
       </div>

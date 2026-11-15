@@ -6,7 +6,6 @@ import {
   OPTIONAL_PARTS,
   CORE_PARTS,
   MAX_TEACHING_BUDGET,
-  URANUS_HEATER_BUS_WATTS,
 } from '@/lib/gameTypes';
 import { calculateShipMetrics } from '@/lib/gameStore';
 import { Ship3DView } from './Ship3DView';
@@ -113,14 +112,14 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
   const hasImager = (design.parts['imager'] || 0) > 0;
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-3 md:p-4 bg-[#100e0c] text-[#efe6d6] select-none overflow-hidden max-h-[calc(100vh-160px)]">
+    <div className="w-full h-full flex flex-col justify-between p-5 md:p-6 bg-[#0a0c10] text-[#e9e6dc] select-none overflow-hidden max-h-[calc(100vh-160px)]">
       {/* Top Header Row: Launcher Selector & Step 0 Auto-build */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#efe6d6]/20 pb-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs md:text-sm font-mono uppercase tracking-widest text-[#e39b12] font-bold">
+      <div className="flex flex-wrap items-center justify-between gap-5 border-b border-[#e9e6dc]/20 pb-5">
+        <div className="flex flex-wrap items-center gap-5">
+          <span className="text-xs md:text-sm uppercase tracking-widest text-[#f0562b] font-bold">
             1. Select Launcher:
           </span>
-          <div className="flex gap-2.5">
+          <div className="flex gap-4">
             {(['kite', 'keel'] as const).map((id) => {
               const l = LAUNCHERS[id];
               const isSelected = design.launcherId === id;
@@ -129,13 +128,13 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   key={id}
                   onClick={() => setLauncher(id)}
                   onMouseEnter={() => sound.playHoverBlip()}
-                  className={`sensory-btn px-3.5 py-1.5 text-xs md:text-sm font-mono border rounded transition-all text-left ${
+                  className={`sensory-btn px-5 py-2 text-xs md:text-sm border rounded transition-all text-left ${
                     isSelected
-                      ? 'bg-[#e39b12] text-[#100e0c] border-[#e39b12] font-bold shadow'
-                      : 'bg-[#1a1714] text-[#efe6d6] border-[#efe6d6]/30 hover:border-[#e39b12]'
+                      ? 'bg-[#f0562b] text-[#0a0c10] border-[#f0562b] font-bold shadow'
+                      : 'bg-[#12151b] text-[#e9e6dc] border-[#e9e6dc]/30 hover:border-[#f0562b]'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <span className="font-bold">{l.name}</span>
                     <span className="opacity-90 text-xs">
                       (Cost {l.cost} | Cap {l.massCap} kg)
@@ -149,24 +148,23 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
         </div>
 
         {/* Step 0 Prominent Auto-Build */}
-        <div className="flex items-center gap-3">
-          <span className="text-xs text-[#efe6d6]/70 font-sans hidden lg:inline">
+        <div className="flex items-center gap-5">
+          <span className="text-xs text-[#e9e6dc]/70 font-sans hidden lg:inline">
             Teaching budget: 140. Not an official NASA price.
           </span>
           <button
             onClick={handleAutoBuild}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-4 py-2 bg-[#e39b12]/15 hover:bg-[#e39b12]/25 border-2 border-[#e39b12] text-[#e39b12] rounded text-xs md:text-sm font-mono uppercase tracking-wider transition-all font-bold shadow-md flex items-center gap-2"
+            className="sensory-btn px-6 py-3 bg-[#f0562b]/15 hover:bg-[#f0562b]/25 border border-[#f0562b] text-[#f0562b] rounded text-xs md:text-sm tracking-wide transition-all shadow-md flex items-center gap-3"
             title="Step 0 Auto-Build: Instantly equips the Keel certifying stack (3 tanks, RTG, spectrometer, drill)"
           >
-            <span>⚡</span>
             <span>Step 0 Auto-Build (Certifying Ship)</span>
           </button>
         </div>
       </div>
 
       {/* Main Workspace Grid: 3D Stage + KSP Staging & Telemetry Panel */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-4 my-2.5 min-h-0">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 my-2.5 min-h-0">
         {/* Left/Center: 3D Stage (Kerbal VAB Assembly Bay with Grid & CoM/CoT/CoL toggles) */}
         <div
           onDragOver={(e) => {
@@ -175,27 +173,27 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
           }}
           onDragLeave={() => setIsDragOverStage(false)}
           onDrop={handleDropOnStage}
-          className={`md:col-span-7 lg:col-span-8 bg-[#1a1714]/70 border-2 rounded-lg relative flex flex-col items-center justify-center overflow-hidden transition-all ${
-            isDragOverStage ? 'border-[#e39b12] bg-[#e39b12]/10' : 'border-[#efe6d6]/20'
+          className={`md:col-span-7 lg:col-span-8 bg-[#12151b]/70 border rounded-lg relative flex flex-col items-center justify-center overflow-hidden transition-all ${
+            isDragOverStage ? 'border-[#f0562b] bg-[#f0562b]/10' : 'border-[#e9e6dc]/20'
           }`}
         >
           {/* Top Stage Bar: VAB Header & KSP Overlay Toggles */}
           <div className="absolute top-2.5 left-3.5 right-3.5 z-10 flex items-center justify-between pointer-events-none">
-            <div className="text-xs font-mono text-[#efe6d6]/70 uppercase tracking-wider">
+            <div className="text-xs text-[#e9e6dc]/70 uppercase tracking-wider">
               VAB ASSEMBLY BAY • ORBIT CAM WITH MOUSE
             </div>
 
             {/* KSP CoM, CoT, CoL Toggles */}
-            <div className="flex items-center gap-1.5 pointer-events-auto">
+            <div className="flex items-center gap-2 pointer-events-auto">
               <button
                 onClick={() => {
                   sound.playUiClick();
                   setShowCoM(!showCoM);
                 }}
-                className={`px-2 py-0.5 text-[11px] font-mono border rounded transition-colors ${
+                className={`px-3 py-0.5 text-xs border rounded transition-colors ${
                   showCoM
-                    ? 'bg-[#e39b12] text-[#100e0c] border-[#e39b12] font-bold'
-                    : 'bg-[#100e0c]/80 text-[#efe6d6]/70 border-[#efe6d6]/30 hover:border-[#e39b12]'
+                    ? 'bg-[#f0562b] text-[#0a0c10] border-[#f0562b] font-bold'
+                    : 'bg-[#0a0c10]/80 text-[#e9e6dc]/70 border-[#e9e6dc]/30 hover:border-[#f0562b]'
                 }`}
                 title="Toggle Center of Mass (CoM)"
               >
@@ -206,10 +204,10 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   sound.playUiClick();
                   setShowCoT(!showCoT);
                 }}
-                className={`px-2 py-0.5 text-[11px] font-mono border rounded transition-colors ${
+                className={`px-3 py-0.5 text-xs border rounded transition-colors ${
                   showCoT
-                    ? 'bg-[#c4452d] text-[#efe6d6] border-[#c4452d] font-bold'
-                    : 'bg-[#100e0c]/80 text-[#efe6d6]/70 border-[#efe6d6]/30 hover:border-[#c4452d]'
+                    ? 'bg-[#f0562b] text-[#e9e6dc] border-[#f0562b] font-bold'
+                    : 'bg-[#0a0c10]/80 text-[#e9e6dc]/70 border-[#e9e6dc]/30 hover:border-[#f0562b]'
                 }`}
                 title="Toggle Center of Thrust (CoT)"
               >
@@ -220,10 +218,10 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   sound.playUiClick();
                   setShowCoL(!showCoL);
                 }}
-                className={`px-2 py-0.5 text-[11px] font-mono border rounded transition-colors ${
+                className={`px-3 py-0.5 text-xs border rounded transition-colors ${
                   showCoL
-                    ? 'bg-[#5bc0be] text-[#100e0c] border-[#5bc0be] font-bold'
-                    : 'bg-[#100e0c]/80 text-[#efe6d6]/70 border-[#efe6d6]/30 hover:border-[#5bc0be]'
+                    ? 'bg-[#e9e6dc] text-[#0a0c10] border-[#e9e6dc] font-bold'
+                    : 'bg-[#0a0c10]/80 text-[#e9e6dc]/70 border-[#e9e6dc]/30 hover:border-[#e9e6dc]'
                 }`}
                 title="Toggle Aerodynamic Center (CoL)"
               >
@@ -243,11 +241,11 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
           </div>
 
           {/* Active Stack Part Pills */}
-          <div className="absolute bottom-2.5 left-2.5 right-2.5 z-10 flex flex-wrap gap-1.5 pointer-events-auto">
+          <div className="absolute bottom-2.5 left-2.5 right-2.5 z-10 flex flex-wrap gap-2 pointer-events-auto">
             {CORE_PARTS.map((cp) => (
               <span
                 key={cp.id}
-                className="text-xs font-mono px-2.5 py-1 bg-[#100e0c]/85 border border-[#efe6d6]/30 text-[#efe6d6]/80 rounded"
+                className="text-xs px-4 py-1.5 bg-[#0a0c10]/85 border border-[#e9e6dc]/30 text-[#e9e6dc]/80 rounded"
               >
                 {cp.name} (Core)
               </span>
@@ -259,7 +257,7 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 <button
                   key={p.id}
                   onClick={() => removePart(p.id)}
-                  className="text-xs font-mono px-2.5 py-1 bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] rounded hover:bg-[#c4452d]/30 hover:border-[#c4452d] hover:text-[#c4452d] transition-colors"
+                  className="text-xs px-4 py-1.5 bg-[#f0562b]/20 border border-[#f0562b] text-[#f0562b] rounded hover:bg-[#f0562b]/30 hover:border-[#f0562b] hover:text-[#f0562b] transition-colors"
                   title="Click to remove"
                 >
                   {p.name} {count > 1 ? `×${count}` : ''} ✕
@@ -270,19 +268,19 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
         </div>
 
         {/* Right: KSP Tabbed Panel (Telemetry / Staging Sequence / Engineer's Report) + Launch */}
-        <div className="md:col-span-5 lg:col-span-4 bg-[#1a1714] border border-[#efe6d6]/20 p-3.5 rounded-lg flex flex-col justify-between overflow-y-auto space-y-3">
+        <div className="md:col-span-5 lg:col-span-4 bg-[#12151b] border border-[#e9e6dc]/20 p-5 rounded-lg flex flex-col justify-between overflow-y-auto space-y-5">
           <div>
             {/* Panel Mode Tabs */}
-            <div className="flex border-b border-[#efe6d6]/20 pb-2 mb-2.5 gap-1.5 font-mono text-xs">
+            <div className="flex border-b border-[#e9e6dc]/20 pb-3 mb-2.5 gap-2 text-xs">
               <button
                 onClick={() => {
                   sound.playUiClick();
                   setRightPanelTab('telemetry');
                 }}
-                className={`px-2.5 py-1 rounded transition-colors font-bold ${
+                className={`px-4 py-1.5 rounded transition-colors font-bold ${
                   rightPanelTab === 'telemetry'
-                    ? 'bg-[#e39b12] text-[#100e0c]'
-                    : 'text-[#efe6d6]/70 hover:text-[#efe6d6]'
+                    ? 'bg-[#f0562b] text-[#0a0c10]'
+                    : 'text-[#e9e6dc]/70 hover:text-[#e9e6dc]'
                 }`}
               >
                 Telemetry
@@ -292,10 +290,10 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   sound.playUiClick();
                   setRightPanelTab('staging');
                 }}
-                className={`px-2.5 py-1 rounded transition-colors font-bold ${
+                className={`px-4 py-1.5 rounded transition-colors font-bold ${
                   rightPanelTab === 'staging'
-                    ? 'bg-[#e39b12] text-[#100e0c]'
-                    : 'text-[#efe6d6]/70 hover:text-[#efe6d6]'
+                    ? 'bg-[#f0562b] text-[#0a0c10]'
+                    : 'text-[#e9e6dc]/70 hover:text-[#e9e6dc]'
                 }`}
               >
                 KSP Staging
@@ -305,10 +303,10 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   sound.playUiClick();
                   setRightPanelTab('engineer');
                 }}
-                className={`px-2.5 py-1 rounded transition-colors font-bold ${
+                className={`px-4 py-1.5 rounded transition-colors font-bold ${
                   rightPanelTab === 'engineer'
-                    ? 'bg-[#e39b12] text-[#100e0c]'
-                    : 'text-[#efe6d6]/70 hover:text-[#efe6d6]'
+                    ? 'bg-[#f0562b] text-[#0a0c10]'
+                    : 'text-[#e9e6dc]/70 hover:text-[#e9e6dc]'
                 }`}
               >
                 Engineer’s Report
@@ -317,19 +315,19 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
             {/* TAB 1: Telemetry Meters */}
             {rightPanelTab === 'telemetry' && (
-              <div className="space-y-2.5">
+              <div className="space-y-4">
                 {/* Meter 1: Mass */}
                 <div>
-                  <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
+                  <div className="flex justify-between text-xs md:text-sm mb-1">
                     <span>Mass:</span>
-                    <span className={metrics.isMassLegal ? 'text-[#efe6d6]' : 'text-[#c4452d] font-bold'}>
+                    <span className={metrics.isMassLegal ? 'text-[#e9e6dc]' : 'text-[#f0562b] font-bold'}>
                       {metrics.totalMass} / {metrics.massCap} kg
                     </span>
                   </div>
-                  <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
+                  <div className="w-full h-2.5 bg-[#0a0c10] rounded overflow-hidden">
                     <div
                       className={`h-full transition-all ${
-                        metrics.isMassLegal ? 'bg-[#e39b12]' : 'bg-[#c4452d]'
+                        metrics.isMassLegal ? 'bg-[#f0562b]' : 'bg-[#f0562b]'
                       }`}
                       style={{ width: `${Math.min(100, (metrics.totalMass / metrics.massCap) * 100)}%` }}
                     />
@@ -338,16 +336,16 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
                 {/* Meter 2: Cost */}
                 <div>
-                  <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
+                  <div className="flex justify-between text-xs md:text-sm mb-1">
                     <span>Teaching Cost:</span>
-                    <span className={metrics.isCostLegal ? 'text-[#efe6d6]' : 'text-[#c4452d] font-bold'}>
+                    <span className={metrics.isCostLegal ? 'text-[#e9e6dc]' : 'text-[#f0562b] font-bold'}>
                       {metrics.totalCost} / {MAX_TEACHING_BUDGET}
                     </span>
                   </div>
-                  <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
+                  <div className="w-full h-2.5 bg-[#0a0c10] rounded overflow-hidden">
                     <div
                       className={`h-full transition-all ${
-                        metrics.isCostLegal ? 'bg-[#e39b12]' : 'bg-[#c4452d]'
+                        metrics.isCostLegal ? 'bg-[#f0562b]' : 'bg-[#f0562b]'
                       }`}
                       style={{ width: `${Math.min(100, (metrics.totalCost / MAX_TEACHING_BUDGET) * 100)}%` }}
                     />
@@ -356,16 +354,16 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
                 {/* Meter 3: Watts at Earth */}
                 <div>
-                  <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
+                  <div className="flex justify-between text-xs md:text-sm mb-1">
                     <span>Power @ 1 AU:</span>
-                    <span className="text-[#efe6d6]">
+                    <span className="text-[#e9e6dc]">
                       Draw {metrics.powerDrawEarth} W | Gen {Math.round(metrics.powerGenEarth)} W
                     </span>
                   </div>
-                  <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
+                  <div className="w-full h-2.5 bg-[#0a0c10] rounded overflow-hidden">
                     <div
                       className={`h-full transition-all ${
-                        metrics.powerGenEarth >= metrics.powerDrawEarth ? 'bg-[#5bc0be]' : 'bg-[#c4452d]'
+                        metrics.powerGenEarth >= metrics.powerDrawEarth ? 'bg-[#e9e6dc]' : 'bg-[#f0562b]'
                       }`}
                       style={{
                         width: `${Math.min(
@@ -381,38 +379,38 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
                 {/* Meter 4: Delta-v */}
                 <div>
-                  <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
+                  <div className="flex justify-between text-xs md:text-sm mb-1">
                     <span>Delta-v (Patched-Conic):</span>
-                    <span className={metrics.canReachJupiter ? 'text-[#efe6d6]' : 'text-[#c4452d] font-bold'}>
+                    <span className={metrics.canReachJupiter ? 'text-[#e9e6dc]' : 'text-[#f0562b] font-bold'}>
                       {metrics.totalDeltaV} m/s
                     </span>
                   </div>
-                  <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
+                  <div className="w-full h-2.5 bg-[#0a0c10] rounded overflow-hidden">
                     <div
                       className={`h-full transition-all ${
-                        metrics.canReachJupiter ? 'bg-[#e39b12]' : 'bg-[#c4452d]'
+                        metrics.canReachJupiter ? 'bg-[#f0562b]' : 'bg-[#f0562b]'
                       }`}
                       style={{ width: `${Math.min(100, (metrics.totalDeltaV / 7200) * 100)}%` }}
                     />
                   </div>
-                  <div className="text-[11px] text-[#efe6d6]/70 font-mono mt-1 leading-relaxed">
+                  <div className="text-xs text-[#e9e6dc]/70 mt-1 leading-relaxed">
                     6,700 m/s to Jupiter, 7,100 m/s outer rim. 3 tanks (7,200 m/s) minimum.
                   </div>
                 </div>
 
                 {/* Uranus Check: 55 W Heater Bus */}
-                <div className="p-2.5 bg-[#100e0c] border border-[#efe6d6]/20 rounded text-xs font-mono space-y-1">
+                <div className="p-4 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded text-xs space-y-1.5">
                   <div className="flex justify-between items-center mb-0.5">
-                    <span className="text-[#efe6d6]/90 font-bold">Uranus 19.2 AU Bus:</span>
+                    <span className="text-[#e9e6dc]/90 font-bold">Uranus 19.2 AU Bus:</span>
                     <span
                       className={`font-bold ${
-                        metrics.uranusSurvives ? 'text-[#5bc0be]' : 'text-[#c4452d]'
+                        metrics.uranusSurvives ? 'text-[#e9e6dc]' : 'text-[#f0562b]'
                       }`}
                     >
                       {Math.round(metrics.uranusSupplyWatts)} W / 55 W
                     </span>
                   </div>
-                  <div className="text-[11px] text-[#efe6d6]/70 leading-relaxed font-sans">
+                  <div className="text-xs text-[#e9e6dc]/70 leading-relaxed font-sans">
                     Command (20W) + Antenna (15W) + Heater (20W) = 55 W. Solar gives ~0.4 W. RTG gives flat 100 W.
                   </div>
                 </div>
@@ -421,18 +419,18 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
             {/* TAB 2: KSP Staging Stack Sequence */}
             {rightPanelTab === 'staging' && (
-              <div className="space-y-2 text-xs font-mono">
-                <div className="text-xs text-[#efe6d6]/70 font-sans mb-1.5">
+              <div className="space-y-3 text-xs ">
+                <div className="text-xs text-[#e9e6dc]/70 font-sans mb-1.5">
                   Kerbal-style staging breakdown from payload to ignition:
                 </div>
 
                 {/* Stage 3: Payload & Science Bay */}
-                <div className="p-2.5 bg-[#100e0c] border-l-4 border-[#5bc0be] rounded-r">
-                  <div className="flex justify-between font-bold text-[#5bc0be]">
+                <div className="p-4 bg-[#0a0c10] border-l-4 border-[#e9e6dc] rounded-r">
+                  <div className="flex justify-between font-bold text-[#e9e6dc]">
                     <span>[STAGE 3] Payload & Science</span>
                     <span>Active</span>
                   </div>
-                  <div className="text-[#efe6d6]/80 text-[11px] mt-1 space-y-0.5">
+                  <div className="text-[#e9e6dc]/80 text-xs mt-1 space-y-0.5">
                     <div>• Command Module (Wren Pod, 90 kg, 20W)</div>
                     <div>• High-Gain Dish Antenna (25 kg, 15W)</div>
                     {hasSpectrometer && <div>• Mass Spectrometer (Water Certifier, 35 kg)</div>}
@@ -442,38 +440,38 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 </div>
 
                 {/* Stage 2: Power & Thermal Bus */}
-                <div className="p-2.5 bg-[#100e0c] border-l-4 border-[#e39b12] rounded-r">
-                  <div className="flex justify-between font-bold text-[#e39b12]">
+                <div className="p-4 bg-[#0a0c10] border-l-4 border-[#f0562b] rounded-r">
+                  <div className="flex justify-between font-bold text-[#f0562b]">
                     <span>[STAGE 2] Power & Thermal Bus</span>
                     <span>Active</span>
                   </div>
-                  <div className="text-[#efe6d6]/80 text-[11px] mt-1 space-y-0.5">
+                  <div className="text-[#e9e6dc]/80 text-xs mt-1 space-y-0.5">
                     {hasRTG && <div>• Radioisotope Unit (RTG, 100 W flat, 50 kg)</div>}
                     {solarCount > 0 && <div>• Solar Arrays (×{solarCount}, 160W/ea @ 1 AU, 30 kg/ea)</div>}
-                    {!hasRTG && solarCount === 0 && <div className="text-[#c4452d]">⚠️ No primary power source equipped!</div>}
+                    {!hasRTG && solarCount === 0 && <div className="text-[#f0562b]">⚠ No primary power source equipped!</div>}
                     <div>• Deep Space Survival Bus: 55 W heater active at 19.2 AU</div>
                   </div>
                 </div>
 
                 {/* Stage 1: Propellant Core */}
-                <div className="p-2.5 bg-[#100e0c] border-l-4 border-[#e39b12] rounded-r">
-                  <div className="flex justify-between font-bold text-[#e39b12]">
+                <div className="p-4 bg-[#0a0c10] border-l-4 border-[#f0562b] rounded-r">
+                  <div className="flex justify-between font-bold text-[#f0562b]">
                     <span>[STAGE 1] Interplanetary Reaction Core</span>
                     <span>{metrics.totalDeltaV} m/s</span>
                   </div>
-                  <div className="text-[#efe6d6]/80 text-[11px] mt-1">
+                  <div className="text-[#e9e6dc]/80 text-xs mt-1">
                     <div>• Propellant Tanks: {tankCount} equipped ({tankCount * 2400} m/s total)</div>
                     <div>• Transfer capability: {metrics.canReachJupiter ? 'Reaches Jupiter Depot' : 'Delta-v short for Jupiter'}</div>
                   </div>
                 </div>
 
                 {/* Stage 0: Main Chemical Engine */}
-                <div className="p-2.5 bg-[#100e0c] border-l-4 border-[#c4452d] rounded-r">
-                  <div className="flex justify-between font-bold text-[#c4452d]">
+                <div className="p-4 bg-[#0a0c10] border-l-4 border-[#f0562b] rounded-r">
+                  <div className="flex justify-between font-bold text-[#f0562b]">
                     <span>[STAGE 0] Earth Departure Ignition</span>
                     <span>900 m/s</span>
                   </div>
-                  <div className="text-[#efe6d6]/80 text-[11px] mt-1">
+                  <div className="text-[#e9e6dc]/80 text-xs mt-1">
                     <div>• Chemical Engine (60 kg, Isp 310s)</div>
                     <div>• Spends first 900 m/s on Trans-Lunar Injection (TLI)</div>
                   </div>
@@ -483,74 +481,74 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
             {/* TAB 3: KSP Engineer's Report Checklist */}
             {rightPanelTab === 'engineer' && (
-              <div className="space-y-2 text-xs font-mono">
-                <div className="text-xs text-[#efe6d6]/70 font-sans mb-1.5">
+              <div className="space-y-3 text-xs ">
+                <div className="text-xs text-[#e9e6dc]/70 font-sans mb-1.5">
                   Pre-flight certification checklist & flight readiness:
                 </div>
 
                 {/* Delta-v check */}
-                <div className="p-2 bg-[#100e0c] border rounded flex justify-between items-center">
+                <div className="p-3 bg-[#0a0c10] border rounded flex justify-between items-center">
                   <span>Delta-v (≥ 7,200 m/s total):</span>
-                  <span className={metrics.canReachJupiter ? 'text-[#5bc0be] font-bold' : 'text-[#c4452d] font-bold'}>
+                  <span className={metrics.canReachJupiter ? 'text-[#e9e6dc] font-bold' : 'text-[#f0562b] font-bold'}>
                     {metrics.canReachJupiter ? 'PASS' : 'FAIL (Need 3 Tanks)'}
                   </span>
                 </div>
 
                 {/* Mass cap check */}
-                <div className="p-2 bg-[#100e0c] border rounded flex justify-between items-center">
+                <div className="p-3 bg-[#0a0c10] border rounded flex justify-between items-center">
                   <span>Mass (≤ {metrics.massCap} kg):</span>
-                  <span className={metrics.isMassLegal ? 'text-[#5bc0be] font-bold' : 'text-[#c4452d] font-bold'}>
+                  <span className={metrics.isMassLegal ? 'text-[#e9e6dc] font-bold' : 'text-[#f0562b] font-bold'}>
                     {metrics.isMassLegal ? 'PASS' : 'OVERWEIGHT'}
                   </span>
                 </div>
 
                 {/* Cost check */}
-                <div className="p-2 bg-[#100e0c] border rounded flex justify-between items-center">
+                <div className="p-3 bg-[#0a0c10] border rounded flex justify-between items-center">
                   <span>Budget (≤ 140 Credits):</span>
-                  <span className={metrics.isCostLegal ? 'text-[#5bc0be] font-bold' : 'text-[#c4452d] font-bold'}>
+                  <span className={metrics.isCostLegal ? 'text-[#e9e6dc] font-bold' : 'text-[#f0562b] font-bold'}>
                     {metrics.isCostLegal ? 'PASS' : 'OVER BUDGET'}
                   </span>
                 </div>
 
                 {/* Thermal bus check */}
-                <div className="p-2 bg-[#100e0c] border rounded flex justify-between items-center">
+                <div className="p-3 bg-[#0a0c10] border rounded flex justify-between items-center">
                   <span>Deep Space Thermal (55 W Bus):</span>
-                  <span className={metrics.uranusSurvives ? 'text-[#5bc0be] font-bold' : 'text-[#c4452d] font-bold'}>
+                  <span className={metrics.uranusSurvives ? 'text-[#e9e6dc] font-bold' : 'text-[#f0562b] font-bold'}>
                     {metrics.uranusSurvives ? 'PASS (RTG)' : 'FAIL (Freezes at Uranus)'}
                   </span>
                 </div>
 
                 {/* Science certifiers */}
-                <div className="p-2 bg-[#100e0c] border rounded flex justify-between items-center">
+                <div className="p-3 bg-[#0a0c10] border rounded flex justify-between items-center">
                   <span>Water Certifier (Spectrometer):</span>
-                  <span className={hasSpectrometer ? 'text-[#5bc0be] font-bold' : 'text-[#e39b12]'}>
+                  <span className={hasSpectrometer ? 'text-[#e9e6dc] font-bold' : 'text-[#f0562b]'}>
                     {hasSpectrometer ? 'EQUIPPED' : 'MISSING'}
                   </span>
                 </div>
 
-                <div className="p-2 bg-[#100e0c] border rounded flex justify-between items-center">
+                <div className="p-3 bg-[#0a0c10] border rounded flex justify-between items-center">
                   <span>Soil Certifier (Sample Drill):</span>
-                  <span className={hasDrill ? 'text-[#5bc0be] font-bold' : 'text-[#e39b12]'}>
+                  <span className={hasDrill ? 'text-[#e9e6dc] font-bold' : 'text-[#f0562b]'}>
                     {hasDrill ? 'EQUIPPED' : 'MISSING'}
                   </span>
                 </div>
 
                 {/* NASA JPL Concept Maturity Level (CML) Assessment */}
-                <div className="p-2.5 bg-[#100e0c] border border-[#e39b12]/40 rounded mt-1.5">
-                  <div className="flex justify-between items-center text-[11px]">
-                    <span className="text-[#e39b12] font-bold">NASA JPL Concept Maturity Level:</span>
-                    <span className="font-bold text-[#5bc0be]">
+                <div className="p-4 bg-[#0a0c10] border border-[#f0562b]/40 rounded mt-1.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-[#f0562b] font-bold">NASA JPL Concept Maturity Level:</span>
+                    <span className="font-bold text-[#e9e6dc]">
                       {metrics.isLaunchLegal
                         ? (hasSpectrometer && hasDrill ? 'CML 4: Flight Point Design' : 'CML 3: Subsystem Feasible')
                         : 'CML 2: Concept Trade Study'}
                     </span>
                   </div>
-                  <div className="text-[10px] text-[#efe6d6]/70 mt-1 leading-snug font-sans">
+                  <div className="text-xs text-[#e9e6dc]/70 mt-1 leading-snug font-sans">
                     Aligned with NASA Systems Engineering 4 Segments: Launch, Space, Ground, and User.
                   </div>
                 </div>
 
-                <div className="text-[11px] text-[#efe6d6]/60 italic pt-1">
+                <div className="text-xs text-[#e9e6dc]/60 italic pt-1.5">
                   Certification conforms to 2026 Space Apps Space Agency Partner Planetary Standards.
                 </div>
               </div>
@@ -558,19 +556,19 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
 
             {/* Warnings and Hard Errors */}
             {metrics.hardErrors.length > 0 && (
-              <div className="mt-2 p-2 bg-[#c4452d]/20 border border-[#c4452d] rounded text-xs font-mono text-[#c4452d] leading-relaxed">
-                ❌ {metrics.hardErrors[0]}
+              <div className="mt-2 p-3 bg-[#f0562b]/20 border border-[#f0562b] rounded text-xs text-[#f0562b] leading-relaxed">
+                ✕ {metrics.hardErrors[0]}
               </div>
             )}
             {metrics.hardErrors.length === 0 && metrics.warnings.length > 0 && (
-              <div className="mt-2 p-2 bg-[#e39b12]/15 border border-[#e39b12]/40 rounded text-xs font-mono text-[#e39b12] leading-relaxed">
-                ⚠️ {metrics.warnings[0]}
+              <div className="mt-2 p-3 bg-[#f0562b]/15 border border-[#f0562b]/40 rounded text-xs text-[#f0562b] leading-relaxed">
+                ⚠ {metrics.warnings[0]}
               </div>
             )}
           </div>
 
           {/* Launch Button */}
-          <div className="pt-2">
+          <div className="pt-3">
             <button
               onClick={() => {
                 if (metrics.isLaunchLegal) {
@@ -580,27 +578,27 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
               }}
               onMouseEnter={() => metrics.isLaunchLegal && sound.playHoverBlip()}
               disabled={!metrics.isLaunchLegal}
-              className={`sensory-btn w-full py-3 rounded font-mono font-bold uppercase tracking-wider text-sm md:text-base transition-all shadow-md ${
+              className={`sensory-btn w-full py-5 rounded tracking-wide text-sm md:text-base transition-all shadow-md ${
                 metrics.isLaunchLegal
-                  ? 'bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] cursor-pointer'
-                  : 'bg-[#100e0c] text-[#efe6d6]/30 border border-[#efe6d6]/20 cursor-not-allowed'
+                  ? 'bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] cursor-pointer'
+                  : 'bg-[#0a0c10] text-[#e9e6dc]/30 border border-[#e9e6dc]/20 cursor-not-allowed'
               }`}
             >
-              {metrics.isLaunchLegal ? '🚀 Launch Mission (Spends 900 m/s)' : '⚠️ Resolve Hard Errors To Launch'}
+              {metrics.isLaunchLegal ? 'Launch Mission (Spends 900 m/s)' : '⚠ Resolve Hard Errors To Launch'}
             </button>
           </div>
         </div>
       </div>
 
       {/* Bottom Row: Optional Parts Palette with Category Filtering */}
-      <div className="border-t border-[#efe6d6]/20 pt-2.5">
-        <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xs md:text-sm font-mono uppercase tracking-widest text-[#e39b12] font-bold">
+      <div className="border-t border-[#e9e6dc]/20 pt-4">
+        <div className="flex flex-wrap justify-between items-center mb-2 gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-xs md:text-sm uppercase tracking-widest text-[#f0562b] font-bold">
               2. Modular Parts Catalog:
             </span>
             {/* Category Filter Tabs */}
-            <div className="flex gap-1 font-mono text-xs">
+            <div className="flex gap-1.5 text-xs">
               {(
                 [
                   { id: 'all', label: 'All Parts' },
@@ -615,10 +613,10 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                     sound.playUiClick();
                     setActiveCategory(cat.id);
                   }}
-                  className={`px-2 py-0.5 rounded text-[11px] transition-colors ${
+                  className={`px-3 py-0.5 rounded text-xs transition-colors ${
                     activeCategory === cat.id
-                      ? 'bg-[#efe6d6] text-[#100e0c] font-bold'
-                      : 'text-[#efe6d6]/60 hover:text-[#efe6d6]'
+                      ? 'bg-[#e9e6dc] text-[#0a0c10] font-bold'
+                      : 'text-[#e9e6dc]/60 hover:text-[#e9e6dc]'
                   }`}
                 >
                   {cat.label}
@@ -626,12 +624,12 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
               ))}
             </div>
           </div>
-          <span className="text-xs font-mono text-[#efe6d6]/60 hidden sm:inline">
+          <span className="text-xs text-[#e9e6dc]/60 hidden sm:inline">
             Patched-conic teaching table, not a GMAT run.
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {filteredParts.map((part) => {
             const currentCount = design.parts[part.id] || 0;
             const max = part.maxCount || 1;
@@ -644,34 +642,34 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 onDragStart={(e) => handleDragStart(e, part.id)}
                 onClick={() => addPart(part.id)}
                 onMouseEnter={() => !isMaxed && sound.playHoverBlip()}
-                className={`sensory-btn bg-[#1a1714] border p-2.5 rounded cursor-pointer transition-all flex flex-col justify-between hover:border-[#e39b12] ${
-                  currentCount > 0 ? 'border-[#e39b12]/80 bg-[#1a1714]' : 'border-[#efe6d6]/25'
+                className={`sensory-btn bg-[#12151b] border p-4 rounded cursor-pointer transition-all flex flex-col justify-between hover:border-[#f0562b] ${
+                  currentCount > 0 ? 'border-[#f0562b]/80 bg-[#12151b]' : 'border-[#e9e6dc]/25'
                 }`}
                 title={`Click or drag onto ship to add ${part.name}`}
               >
                 <div>
                   <div className="flex justify-between items-start mb-1">
-                    <span className="font-serif font-bold text-xs md:text-sm text-[#efe6d6] leading-snug">
+                    <span className="font-serif text-xs md:text-sm text-[#e9e6dc] leading-snug">
                       {part.name}
                     </span>
                     <span
-                      className={`text-xs font-mono px-1.5 py-0.5 rounded ${
-                        currentCount > 0 ? 'bg-[#e39b12] text-[#100e0c] font-bold' : 'text-[#efe6d6]/50'
+                      className={`text-xs px-2 py-0.5 rounded ${
+                        currentCount > 0 ? 'bg-[#f0562b] text-[#0a0c10] font-bold' : 'text-[#e9e6dc]/50'
                       }`}
                     >
                       {currentCount}/{max}
                     </span>
                   </div>
-                  <div className="text-xs font-mono text-[#e39b12] mb-1.5">
+                  <div className="text-xs text-[#f0562b] mb-1.5">
                     {part.mass}kg • {part.cost}c {part.powerDraw > 0 ? `• ${part.powerDraw}W` : ''}
                   </div>
-                  <p className="text-xs font-sans text-[#efe6d6]/80 leading-relaxed">
+                  <p className="text-xs font-sans text-[#e9e6dc]/80 leading-relaxed">
                     {part.description}
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center mt-2 pt-1.5 border-t border-[#efe6d6]/10">
-                  <span className="text-xs font-mono text-[#efe6d6]/50">
+                <div className="flex justify-between items-center mt-2 pt-2 border-t border-[#e9e6dc]/10">
+                  <span className="text-xs text-[#e9e6dc]/50">
                     {isMaxed ? 'Max Cap' : '+ Add'}
                   </span>
                   {currentCount > 0 && (
@@ -680,7 +678,7 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                         e.stopPropagation();
                         removePart(part.id);
                       }}
-                      className="text-xs font-mono text-[#c4452d] hover:underline font-bold"
+                      className="text-xs text-[#f0562b] hover:underline font-bold"
                     >
                       Remove
                     </button>

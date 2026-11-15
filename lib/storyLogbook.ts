@@ -126,7 +126,7 @@ export const MISSION_LOGBOOK: Record<number, LogbookEntry> = {
     specialistJournal:
       "When New Horizons flew past Pluto in 2015, humankind expected a dead, cratered ball of dirty ice. Instead, we found young mountains of water ice as steep as the Rockies, and Tombaugh Regio—a vast, convecting glacier of frozen nitrogen shaped uncannily like a heart. Heart’s voice in our comms was playful, almost tender. She reminded us of the central tenet of planetary science: 'A photograph is not a soil sample.' You can look at starlight forever, but until a drill touches the rock and a spectrometer tastes the vapor, you only have pictures, not proof.",
     noriLog:
-      "*warm melodic trill* [Target locked: Tombaugh Regio ❤️. Nitrogen ice convection cells mapped. Cthulhu Macula bypassed. Calibration check: The sample drill and mass spectrometer are verified for Harbor touchdown. Photographs build dreams; drills build archives.]",
+      "*warm melodic trill* [Target locked: Tombaugh Regio ♥. Nitrogen ice convection cells mapped. Cthulhu Macula bypassed. Calibration check: The sample drill and mass spectrometer are verified for Harbor touchdown. Photographs build dreams; drills build archives.]",
     historicalContext:
       "NASA’s New Horizons arrived at Pluto in July 2015 after a 9.5-year voyage, revealing active cryo-geology, nitrogen glaciers, and a complex atmosphere at nearly 40 AU.",
   },

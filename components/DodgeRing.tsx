@@ -134,12 +134,12 @@ export function DodgeRing({
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 p-4 select-none">
       <div
-        className={`flex flex-col md:flex-row items-center gap-6 bg-[#100e0c]/90 border-2 rounded-lg p-5 shadow-2xl pointer-events-auto transition-all ${
+        className={`flex flex-col md:flex-row items-center gap-6 bg-[#0a0c10]/90 border rounded-lg p-5 shadow-2xl pointer-events-auto transition-all ${
           resolved === 'miss'
-            ? 'animate-shake border-[#c4452d] bg-[#c4452d]/10'
+            ? 'animate-shake border-[#f0562b] bg-[#f0562b]/10'
             : resolved === 'success'
-            ? 'border-[#5bc0be] bg-[#5bc0be]/10'
-            : 'border-[#e39b12]'
+            ? 'border-[#e9e6dc] bg-[#e9e6dc]/10'
+            : 'border-[#f0562b]'
         }`}
       >
         {/* Ring Stage */}
@@ -152,21 +152,21 @@ export function DodgeRing({
           <div className="relative w-40 h-40">
             <svg viewBox="0 0 160 160" className="w-full h-full">
               {/* Outer boundary circle */}
-              <circle cx={cx} cy={cy} r={r} fill="none" stroke="#2a2520" strokeWidth="12" />
+              <circle cx={cx} cy={cy} r={r} fill="none" stroke="#1b1f26" strokeWidth="12" />
 
               {/* Amber Target Arc (208° to 278°) */}
               <path
                 d={arcPath}
                 fill="none"
-                stroke="#e39b12"
+                stroke="#f0562b"
                 strokeWidth="12"
                 strokeLinecap="round"
                 className="transition-colors"
               />
 
               {/* Target zone indicator tick marks */}
-              <circle cx={startPt.x} cy={startPt.y} r="2" fill="#efe6d6" />
-              <circle cx={endPt.x} cy={endPt.y} r="2" fill="#efe6d6" />
+              <circle cx={startPt.x} cy={startPt.y} r="2" fill="#e9e6dc" />
+              <circle cx={endPt.x} cy={endPt.y} r="2" fill="#e9e6dc" />
 
               {/* Sweeping Needle (White mark sweeps) */}
               <line
@@ -174,27 +174,27 @@ export function DodgeRing({
                 y1={cy}
                 x2={needlePt.x}
                 y2={needlePt.y}
-                stroke={resolved === 'success' ? '#5bc0be' : resolved === 'miss' ? '#c4452d' : '#efe6d6'}
+                stroke={resolved === 'success' ? '#e9e6dc' : resolved === 'miss' ? '#f0562b' : '#e9e6dc'}
                 strokeWidth="3.5"
                 strokeLinecap="round"
               />
               <circle cx={needlePt.x} cy={needlePt.y} r="4" fill="#ffffff" />
 
               {/* Hub */}
-              <circle cx={cx} cy={cy} r="6" fill="#1a1714" stroke="#e39b12" strokeWidth="2" />
+              <circle cx={cx} cy={cy} r="6" fill="#12151b" stroke="#f0562b" strokeWidth="2" />
             </svg>
 
             {/* Resolved overlay effect */}
             {resolved === 'success' && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-mono text-xs font-bold text-[#5bc0be] bg-[#100e0c] px-2 py-0.5 rounded border border-[#5bc0be]">
+                <span className="text-xs font-bold text-[#e9e6dc] bg-[#0a0c10] px-2 py-0.5 rounded border border-[#e9e6dc]">
                   EVADED!
                 </span>
               </div>
             )}
             {resolved === 'miss' && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-mono text-xs font-bold text-[#c4452d] bg-[#100e0c] px-2 py-0.5 rounded border border-[#c4452d]">
+                <span className="text-xs font-bold text-[#f0562b] bg-[#0a0c10] px-2 py-0.5 rounded border border-[#f0562b]">
                   HULL HIT!
                 </span>
               </div>
@@ -203,27 +203,27 @@ export function DodgeRing({
 
           {/* The label sits UNDER the ring, not on it */}
           <div className="text-center mt-3">
-            <div className="text-sm font-mono font-bold text-[#e39b12] uppercase tracking-wider">
+            <div className="text-sm font-bold text-[#f0562b] uppercase tracking-wider">
               Collision Avoidance Lock
             </div>
-            <div className="text-xs font-mono text-[#efe6d6]/80 mt-1">
-              Click or press <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/40 rounded text-[#efe6d6] font-bold">Space</kbd> / <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/40 rounded text-[#efe6d6] font-bold">Enter</kbd>
+            <div className="text-xs text-[#e9e6dc]/80 mt-1">
+              Click or press <kbd className="px-1.5 py-0.5 bg-[#12151b] border border-[#e9e6dc]/40 rounded text-[#e9e6dc] font-bold">Space</kbd> / <kbd className="px-1.5 py-0.5 bg-[#12151b] border border-[#e9e6dc]/40 rounded text-[#e9e6dc] font-bold">Enter</kbd>
             </div>
           </div>
         </div>
 
         {/* Real Near-Earth Object Card from NASA NeoWs */}
-        <div className="w-72 md:w-80 bg-[#1a1714] border border-[#efe6d6]/30 p-4 rounded-lg text-left font-sans shadow-lg">
-          <div className="flex justify-between items-center border-b border-[#efe6d6]/15 pb-2 mb-2.5">
-            <span className="text-xs font-mono uppercase text-[#e39b12] font-bold tracking-wider">
+        <div className="w-72 md:w-80 bg-[#12151b] border border-[#e9e6dc]/30 p-4 rounded-lg text-left font-sans shadow-lg">
+          <div className="flex justify-between items-center border-b border-[#e9e6dc]/15 pb-2 mb-2.5">
+            <span className="text-xs uppercase text-[#f0562b] font-bold tracking-wider">
               Radar Return [{dodgeIndex + 1}/{totalDodges}]
             </span>
             {isSnapshot ? (
-              <span className="text-xs font-mono text-[#e39b12] bg-[#e39b12]/15 px-2 py-0.5 rounded border border-[#e39b12]/30">
+              <span className="text-xs text-[#f0562b] bg-[#f0562b]/15 px-2 py-0.5 rounded border border-[#f0562b]/30">
                 15 Nov 2026 Snapshot
               </span>
             ) : (
-              <span className="text-xs font-mono text-[#5bc0be] bg-[#5bc0be]/15 px-2 py-0.5 rounded border border-[#5bc0be]/30">
+              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/15 px-2 py-0.5 rounded border border-[#e9e6dc]/30">
                 NASA NeoWs Live
               </span>
             )}
@@ -231,22 +231,22 @@ export function DodgeRing({
 
           {neoData ? (
             <div className="space-y-2 text-xs md:text-sm">
-              <div className="font-serif font-bold text-base md:text-lg text-[#efe6d6] truncate">
+              <div className="font-serif text-base md:text-lg text-[#e9e6dc] truncate">
                 {neoData.name}
               </div>
-              <div className="flex justify-between text-[#efe6d6]/90 font-mono py-0.5">
+              <div className="flex justify-between text-[#e9e6dc]/90 py-0.5">
                 <span>Est. Diameter:</span>
-                <span className="font-bold text-[#efe6d6]">{neoData.estimatedDiameterMeters} m</span>
+                <span className="font-bold text-[#e9e6dc]">{neoData.estimatedDiameterMeters} m</span>
               </div>
-              <div className="flex justify-between text-[#efe6d6]/90 font-mono py-0.5">
+              <div className="flex justify-between text-[#e9e6dc]/90 py-0.5">
                 <span>Velocity:</span>
-                <span className="font-bold text-[#efe6d6]">{neoData.relativeVelocityKps} km/s</span>
+                <span className="font-bold text-[#e9e6dc]">{neoData.relativeVelocityKps} km/s</span>
               </div>
-              <div className="flex justify-between text-[#efe6d6]/90 font-mono py-0.5">
+              <div className="flex justify-between text-[#e9e6dc]/90 py-0.5">
                 <span>Hazard Flag:</span>
                 <span
                   className={`font-bold uppercase ${
-                    neoData.isPotentiallyHazardous ? 'text-[#c4452d]' : 'text-[#5bc0be]'
+                    neoData.isPotentiallyHazardous ? 'text-[#f0562b]' : 'text-[#e9e6dc]'
                   }`}
                 >
                   {neoData.isPotentiallyHazardous ? 'Hazardous' : 'Non-Hazardous'}
@@ -254,12 +254,12 @@ export function DodgeRing({
               </div>
             </div>
           ) : (
-            <div className="text-xs md:text-sm text-[#efe6d6]/60 py-4 text-center font-mono">
+            <div className="text-xs md:text-sm text-[#e9e6dc]/60 py-4 text-center ">
               Interpreting radar echoes...
             </div>
           )}
 
-          <div className="mt-3 pt-2 border-t border-[#efe6d6]/15 text-xs text-[#efe6d6]/70 italic leading-relaxed">
+          <div className="mt-3 pt-2 border-t border-[#e9e6dc]/15 text-xs text-[#e9e6dc]/70 italic leading-relaxed">
             A missed dodge spends 1 hull heart. Retries on stop gates are free.
           </div>
         </div>

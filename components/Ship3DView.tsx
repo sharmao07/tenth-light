@@ -32,7 +32,7 @@ export function Ship3DView({
     const height = container.clientHeight || 300;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x100e0c);
+    scene.background = new THREE.Color(0x0a0c10);
 
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
     if (cruiseMode) {
@@ -48,14 +48,14 @@ export function Ship3DView({
     container.appendChild(renderer.domElement);
 
     // Lighting
-    const ambient = new THREE.AmbientLight(0xefe6d6, 0.9);
+    const ambient = new THREE.AmbientLight(0xe9e6dc, 0.9);
     scene.add(ambient);
 
-    const dirLight = new THREE.DirectionalLight(0xfff8ee, 1.8);
+    const dirLight = new THREE.DirectionalLight(0xfdfaf2, 1.8);
     dirLight.position.set(5, 10, 7);
     scene.add(dirLight);
 
-    const rimLight = new THREE.DirectionalLight(0xe39b12, 0.6);
+    const rimLight = new THREE.DirectionalLight(0xf0562b, 0.6);
     rimLight.position.set(-6, -4, -4);
     scene.add(rimLight);
 
@@ -66,10 +66,10 @@ export function Ship3DView({
     // Build the ship stack:
     // Engine at bottom (y = 0), then tanks, then capsule, antenna on top
     const darkMetal = new THREE.MeshStandardMaterial({ color: 0x332f2b, roughness: 0.6, metalness: 0.7 });
-    const whiteHull = new THREE.MeshStandardMaterial({ color: 0xefe6d6, roughness: 0.4, metalness: 0.1 });
-    const amberAccent = new THREE.MeshStandardMaterial({ color: 0xe39b12, roughness: 0.3, metalness: 0.4 });
+    const whiteHull = new THREE.MeshStandardMaterial({ color: 0xe9e6dc, roughness: 0.4, metalness: 0.1 });
+    const amberAccent = new THREE.MeshStandardMaterial({ color: 0xf0562b, roughness: 0.3, metalness: 0.4 });
     const solarMaterial = new THREE.MeshStandardMaterial({ color: 0x1d3557, roughness: 0.2, metalness: 0.8 });
-    const engineExhaustMat = new THREE.MeshBasicMaterial({ color: 0xe39b12, transparent: true, opacity: 0.8 });
+    const engineExhaustMat = new THREE.MeshBasicMaterial({ color: 0xf0562b, transparent: true, opacity: 0.8 });
 
     // 1. Engine
     const engineBellGeom = new THREE.ConeGeometry(0.5, 0.7, 16, 1, true);
@@ -101,7 +101,7 @@ export function Ship3DView({
     for (let i = 0; i < tankCount; i++) {
       const tankGeom = new THREE.CylinderGeometry(tankRadius, tankRadius, tankHeight - 0.05, 16);
       const tankMat = new THREE.MeshStandardMaterial({
-        color: i % 2 === 0 ? 0xbdb2a1 : 0xd8cebf,
+        color: i % 2 === 0 ? 0xa9aeb6 : 0xc9c6bc,
         roughness: 0.5,
         metalness: 0.3,
       });
@@ -128,7 +128,7 @@ export function Ship3DView({
 
     // Visor / cockpit window
     const windowGeom = new THREE.BoxGeometry(0.2, 0.12, 0.2);
-    const windowMat = new THREE.MeshBasicMaterial({ color: 0xe39b12 });
+    const windowMat = new THREE.MeshBasicMaterial({ color: 0xf0562b });
     const win = new THREE.Mesh(windowGeom, windowMat);
     win.position.set(0, currentY + capsuleHeight * 0.6, 0.42);
     shipGroup.add(win);
@@ -178,7 +178,7 @@ export function Ship3DView({
       // Red hazard band
       const bandGeom = new THREE.TorusGeometry(0.19, 0.02, 8, 12);
       bandGeom.rotateX(Math.PI / 2);
-      const band = new THREE.Mesh(bandGeom, new THREE.MeshBasicMaterial({ color: 0xc4452d }));
+      const band = new THREE.Mesh(bandGeom, new THREE.MeshBasicMaterial({ color: 0xf0562b }));
       band.position.set(0, radialY, -0.65);
       shipGroup.add(band);
 
@@ -225,7 +225,7 @@ export function Ship3DView({
 
       // Core auger bit tip
       const bitGeom = new THREE.CylinderGeometry(0.02, 0.05, 0.22, 6);
-      const bit = new THREE.Mesh(bitGeom, new THREE.MeshStandardMaterial({ color: 0x918574, metalness: 0.9, roughness: 0.2 }));
+      const bit = new THREE.Mesh(bitGeom, new THREE.MeshStandardMaterial({ color: 0x8a919b, metalness: 0.9, roughness: 0.2 }));
       bit.position.set(-0.68, radialY - 0.42, 0.42);
       bit.rotation.z = Math.PI / 6;
       shipGroup.add(bit);
@@ -242,7 +242,7 @@ export function Ship3DView({
 
       // Aperture lens glint (antireflective coated glass)
       const lensGeom = new THREE.CircleGeometry(0.07, 12);
-      const lensMat = new THREE.MeshBasicMaterial({ color: 0x5bc0be });
+      const lensMat = new THREE.MeshBasicMaterial({ color: 0xe9e6dc });
       const lens = new THREE.Mesh(lensGeom, lensMat);
       lens.position.set(0, radialY + 0.25, 0.68);
       shipGroup.add(lens);
@@ -256,12 +256,12 @@ export function Ship3DView({
       // Yellow/Black checkered Center of Mass sphere
       const comGroup = new THREE.Group();
       const comGeom = new THREE.SphereGeometry(0.16, 16, 16);
-      const comMat = new THREE.MeshBasicMaterial({ color: 0xe39b12, wireframe: true });
+      const comMat = new THREE.MeshBasicMaterial({ color: 0xf0562b, wireframe: true });
       const comSphere = new THREE.Mesh(comGeom, comMat);
       comGroup.add(comSphere);
 
       const comCoreGeom = new THREE.SphereGeometry(0.08, 8, 8);
-      const comCore = new THREE.Mesh(comCoreGeom, new THREE.MeshBasicMaterial({ color: 0x100e0c }));
+      const comCore = new THREE.Mesh(comCoreGeom, new THREE.MeshBasicMaterial({ color: 0x0a0c10 }));
       comGroup.add(comCore);
 
       // Estimated center of mass: weighted towards heavy tanks and engine
@@ -286,14 +286,14 @@ export function Ship3DView({
       // Cyan Center of Lift / Aerodynamic ring around capsule
       const colGeom = new THREE.TorusGeometry(0.48, 0.02, 8, 24);
       colGeom.rotateX(Math.PI / 2);
-      const colMesh = new THREE.Mesh(colGeom, new THREE.MeshBasicMaterial({ color: 0x5bc0be }));
+      const colMesh = new THREE.Mesh(colGeom, new THREE.MeshBasicMaterial({ color: 0xe9e6dc }));
       colMesh.position.set(0, currentY - 0.45, 0);
       shipGroup.add(colMesh);
     }
 
     // VAB Floor Grid and Launch Clamps when in Hangar
     if (!cruiseMode) {
-      const grid = new THREE.GridHelper(12, 24, 0xe39b12, 0x2e2820);
+      const grid = new THREE.GridHelper(12, 24, 0xf0562b, 0x2e2820);
       grid.position.y = -currentY / 2;
       scene.add(grid);
 
@@ -327,7 +327,7 @@ export function Ship3DView({
         starPositions[i + 2] = (Math.random() - 0.5) * 40;
       }
       starGeom.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-      const starMat = new THREE.PointsMaterial({ color: 0xefe6d6, size: 0.12, transparent: true, opacity: 0.8 });
+      const starMat = new THREE.PointsMaterial({ color: 0xe9e6dc, size: 0.12, transparent: true, opacity: 0.8 });
       stars = new THREE.Points(starGeom, starMat);
       scene.add(stars);
     }
@@ -370,7 +370,7 @@ export function Ship3DView({
 
     // Animation loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -432,7 +432,7 @@ export function Ship3DView({
       }
       renderer.dispose();
     };
-  }, [design, cruiseMode, interactive]);
+  }, [design, cruiseMode, interactive, showCoL, showCoM, showCoT]);
 
   return (
     <div

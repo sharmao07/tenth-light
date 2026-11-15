@@ -115,16 +115,16 @@ const GATE_CLEARANCE_DATA: Record<number, ClearanceInfo> = {
   },
   8: {
     title: 'Tombaugh Regio Feature Identification',
-    destination: 'Stop 8 • Pluto (Keeper: Heart ❤️)',
+    destination: 'Stop 8 • Pluto (Keeper: Heart ♥)',
     distance: '39.5 AU',
     objective: 'Identify the iconic nitrogen-ice heart feature discovered by NASA’s New Horizons.',
     steps: [
       'Examine the New Horizons flyby photograph of dwarf planet Pluto.',
       'Locate Tombaugh Regio, the bright heart-shaped nitrogen ice plain.',
-      'Click the heart region ❤️. Do not select the dark equatorial tholin plains (Cthulhu Macula).',
+      'Click the heart region ♥. Do not select the dark equatorial tholin plains (Cthulhu Macula).',
     ],
-    controls: 'Click on the bright heart-shaped plain (Tombaugh Regio ❤️)',
-    notes: '“A photograph is not a soil sample.” The heart emoji ❤️ is the official speaker portrait and map icon.',
+    controls: 'Click on the bright heart-shaped plain (Tombaugh Regio ♥)',
+    notes: '“A photograph is not a soil sample.” The heart emoji ♥ is the official speaker portrait and map icon.',
   },
   9: {
     title: 'Interstellar Science Return Sequence',
@@ -180,52 +180,52 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
   if (!isOpen || !info) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#100e0c]/85 flex items-center justify-center p-4 backdrop-blur-none animate-fadeIn select-none">
-      <div className="w-full max-w-xl bg-[#1a1714] border-2 border-[#e39b12] rounded-lg shadow-2xl overflow-hidden text-[#efe6d6] flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 bg-[#0a0c10]/85 flex items-center justify-center p-6 backdrop-blur-none animate-fadeIn select-none">
+      <div className="w-full max-w-xl bg-[#12151b] border border-[#f0562b] rounded-lg shadow-2xl overflow-hidden text-[#e9e6dc] flex flex-col max-h-[90vh]">
         {/* Terminal Chrome Header */}
-        <div className="bg-[#100e0c] border-b border-[#e39b12]/40 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#e39b12]" />
-            <span className="font-mono text-xs uppercase tracking-widest text-[#e39b12] font-bold">
+        <div className="bg-[#0a0c10] border-b border-[#f0562b]/40 px-6 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#f0562b]" />
+            <span className="text-xs uppercase tracking-widest text-[#f0562b] font-bold">
               GATE CLEARANCE DIRECTIVE // PROTOCOL #{stopIndex}
             </span>
           </div>
-          <span className="font-mono text-xs text-[#efe6d6]/60">
+          <span className="text-xs text-[#e9e6dc]/60">
             [ESC / SPACE / ENTER TO DISMISS]
           </span>
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 md:p-6 space-y-4 overflow-y-auto font-sans leading-relaxed text-sm">
+        <div className="p-8 md:p-10 space-y-6 overflow-y-auto font-sans leading-relaxed text-sm">
           {/* Destination & Title */}
           <div>
-            <div className="font-mono text-xs text-[#5bc0be] uppercase tracking-wider font-bold">
+            <div className="text-xs text-[#e9e6dc] uppercase tracking-wider font-bold">
               {info.destination}
             </div>
-            <h2 className="font-serif text-2xl font-bold text-[#efe6d6] mt-0.5">
+            <h2 className="font-serif text-2xl text-[#e9e6dc] mt-0.5">
               {info.title}
             </h2>
-            <div className="font-mono text-xs text-[#efe6d6]/70 mt-1">
-              Mission Distance: <span className="text-[#e39b12]">{info.distance}</span>
+            <div className="text-xs text-[#e9e6dc]/70 mt-1">
+              Mission Distance: <span className="text-[#f0562b]">{info.distance}</span>
             </div>
           </div>
 
           {/* Objective Box */}
-          <div className="bg-[#100e0c] border border-[#e39b12]/30 p-3.5 rounded">
-            <span className="font-mono text-xs uppercase tracking-wider text-[#e39b12] font-bold block mb-1">
+          <div className="bg-[#0a0c10] border border-[#f0562b]/30 p-5 rounded">
+            <span className="text-xs uppercase tracking-wider text-[#f0562b] font-bold block mb-1">
               Primary Objective:
             </span>
-            <p className="text-sm text-[#efe6d6] font-medium">
+            <p className="text-sm text-[#e9e6dc] font-medium">
               {info.objective}
             </p>
           </div>
 
           {/* Step-by-Step Procedure */}
           <div>
-            <span className="font-mono text-xs uppercase tracking-wider text-[#efe6d6]/70 font-bold block mb-2">
+            <span className="text-xs uppercase tracking-wider text-[#e9e6dc]/70 font-bold block mb-2">
               Clearance Sequence:
             </span>
-            <ol className="space-y-1.5 list-decimal list-inside text-xs md:text-sm text-[#efe6d6]/90 pl-1">
+            <ol className="space-y-2 list-decimal list-inside text-xs md:text-sm text-[#e9e6dc]/90 pl-1.5">
               {info.steps.map((step, idx) => (
                 <li key={idx} className="leading-relaxed">
                   <span className="font-sans">{step}</span>
@@ -235,23 +235,23 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
           </div>
 
           {/* Controls Bar */}
-          <div className="bg-[#100e0c] border border-[#efe6d6]/20 p-3 rounded font-mono text-xs">
-            <span className="text-[#5bc0be] font-bold block mb-1 uppercase tracking-wider">
+          <div className="bg-[#0a0c10] border border-[#e9e6dc]/20 p-5 rounded text-xs">
+            <span className="text-[#e9e6dc] font-bold block mb-1 uppercase tracking-wider">
               Input Controls:
             </span>
-            <span className="text-[#efe6d6]/90">{info.controls}</span>
+            <span className="text-[#e9e6dc]/90">{info.controls}</span>
           </div>
 
           {/* Technical Note */}
-          <div className="text-xs font-mono text-[#efe6d6]/70 italic border-l-2 border-[#5bc0be] pl-3 py-0.5">
+          <div className="text-xs text-[#e9e6dc]/70 italic border-l-2 border-[#e9e6dc] pl-5 py-0.5">
             Note: {info.notes}
           </div>
         </div>
 
         {/* Modal Action Footer */}
-        <div className="bg-[#100e0c] border-t border-[#efe6d6]/20 px-5 py-3.5 flex items-center justify-between gap-3">
-          <div className="text-xs font-mono text-[#efe6d6]/60 hidden sm:block">
-            Press <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded text-[#e39b12]">Space</kbd> to begin
+        <div className="bg-[#0a0c10] border-t border-[#e9e6dc]/20 px-8 py-5 flex items-center justify-between gap-5">
+          <div className="text-xs text-[#e9e6dc]/60 hidden sm:block">
+            Press <kbd className="px-2 py-0.5 bg-[#12151b] border border-[#e9e6dc]/30 rounded text-[#f0562b]">Space</kbd> to begin
           </div>
           <button
             onClick={() => {
@@ -259,7 +259,7 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
               onClose();
             }}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn w-full sm:w-auto px-6 py-2.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono text-xs md:text-sm uppercase tracking-wider font-bold rounded transition-colors shadow"
+            className="sensory-btn w-full sm:w-auto px-10 py-4 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] text-xs md:text-sm tracking-wide rounded transition-colors shadow"
           >
             Acknowledge & Engage Protocol ▶
           </button>

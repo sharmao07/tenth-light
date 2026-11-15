@@ -100,18 +100,18 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
   };
 
   return (
-    <div className="bg-[#1a1714]/95 border-2 border-[#e39b12] p-5 rounded-lg max-w-2xl mx-auto text-[#efe6d6] shadow-2xl select-none">
+    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
       {/* One-line how-to */}
-      <div className="bg-[#100e0c] px-4 py-2.5 rounded border border-[#e39b12]/50 text-sm font-mono text-[#e39b12] mb-4 text-center leading-relaxed">
+      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
         HOW-TO: Adjust the high-gain dish azimuth to match Earth’s position within 14 degrees.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
         {/* NASA Image Plate */}
-        <div className="bg-[#100e0c] p-2.5 border border-[#efe6d6]/20 rounded-lg flex flex-col items-center">
-          <div className="w-full h-40 relative overflow-hidden rounded bg-[#1a1714] flex items-center justify-center">
+        <div className="bg-[#0a0c10] p-4 border border-[#e9e6dc]/20 rounded-lg flex flex-col items-center">
+          <div className="w-full h-40 relative overflow-hidden rounded bg-[#12151b] flex items-center justify-center">
             {imageState.status === 'loading' ? (
-              <div className="text-sm font-mono text-[#efe6d6]/60 animate-pulse">
+              <div className="text-sm text-[#e9e6dc]/60 animate-pulse">
                 Loading NASA Moon plate...
               </div>
             ) : (
@@ -130,40 +130,40 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
               />
             )}
           </div>
-          <div className="w-full mt-2 text-xs font-mono text-[#efe6d6]/80 text-left leading-relaxed">
-            <span className="text-[#e39b12] font-bold block">{imageState.credit}</span>
+          <div className="w-full mt-2 text-xs text-[#e9e6dc]/80 text-left leading-relaxed">
+            <span className="text-[#f0562b] font-bold block">{imageState.credit}</span>
             <div className="truncate">{imageState.caption}</div>
           </div>
         </div>
 
         {/* Horizons Telemetry & Controls */}
-        <div className="space-y-3.5 font-sans">
-          <div className="border-b border-[#efe6d6]/15 pb-2">
-            <div className="flex justify-between items-center text-xs md:text-sm font-mono text-[#e39b12] font-bold">
+        <div className="space-y-5 font-sans">
+          <div className="border-b border-[#e9e6dc]/15 pb-3">
+            <div className="flex justify-between items-center text-xs md:text-sm text-[#f0562b] font-bold">
               <span>JPL Horizons Ephemeris</span>
               {isSnapshot ? (
-                <span className="text-xs bg-[#e39b12]/20 px-2 py-0.5 rounded text-[#e39b12]">
+                <span className="text-xs bg-[#f0562b]/20 px-3 py-0.5 rounded text-[#f0562b]">
                   15 Nov 2026 Snapshot
                 </span>
               ) : (
-                <span className="text-xs bg-[#5bc0be]/20 px-2 py-0.5 rounded text-[#5bc0be]">
+                <span className="text-xs bg-[#e9e6dc]/20 px-3 py-0.5 rounded text-[#e9e6dc]">
                   Live Query
                 </span>
               )}
             </div>
-            <div className="text-xs text-[#efe6d6]/80 mt-1.5 font-mono leading-relaxed">
+            <div className="text-xs text-[#e9e6dc]/80 mt-1.5 leading-relaxed">
               COMMAND: 399 (Earth) | CENTER: coord@301
             </div>
-            <div className="text-sm text-[#efe6d6] font-mono mt-1 leading-relaxed">
-              Earth Azimuth: <span className="font-bold text-[#e39b12]">{horizonsData.azimuthDeg}°</span> |
-              Elevation: <span className="font-bold text-[#e39b12]">{horizonsData.elevationDeg}°</span>
+            <div className="text-sm text-[#e9e6dc] mt-1 leading-relaxed">
+              Earth Azimuth: <span className="font-bold text-[#f0562b]">{horizonsData.azimuthDeg}°</span> |
+              Elevation: <span className="font-bold text-[#f0562b]">{horizonsData.elevationDeg}°</span>
             </div>
           </div>
 
           <div>
-            <div className="flex justify-between text-xs md:text-sm font-mono mb-1.5">
+            <div className="flex justify-between text-xs md:text-sm mb-1.5">
               <span>Dish Aim Azimuth:</span>
-              <span className="font-bold text-[#efe6d6]">{userAzimuth}°</span>
+              <span className="font-bold text-[#e9e6dc]">{userAzimuth}°</span>
             </div>
             <input
               type="range"
@@ -171,9 +171,9 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
               max="359"
               value={userAzimuth}
               onChange={(e) => setUserAzimuth(parseInt(e.target.value))}
-              className="w-full accent-[#e39b12] cursor-pointer"
+              className="w-full accent-[#f0562b] cursor-pointer"
             />
-            <div className="flex justify-between text-xs font-mono text-[#efe6d6]/50 mt-1">
+            <div className="flex justify-between text-xs text-[#e9e6dc]/50 mt-1">
               <span>0° (N)</span>
               <span>90° (E)</span>
               <span>180° (S)</span>
@@ -183,13 +183,13 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
 
           <button
             onClick={handleLockDish}
-            className="w-full py-2.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-xs md:text-sm uppercase tracking-wider rounded transition-colors shadow"
+            className="w-full py-4 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] font-bold text-xs md:text-sm uppercase tracking-wider rounded transition-colors shadow"
           >
             Transmit Telemetry Ping (Lock Dish)
           </button>
 
           {statusMsg && (
-            <div className="text-xs md:text-sm font-mono p-2 rounded bg-[#100e0c] border border-[#efe6d6]/20 leading-relaxed">
+            <div className="text-xs md:text-sm p-3 rounded bg-[#0a0c10] border border-[#e9e6dc]/20 leading-relaxed">
               {statusMsg}
             </div>
           )}

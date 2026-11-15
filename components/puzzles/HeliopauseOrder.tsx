@@ -52,16 +52,16 @@ export function HeliopauseOrder({ onSuccess }: HeliopauseOrderProps) {
   };
 
   return (
-    <div className="bg-[#1a1714]/95 border-2 border-[#e39b12] p-5 rounded-lg max-w-2xl mx-auto text-[#efe6d6] shadow-2xl select-none">
+    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
       {/* One-line how-to */}
-      <div className="bg-[#100e0c] px-4 py-2.5 rounded border border-[#e39b12]/50 text-sm font-mono text-[#e39b12] mb-4 text-center leading-relaxed">
+      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
         HOW-TO: Order return packets: 1. water & soil readings, 2. power & nav log, 3. postcard. Wrong order resets.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
         {/* NASA Voyager / Heliopause Plate */}
-        <div className="bg-[#100e0c] p-2.5 border border-[#efe6d6]/20 rounded-lg flex flex-col items-center">
-          <div className="w-full h-40 relative overflow-hidden rounded bg-[#1a1714]">
+        <div className="bg-[#0a0c10] p-4 border border-[#e9e6dc]/20 rounded-lg flex flex-col items-center">
+          <div className="w-full h-40 relative overflow-hidden rounded bg-[#12151b]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={heliopausePlate.url}
@@ -69,24 +69,24 @@ export function HeliopauseOrder({ onSuccess }: HeliopauseOrderProps) {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-full mt-2 text-xs font-mono text-[#efe6d6]/80 text-left leading-relaxed">
-            <span className="text-[#e39b12] font-bold block">{heliopausePlate.credit}</span>
+          <div className="w-full mt-2 text-xs text-[#e9e6dc]/80 text-left leading-relaxed">
+            <span className="text-[#f0562b] font-bold block">{heliopausePlate.credit}</span>
             <div className="truncate">{heliopausePlate.caption}</div>
           </div>
         </div>
 
         {/* Protocol Priority List */}
-        <div className="space-y-3 font-sans">
-          <div className="border-b border-[#efe6d6]/15 pb-2">
-            <div className="text-sm font-mono text-[#e39b12] font-bold">
+        <div className="space-y-5 font-sans">
+          <div className="border-b border-[#e9e6dc]/15 pb-3">
+            <div className="text-sm text-[#f0562b] font-bold">
               122 AU Heliopause Boundary (Simulation)
             </div>
-            <div className="text-xs md:text-sm text-[#efe6d6]/80 mt-1 leading-relaxed">
+            <div className="text-xs md:text-sm text-[#e9e6dc]/80 mt-1 leading-relaxed">
               Voyager 1 crossed in August 2012. Click packets in scientific priority order:
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             {PROTOCOL_ITEMS.map((item) => {
               const isPicked = selectedItems.includes(item.id);
               const orderIndex = selectedItems.indexOf(item.id) + 1;
@@ -95,15 +95,15 @@ export function HeliopauseOrder({ onSuccess }: HeliopauseOrderProps) {
                 <button
                   key={item.id}
                   onClick={() => handleSelectItem(item.id)}
-                  className={`w-full py-2.5 px-3.5 text-left font-mono text-xs md:text-sm border rounded-lg transition-colors flex justify-between items-center shadow-sm ${
+                  className={`w-full py-4 px-5 text-left text-xs md:text-sm border rounded-lg transition-colors flex justify-between items-center shadow-sm ${
                     isPicked
-                      ? 'bg-[#5bc0be] text-[#100e0c] border-[#5bc0be] font-bold'
-                      : 'bg-[#100e0c] hover:bg-[#e39b12] hover:text-[#100e0c] border-[#efe6d6]/30 text-[#efe6d6]'
+                      ? 'bg-[#e9e6dc] text-[#0a0c10] border-[#e9e6dc] font-bold'
+                      : 'bg-[#0a0c10] hover:bg-[#f0562b] hover:text-[#0a0c10] border-[#e9e6dc]/30 text-[#e9e6dc]'
                   }`}
                 >
                   <span className="truncate">{item.name}</span>
                   {isPicked && (
-                    <span className="text-xs font-bold bg-[#100e0c] text-[#5bc0be] px-2 py-0.5 rounded ml-2">
+                    <span className="text-xs font-bold bg-[#0a0c10] text-[#e9e6dc] px-3 py-0.5 rounded ml-2">
                       Queue #{orderIndex}
                     </span>
                   )}
@@ -113,7 +113,7 @@ export function HeliopauseOrder({ onSuccess }: HeliopauseOrderProps) {
           </div>
 
           {statusMsg && (
-            <div className="p-2.5 bg-[#100e0c] border border-[#efe6d6]/20 rounded-lg text-xs md:text-sm font-mono leading-relaxed">
+            <div className="p-4 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded-lg text-xs md:text-sm leading-relaxed">
               {statusMsg}
             </div>
           )}

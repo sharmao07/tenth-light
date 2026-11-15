@@ -1,4 +1,4 @@
-import { DialogueLine, SpeakerId } from './gameTypes';
+import { DialogueLine } from './gameTypes';
 
 export function getBriefingLines(callsign: string): DialogueLine[] {
   return [
@@ -275,7 +275,7 @@ export const STOP_DIALOGUES: Record<number, { before: DialogueLine[]; success: D
     before: [
       {
         speaker: 'heart',
-        speakerName: 'Heart (Plutonian Spirit ❤️)',
+        speakerName: 'Heart (Plutonian Spirit ♥)',
         text: 'Welcome to the Kuiper Belt! Even at the ragged fringe of starlight, a world can wear a heart of nitrogen ice. Mark my bright frozen heart, not the scorched plains.',
       },
       {
@@ -286,13 +286,13 @@ export const STOP_DIALOGUES: Record<number, { before: DialogueLine[]; success: D
       {
         speaker: 'nori',
         speakerName: 'Nori',
-        text: '*gentle chirping* [Target the heart ❤️. Remember: a photograph is not a soil sample. That is why we carry drills!]',
+        text: '*gentle chirping* [Target the heart ♥. Remember: a photograph is not a soil sample. That is why we carry drills!]',
       },
     ],
     success: [
       {
         speaker: 'heart',
-        speakerName: 'Heart (Plutonian Spirit ❤️)',
+        speakerName: 'Heart (Plutonian Spirit ♥)',
         text: 'You found my heart! May your voyage into the interstellar void carry the warmth of human curiosity.',
       },
       {
