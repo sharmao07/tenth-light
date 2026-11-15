@@ -106,8 +106,43 @@ a { color: var(--amber); }
 .life.on { background: var(--blood); border-color: var(--blood); }
 
 main { min-height: 0; overflow: hidden; }
-main > section,
-main > .fight { height: 100%; min-height: 0; overflow: hidden; }
+.screen-in {
+  height: 100%;
+  min-height: 0;
+  position: relative;
+  animation: screen-in 320ms ease-out;
+}
+.screen-in::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--amber);
+  transform-origin: left center;
+  animation: load-bar 520ms ease-out forwards;
+  z-index: 4;
+  pointer-events: none;
+}
+.screen-in > section,
+.screen-in > .fight { height: 100%; min-height: 0; overflow: hidden; }
+.line-in { animation: line-in 220ms ease-out; }
+button { transition: background 140ms ease, border-color 140ms ease, color 140ms ease; }
+.meter-fill { transition: width 280ms ease; }
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes line-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes load-bar {
+  0% { transform: scaleX(0); opacity: 1; }
+  70% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
 
 h1, h2, h3 { font-family: var(--font-serif), Georgia, serif; font-weight: 500; }
 h1 { font-size: clamp(2.7rem, 5.6vw, 4.6rem); line-height: 1.02; margin: 0; }
@@ -654,7 +689,13 @@ footer.bar details ul {
   animation: fall 3.2s linear infinite;
 }
 @keyframes fall { to { transform: translateY(100vh) rotate(160deg); } }
-@media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .confetti { display: none; }
+  .screen-in,
+  .line-in,
+  .screen-in::after { animation: none; }
+  button, .meter-fill { transition: none; }
+}
 
 .data-page {
   height: 100dvh;

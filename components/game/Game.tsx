@@ -162,6 +162,7 @@ export function Game() {
         <button type="button" onClick={toggleSound}>{muted ? "Sound" : "Mute"}</button>
       </header>
       <main>
+        <div key={sceneKey(state.phase)} className="screen-in">
         {state.phase.kind === "title" && (
           <section className="title">
             <div className="title-copy">
@@ -289,6 +290,7 @@ export function Game() {
         {state.phase.kind === "ending" && (
           <Ending kind={endingKind(state)} callsign={state.callsign} onAgain={again} />
         )}
+        </div>
         {showHint && hint && (
           <div className="hint-backdrop">
             <div className="hint" role="dialog" aria-labelledby="hint-title">
@@ -341,8 +343,10 @@ function Talk({
     <section className="talk-stage">
       {showScene && <TransitScene parts={parts} approaching={false} />}
       <div className="dialogue-dock" aria-live="polite">
-        <Portrait who={who} />
-        <div>
+        <div key={who} className="line-in">
+          <Portrait who={who} />
+        </div>
+        <div key={text} className="line-in">
           <p className="who">{name}</p>
           <p className="dialogue-copy">{text}</p>
           {children}
@@ -405,6 +409,13 @@ const HINTS: Record<string, { gate: string; how: string }> = {
     how: "You stay in the ship. Nori is the ship’s droid. Move her with the arrows. Find the key, walk her into the gate, then pick up two water nodes and two soil nodes. Step off the aliens. A touch spends a life.",
   },
 };
+
+function sceneKey(phase: GameState["phase"]): string {
+  if (phase.kind === "transit") return `transit-${phase.from}-${phase.to}`;
+  if (phase.kind === "talk") return `talk-${phase.script}`;
+  if (phase.kind === "puzzle") return `puzzle-${phase.stop}`;
+  return phase.kind;
+}
 
 function hintFor(beat: string): { gate: string; how: string } | null {
   if (beat.startsWith("dodge-")) {

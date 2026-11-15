@@ -4,7 +4,7 @@ import { HONESTY } from "@/lib/game/snapshot";
 
 export default function DataPage() {
   return (
-    <main className="data-page">
+    <main className="data-page screen-in">
       <header>
         <p className="eyebrow">Tenth Light</p>
         <h1>Data and credits</h1>
