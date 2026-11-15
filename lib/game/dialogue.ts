@@ -12,7 +12,7 @@ const NAMES: Record<Who, string> = {
   spray: "Spray",
   tilt: "Tilt",
   lag: "Lag",
-  heart: "Heart",
+  heart: "❤️",
   whisper: "Whisper",
   shore: "Shore",
   control: "Mission control",
@@ -199,7 +199,7 @@ export const SCRIPTS: Record<ScriptId, (callsign: string) => Line[]> = {
   pluto: (callsign) => [
     {
       who: "heart",
-      name: "Heart",
+      name: "❤️",
       text: "The heart is a place, not a mood. New Horizons saw it. A picture is not a soil sample.",
     },
     {

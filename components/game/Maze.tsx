@@ -66,6 +66,13 @@ export function Maze({
         <p className="eyebrow">Harbor, inside the sleeve</p>
         <h2>Nori walks. You do not.</h2>
         <p>Water {water}/2. Soil {soil}/2. The exit opens when both are in the sleeve.</p>
+        <div className="pad">
+          <button type="button" onClick={() => move(-1, 0)}>North</button>
+          <button type="button" onClick={() => move(0, -1)}>West</button>
+          <button type="button" onClick={() => move(0, 1)}>East</button>
+          <button type="button" onClick={() => move(1, 0)}>South</button>
+        </div>
+        <p className="caption">Sleeve map, {mazeSize().cols} by {mazeSize().rows}. A model, not a photograph of TOI-700 e.</p>
       </div>
       <div className="maze-stage">
         <Canvas camera={{ position: [5, 11, 12], fov: 42 }}>
@@ -123,13 +130,6 @@ export function Maze({
           </group>
         </Canvas>
       </div>
-      <div className="pad">
-        <button type="button" onClick={() => move(-1, 0)}>North</button>
-        <button type="button" onClick={() => move(0, -1)}>West</button>
-        <button type="button" onClick={() => move(0, 1)}>East</button>
-        <button type="button" onClick={() => move(1, 0)}>South</button>
-      </div>
-      <p className="caption">Sleeve map, {mazeSize().cols} by {mazeSize().rows}. Appearance is a model, not a photograph of TOI-700 e.</p>
     </div>
   );
 }

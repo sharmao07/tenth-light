@@ -93,6 +93,13 @@ const TINT: Partial<Record<Who, Record<string, string>>> = {
 };
 
 export function Portrait({ who }: { who: Who }) {
+  if (who === "heart") {
+    return (
+      <span className="heart-emoji" role="img" aria-label="Heart">
+        ❤️
+      </span>
+    );
+  }
   const rows = SPRITE[who];
   const tint = TINT[who] ?? {};
   const width = rows[0].length;

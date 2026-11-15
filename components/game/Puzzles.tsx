@@ -273,17 +273,16 @@ export function PlutoPuzzle({ onPass }: { onPass: () => void }) {
     <div className="puzzle">
       <Plate id="pluto" alt="NASA photograph of Pluto" />
       <p>The heart is a place. A photograph is not soil. Mark the heart, and leave the difference in the log.</p>
-      <svg viewBox="0 0 240 160" className="diagram" role="img" aria-label="Simple map of Pluto">
-        <rect width="240" height="160" fill="#1a1714" />
-        <circle cx="120" cy="80" r="48" fill="#d9d2c5" />
-        <path
-          d="M120 96 l-18-16 a12 12 0 1 1 18-10 a12 12 0 1 1 18 10 z"
-          fill="#c4452d"
-          onClick={onPass}
-          style={{ cursor: "pointer" }}
-        />
-        <circle cx="78" cy="70" r="8" fill="#8a8175" onClick={() => setMiss(true)} style={{ cursor: "pointer" }} />
-      </svg>
+      <div className="pluto-map">
+        <svg viewBox="0 0 240 160" className="diagram" role="img" aria-label="Simple map of Pluto">
+          <rect width="240" height="160" fill="#1a1714" />
+          <circle cx="120" cy="80" r="48" fill="#d9d2c5" />
+          <circle cx="78" cy="70" r="8" fill="#8a8175" onClick={() => setMiss(true)} style={{ cursor: "pointer" }} />
+        </svg>
+        <button type="button" className="heart-mark" onClick={onPass} aria-label="Mark the heart">
+          ❤️
+        </button>
+      </div>
       {miss && <p>Nori: That is not the heart.</p>}
       <button type="button" onClick={() => setMiss(true)}>Mark a dark plain instead</button>
     </div>

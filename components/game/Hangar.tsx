@@ -32,41 +32,45 @@ export function Hangar({
   return (
     <section className="hangar">
       <div className="ledger">
-        <p className="eyebrow">Teaching budget {report.budget}</p>
-        <h2>Build the ship</h2>
-        <div className="vehicle-row">
-          {(Object.values(VEHICLES)).map((vehicle) => (
-            <button
-              key={vehicle.id}
-              type="button"
-              className={state.ship.vehicle === vehicle.id ? "selected" : ""}
-              onClick={() => dispatch({ type: "vehicle", id: vehicle.id })}
-            >
-              <strong>{vehicle.name}</strong>
-              <span>{vehicle.cost} cost · {vehicle.massCap} kg</span>
-              <span>{vehicle.blurb}</span>
-            </button>
-          ))}
+        <div className="ledger-body">
+          <p className="eyebrow">Teaching budget {report.budget}</p>
+          <h2>Build the ship</h2>
+          <div className="vehicle-row">
+            {(Object.values(VEHICLES)).map((vehicle) => (
+              <button
+                key={vehicle.id}
+                type="button"
+                className={state.ship.vehicle === vehicle.id ? "selected" : ""}
+                onClick={() => dispatch({ type: "vehicle", id: vehicle.id })}
+              >
+                <strong>{vehicle.name}</strong>
+                <span>{vehicle.cost} cost · {vehicle.massCap} kg</span>
+                <span>{vehicle.blurb}</span>
+              </button>
+            ))}
+          </div>
+          <Meter label="Mass kg" value={report.mass} max={report.massCap} warn={report.mass > report.massCap} />
+          <Meter label="Cost" value={report.cost} max={report.budget} warn={report.cost > report.budget} />
+          <Meter label="Watts at Earth" value={Math.round(report.drawEarth)} max={Math.max(report.drawEarth, report.supplyEarth, 1)} warn={report.supplyEarth + 0.05 < report.drawEarth} />
+          <Meter label="Delta-v m/s" value={report.dv} max={7200} warn={report.dv < 6700} />
+          <p>Uranus supply {report.supplyUranus.toFixed(1)} W. Heater bus {report.aliveDraw} W.</p>
+          {report.hard.map((line) => <p key={line} className="bad">{line}</p>)}
+          {report.warnings.map((line) => <p key={line} className="warn">{line}</p>)}
         </div>
-        <Meter label="Mass kg" value={report.mass} max={report.massCap} warn={report.mass > report.massCap} />
-        <Meter label="Cost" value={report.cost} max={report.budget} warn={report.cost > report.budget} />
-        <Meter label="Watts at Earth" value={Math.round(report.drawEarth)} max={Math.max(report.drawEarth, report.supplyEarth, 1)} warn={report.supplyEarth + 0.05 < report.drawEarth} />
-        <Meter label="Delta-v m/s" value={report.dv} max={7200} warn={report.dv < 6700} />
-        <p>Uranus supply {report.supplyUranus.toFixed(1)} W. Heater bus {report.aliveDraw} W.</p>
-        <button type="button" data-testid="auto" onClick={() => dispatch({ type: "autobuild" })}>
-          Auto-build the certifying stack
-        </button>
-        {report.hard.map((line) => <p key={line} className="bad">{line}</p>)}
-        {report.warnings.map((line) => <p key={line} className="warn">{line}</p>)}
-        <button
-          type="button"
-          className="primary"
-          data-testid="launch"
-          disabled={report.hard.length > 0}
-          onClick={() => dispatch({ type: "launch" })}
-        >
-          {report.warnings.length > 0 ? "Launch anyway" : "Launch"}
-        </button>
+        <div className="ledger-actions">
+          <button type="button" data-testid="auto" onClick={() => dispatch({ type: "autobuild" })}>
+            Auto-build
+          </button>
+          <button
+            type="button"
+            className="primary"
+            data-testid="launch"
+            disabled={report.hard.length > 0}
+            onClick={() => dispatch({ type: "launch" })}
+          >
+            {report.warnings.length > 0 ? "Launch anyway" : "Launch"}
+          </button>
+        </div>
       </div>
       <div
         className="stage"
@@ -74,7 +78,7 @@ export function Hangar({
         onDrop={onDrop}
       >
         <HangarScene parts={state.ship.parts} />
-        <p className="caption">Side view, like a vehicle assembly building. Parts snap into a vertical stack. Drag a card onto the ship, or press it. Orbit to walk around.</p>
+        <p className="caption">Side view. Drag a card onto the stack, or press it. Command, engine, and antenna are already on.</p>
       </div>
       <div className="parts">
         {OPTIONAL.map((id) => {
@@ -101,7 +105,6 @@ export function Hangar({
             </article>
           );
         })}
-        <p className="caption">Command module, engine, and antenna are already bolted on. Citations live on the data page.</p>
       </div>
     </section>
   );

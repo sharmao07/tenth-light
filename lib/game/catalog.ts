@@ -172,7 +172,7 @@ export const STOPS: StopDef[] = [
   { id: 5, name: "Enceladus", klass: "Moon of Saturn", keeper: "Spray" },
   { id: 6, name: "Uranus", klass: "Planet", keeper: "Tilt" },
   { id: 7, name: "Neptune", klass: "Planet", keeper: "Lag" },
-  { id: 8, name: "Pluto", klass: "Dwarf planet", keeper: "Heart" },
+  { id: 8, name: "Pluto", klass: "Dwarf planet", keeper: "❤️" },
   { id: 9, name: "Heliopause", klass: "Boundary", keeper: "Whisper" },
   { id: 10, name: "Harbor", klass: "TOI-700 e, simulation", keeper: "Shore" },
 ];
