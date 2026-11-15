@@ -17,12 +17,6 @@ export default function DataPage() {
           </div>
           <div className="flex items-center gap-2.5">
             <Link
-              href="/presentation"
-              className="px-4 py-2 bg-[#1a1714] hover:bg-[#5bc0be] hover:text-[#100e0c] border border-[#5bc0be] text-xs md:text-sm font-mono uppercase tracking-wider rounded-lg transition-colors font-bold shadow text-[#5bc0be]"
-            >
-              📊 7-Slide Demo Deck
-            </Link>
-            <Link
               href="/"
               className="px-4 py-2 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] text-xs md:text-sm font-mono uppercase tracking-wider rounded-lg transition-colors font-bold shadow"
             >

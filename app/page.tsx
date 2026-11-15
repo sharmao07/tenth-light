@@ -478,13 +478,6 @@ export default function TenthLightGame() {
                 <span>Mission Logbook</span>
               </button>
 
-              <Link
-                href="/presentation"
-                onMouseEnter={() => sound.playHoverBlip()}
-                className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#5bc0be]/20 border border-[#5bc0be] text-[#5bc0be] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors font-bold"
-              >
-                7-Slide Demo Deck
-              </Link>
 
               <Link
                 href="/data"

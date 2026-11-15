@@ -72,15 +72,6 @@ export function PauseModal({ isOpen, onResume, onReturnToMenu }: PauseModalProps
             Resume Simulation (Esc)
           </button>
 
-          <a
-            href="/presentation"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn w-full py-2.5 bg-[#100e0c] hover:bg-[#5bc0be]/20 border border-[#5bc0be] text-[#5bc0be] font-mono text-xs md:text-sm tracking-wider uppercase rounded-md transition-colors text-center font-bold"
-          >
-            📊 7-Slide Space Apps Demo Deck
-          </a>
 
           <button
             onClick={() => {
