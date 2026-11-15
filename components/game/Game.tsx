@@ -367,6 +367,7 @@ function Talk({
   return (
     <section className="talk-stage">
       {showScene && <TransitScene parts={parts} approaching={false} />}
+      {children && <div className="sky-cards">{children}</div>}
       <div className="dialogue-dock" aria-live="polite">
         <div key={who} className="line-in">
           <Portrait who={who} />
@@ -374,7 +375,6 @@ function Talk({
         <div key={text} className="line-in">
           <p className="who">{name}</p>
           <p className="dialogue-copy">{text}</p>
-          {children}
         </div>
         <div className="row">
           {cta ? (

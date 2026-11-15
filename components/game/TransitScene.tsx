@@ -42,7 +42,7 @@ export default function TransitScene({
           <meshStandardMaterial color={index % 7 === 0 ? "#e39b12" : "#efe6d6"} />
         </mesh>
       ))}
-      <group position={[2.6, -0.2, 0]} scale={1.35}>
+      <group position={[2.2, 0.85, 0]} scale={1.15}>
         <ShipMesh parts={parts} />
       </group>
       <Rock approaching={approaching} />

@@ -316,23 +316,48 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   right: 0;
   bottom: 0;
   z-index: 2;
-  height: 188px;
+  height: 118px;
   display: grid;
-  grid-template-columns: 168px minmax(0, 1fr) auto;
-  gap: 1.25rem;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 0.9rem;
   align-items: center;
   background: var(--paper);
   color: var(--ink);
   border-top: 4px solid #1a1714;
-  padding: 0.9rem 1.15rem 1rem;
+  padding: 0.55rem 1rem;
   overflow: hidden;
+}
+.dialogue-dock .pixel,
+.dialogue-dock .heart-emoji {
+  width: 84px;
+  height: 84px;
+  font-size: 3.6rem;
 }
 
 .dialogue-dock .dialogue-copy {
-  font-size: clamp(1.15rem, 2.2vh, 1.65rem);
-  line-height: 1.45;
-  margin: 0.3rem 0 0.55rem;
+  font-size: clamp(1.05rem, 1.8vh, 1.3rem);
+  line-height: 1.35;
+  margin: 0.15rem 0 0;
 }
+.sky-cards {
+  position: absolute;
+  top: 1rem;
+  left: 1.15rem;
+  z-index: 2;
+  width: min(26rem, 40%);
+}
+.sky-cards .cards { margin: 0; gap: 0.55rem; }
+.sky-cards .card {
+  background: #14120e;
+  color: var(--paper);
+  border-color: var(--line);
+  padding: 0.5rem 0.65rem;
+}
+.sky-cards .card h3,
+.sky-cards .card p { color: var(--paper); }
+.sky-cards .card p { margin-top: 0.2rem; font-size: 0.86rem; line-height: 1.35; }
+.sky-cards .card.fly { background: #1c1812; border-color: var(--amber); border-top: 3px solid var(--amber); }
+.sky-cards .caption { color: var(--mute); }
 .dialogue-dock .cards { margin: 0.15rem 0 0; gap: 0.55rem; }
 .dialogue-dock .card { padding: 0.65rem 0.75rem; }
 .dialogue-dock .card p { margin-top: 0.3rem; font-size: 0.95rem; line-height: 1.4; }
@@ -813,7 +838,8 @@ footer.bar details ul {
   }
   .title-stage, .hangar .stage { min-height: 0; }
   .stage > .caption { display: none; }
-  .dialogue-dock { grid-template-columns: 72px minmax(0, 1fr); gap: 0.6rem; padding: 0.7rem; height: 148px; }
+  .dialogue-dock { grid-template-columns: 72px minmax(0, 1fr); gap: 0.55rem; padding: 0.45rem 0.6rem; height: 108px; }
+  .sky-cards { width: min(100% - 1.5rem, 22rem); }
   .dialogue-dock .row { grid-column: 1 / -1; }
   .heart-emoji { width: 72px; height: 72px; font-size: 3rem; }
   .dodge { position: static; transform: none; padding: 0.6rem; }
