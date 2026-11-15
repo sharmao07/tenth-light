@@ -62,6 +62,7 @@ export function Game() {
   const canResume = useSavedRun();
   const [muted, setMuteState] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [shock, setShock] = useState<"" | "hit" | "good">("");
   const [worlds, setWorlds] = useState<WorldCard[]>(ARCHIVE_SNAPSHOT);
   const [archiveSource, setArchiveSource] = useState("snapshot");
 
@@ -89,11 +90,24 @@ export function Game() {
     rememberSave();
   }, [state]);
 
+  function feel(kind: "hit" | "good") {
+    setShock(kind);
+    window.setTimeout(() => setShock((current) => (current === kind ? "" : current)), 140);
+  }
+
   function send(action: Action) {
-    if (action.type === "dodge") blip(action.hit ? "ok" : "miss");
-    else if (action.type === "fight-hit") blip("miss");
-    else if (action.type === "maze-hit") blip("miss");
-    else if (action.type === "fight-win" || action.type === "puzzle-pass" || action.type === "maze-done") blip("ok");
+    if (action.type === "dodge") {
+      blip(action.hit ? "ok" : "miss");
+      feel(action.hit ? "good" : "hit");
+    }
+    else if (action.type === "fight-hit" || action.type === "maze-hit") {
+      blip("miss");
+      feel("hit");
+    }
+    else if (action.type === "fight-win" || action.type === "puzzle-pass" || action.type === "maze-done") {
+      blip("ok");
+      feel("good");
+    }
     else if (action.type === "launch" || action.type === "autobuild") blip("launch");
     else if (action.type === "next-line" || action.type === "prev-line" || action.type === "talk-next" || action.type === "talk-prev") blip("talk");
     else blip("ui");
@@ -158,7 +172,8 @@ export function Game() {
   const showHint = Boolean(hint) && closedHint !== beat;
 
   return (
-    <div className="game-root">
+    <div className={`game-root${shock ? ` shock-${shock}` : ""}`}>
+      {shock && <div className={`shock-flash ${shock}`} />}
       <header className="hud">
         <div>
           <p className="brand">Tenth Light</p>

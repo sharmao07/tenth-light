@@ -7,7 +7,7 @@ import type { PartId } from "@/lib/game/types";
 import { blip } from "./audio";
 import { ShipMesh } from "./ShipMesh";
 
-type Ufo = { mesh: Group; gx: number; gy: number; alive: boolean };
+type Ufo = { mesh: Group; gx: number; gy: number; alive: boolean; flash: number };
 type Bolt = { mesh: Mesh; x: number; y: number; alive: boolean };
 type Sim = {
   ufos: Ufo[];
@@ -149,13 +149,18 @@ function Battle({
     }
     let removed = false;
     for (const ufo of world.ufos) {
-      if (!ufo.alive) continue;
       const x = world.originX + ufo.gx;
       const y = world.originY + ufo.gy;
       ufo.mesh.position.set(x, y, 0);
+      if (ufo.flash > 0) {
+        ufo.flash = Math.max(0, ufo.flash - dt);
+        ufo.mesh.scale.setScalar(1.45);
+      }
+      if (!ufo.alive) continue;
       ufo.mesh.rotation.z = Math.sin(state.clock.elapsedTime * 3 + ufo.gx) * 0.08;
       if (y < -4.15 && world.hurt <= 0) {
         ufo.alive = false;
+        ufo.flash = 0.08;
         world.hurt = 0.8;
         removed = true;
         callbacks.current.onHit();
@@ -167,6 +172,7 @@ function Battle({
         if (dx * dx + dy * dy < 0.55) {
           shot.alive = false;
           ufo.alive = false;
+          ufo.flash = 0.08;
           removed = true;
         }
       }
@@ -183,12 +189,12 @@ function Battle({
       }
       world.shots = world.shots.filter((shot) => shot.alive);
       world.ufos = world.ufos.filter((ufo) => {
-        if (ufo.alive) return true;
+        if (ufo.alive || ufo.flash > 0) return true;
         state.scene.remove(ufo.mesh);
         return false;
       });
     }
-    if (world.ufos.length === 0) {
+    if (!world.ufos.some((ufo) => ufo.alive)) {
       if (world.wave >= 3) {
         if (!world.won) {
           world.won = true;
@@ -249,6 +255,7 @@ function bootWave(scene: Scene, wave: number): Ufo[] {
         gx: (col - (cols - 1) / 2) * 1.45,
         gy: 3.1 - row * 1.15 - wave * 0.05,
         alive: true,
+        flash: 0,
       };
       mesh.position.set(craft.gx, craft.gy, 0);
       scene.add(mesh);

@@ -283,6 +283,7 @@ button:hover { border-color: var(--amber); }
 button.primary:hover { background: #f0aa28; }
 button:disabled { opacity: 0.4; cursor: not-allowed; }
 .choices button, .pad button { text-align: center; }
+.pad button { min-width: 4.6rem; min-height: 2.8rem; }
 
 .vehicle-row button, .part-card button, .choices button {
   display: grid;
@@ -769,11 +770,29 @@ footer.bar details ul {
   animation: fall 3.2s linear infinite;
 }
 @keyframes fall { to { transform: translateY(100vh) rotate(160deg); } }
+.shock-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+.shock-flash.hit { background: rgba(196, 69, 45, 0.32); animation: shock-fade 140ms linear forwards; }
+.shock-flash.good { background: rgba(227, 155, 18, 0.2); animation: shock-fade 140ms linear forwards; }
+.game-root.shock-hit main { animation: hit-shake 140ms linear; }
+@keyframes shock-fade { to { opacity: 0; } }
+@keyframes hit-shake {
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .confetti { display: none; }
   .screen-in,
   .line-in,
-  .screen-in::after { animation: none; }
+  .screen-in::after,
+  .shock-flash,
+  .game-root.shock-hit main { animation: none; }
   button, .meter-fill { transition: none; }
 }
 
