@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { sound } from './AudioController';
 
 interface TerminalChromeProps {
   title?: string;
@@ -8,50 +7,30 @@ interface TerminalChromeProps {
   status?: string;
   className?: string;
   children: React.ReactNode;
-  showDots?: boolean;
+  showDots?: boolean; // kept for compatibility; the header no longer draws window dots
 }
 
+/** Instrument panel: title and channel on a hairline rule, status as a plain readout. */
 export function TerminalChrome({
-  title = 'TENTH-LIGHT-OS // FLIGHT-TELEMETRY',
-  nodeId = 'CORRIDOR-BUS-1',
-  status = 'NOMINAL',
+  title = 'Flight telemetry',
+  nodeId = 'Bus 1',
+  status = 'Nominal',
   className = '',
   children,
-  showDots = true,
 }: TerminalChromeProps) {
   return (
-    <div className={`tui-frame rounded-lg overflow-hidden border border-[#efe6d6]/25 bg-[#1a1714] shadow-xl ${className}`}>
-      {/* Top Retro TUI Header Bar */}
-      <div className="bg-[#100e0c] px-3.5 py-1.5 border-b border-[#efe6d6]/20 flex items-center justify-between text-xs font-mono select-none">
-        <div className="flex items-center gap-2.5">
-          {showDots && (
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#c4452d] inline-block opacity-80" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#e39b12] inline-block opacity-80" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#5bc0be] inline-block opacity-80" />
-            </div>
-          )}
-          <span className="text-[#e39b12] font-bold tracking-wider">{title}</span>
-        </div>
-
-        <div className="flex items-center gap-3 text-[11px] text-[#efe6d6]/70">
-          <span className="hidden sm:inline font-mono opacity-60">NODE: [{nodeId}]</span>
-          <span className="px-1.5 py-0.5 rounded bg-[#100e0c] border border-[#5bc0be]/40 text-[#5bc0be] font-bold">
+    <section className={`tui-frame overflow-hidden ${className}`}>
+      <header className="flex items-baseline justify-between gap-6 border-b border-[#2a3039] px-6 py-3 text-xs uppercase tracking-wider select-none">
+        <span className="text-[#e9e6dc]">{title}</span>
+        <span className="flex items-center gap-5 text-[#7d8591]">
+          <span className="hidden sm:inline">{nodeId}</span>
+          <span className="flex items-center gap-2 text-[#e9e6dc]">
+            <span aria-hidden className="inline-block h-1.5 w-1.5 bg-[#e9e6dc]" />
             {status}
           </span>
-        </div>
-      </div>
-
-      {/* Main Terminal Window Body */}
-      <div className="p-4 md:p-5 relative font-mono text-sm leading-relaxed text-[#efe6d6]">
-        {children}
-      </div>
-
-      {/* Bottom TUI Status Line */}
-      <div className="bg-[#100e0c]/80 px-3.5 py-1 border-t border-[#efe6d6]/10 flex items-center justify-between text-[10px] font-mono text-[#efe6d6]/50">
-        <span>PROMPT: wren@tenth-light:~/mission$</span>
-        <span>SECURITY: ENCRYPTED LOCAL // AUTH: NASA-JPL-CALTECH</span>
-      </div>
-    </div>
+        </span>
+      </header>
+      <div className="relative p-6 text-sm leading-relaxed text-[#e9e6dc] md:p-8">{children}</div>
+    </section>
   );
 }

@@ -3,12 +3,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
   GameSaveState,
-  ShipDesign,
   FLIGHT_LEGS,
   DialogueLine,
 } from '@/lib/gameTypes';
 import { loadSave, saveState, calculateShipMetrics, DEFAULT_SAVE_STATE } from '@/lib/gameStore';
-import { EXOPLANET_SNAPSHOT } from '@/lib/nasaSnapshots';
 import { getBriefingLines, STOP_DIALOGUES } from '@/lib/storyScripts';
 import { sound } from '@/components/AudioController';
 import { Ship3DView } from '@/components/Ship3DView';
@@ -49,12 +47,36 @@ export default function TenthLightGame() {
   // Fade transition flag
   const [fadeActive, setFadeActive] = useState(false);
 
+  // Update game state
+  const updateGameState = useCallback((updates: Partial<GameSaveState>) => {
+    setGameState((prev) => ({
+      ...prev,
+      ...updates,
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
+  const handleToggleMute = useCallback(() => {
+    setGameState((prev) => {
+      const nextMuted = !prev.isMuted;
+      sound.setMuted(nextMuted);
+      return {
+        ...prev,
+        isMuted: nextMuted,
+        lastUpdated: new Date().toISOString(),
+      };
+    });
+  }, []);
+
   // Load save on mount
   useEffect(() => {
-    const saved = loadSave();
-    setGameState(saved);
-    sound.setMuted(saved.isMuted);
-    setIsLoaded(true);
+    const timer = setTimeout(() => {
+      const saved = loadSave();
+      setGameState(saved);
+      sound.setMuted(saved.isMuted);
+      setIsLoaded(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Save changes to localStorage
@@ -91,7 +113,7 @@ export default function TenthLightGame() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState.phase, isLogbookOpen, gameState.isMuted, dialoguePhase]);
+  }, [gameState.phase, isLogbookOpen, handleToggleMute, dialoguePhase]);
 
   const triggerSceneFade = (callback: () => void) => {
     setFadeActive(true);
@@ -99,20 +121,6 @@ export default function TenthLightGame() {
       callback();
       setFadeActive(false);
     }, 240);
-  };
-
-  const updateGameState = useCallback((updates: Partial<GameSaveState>) => {
-    setGameState((prev) => ({
-      ...prev,
-      ...updates,
-      lastUpdated: new Date().toISOString(),
-    }));
-  }, []);
-
-  const handleToggleMute = () => {
-    const nextMuted = !gameState.isMuted;
-    sound.setMuted(nextMuted);
-    updateGameState({ isMuted: nextMuted });
   };
 
   // Checkpoint restore when lives drop to 0
@@ -325,24 +333,24 @@ export default function TenthLightGame() {
     5: 'Enceladus (Spray)',
     6: 'Uranus (Tilt)',
     7: 'Neptune (Lag)',
-    8: 'Pluto (Heart ❤️)',
+    8: 'Pluto (Heart ♥)',
     9: 'Heliopause (Whisper)',
     10: 'Harbor (TOI-700 e)',
   };
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-[#100e0c] text-[#efe6d6] flex items-center justify-center font-mono">
+      <div className="min-h-screen bg-[#0a0c10] text-[#e9e6dc] flex items-center justify-center ">
         Loading Tenth Light telemetry...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#100e0c] text-[#efe6d6] flex flex-col justify-between overflow-hidden selection:bg-[#e39b12] selection:text-[#100e0c] relative">
+    <div className="min-h-screen w-full bg-[#0a0c10] text-[#e9e6dc] flex flex-col justify-between overflow-hidden selection:bg-[#f0562b] selection:text-[#0a0c10] relative">
       {/* Scene Fade Transition Overlay */}
       <div
-        className={`fixed inset-0 bg-[#100e0c] z-50 pointer-events-none transition-opacity duration-200 ${
+        className={`fixed inset-0 bg-[#0a0c10] z-50 pointer-events-none transition-opacity duration-700 ${
           fadeActive ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -405,87 +413,84 @@ export default function TenthLightGame() {
       )}
 
       {/* Main Screen Views */}
-      <main className="flex-1 w-full relative flex flex-col items-center justify-center min-h-0">
+      <main className="flex-1 w-full relative flex flex-col justify-center min-h-0">
         {/* ================= 1. TITLE SCREEN ================= */}
         {gameState.phase === 'title' && (
-          <div className="w-full max-w-4xl mx-auto p-6 md:p-8 text-center space-y-6 md:space-y-8 select-none my-auto">
-            {/* The persistent honesty statement */}
-            <div className="p-4 md:p-5 bg-[#1a1714] border border-[#efe6d6]/20 rounded-lg text-sm md:text-base font-sans text-[#efe6d6]/90 leading-relaxed shadow-lg">
-              “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive.
-              The voyage past the heliopause is a mission simulation that uses the archive’s numbers.
-              The aliens, the depot fight, and the droid are the story.”
-            </div>
-
-            <div className="space-y-3">
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-wider text-[#efe6d6]">
-                TENTH LIGHT
+          <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24 select-none grid gap-16 lg:gap-24 lg:grid-cols-[1.5fr_1fr] items-end animate-fadeIn">
+            <div className="space-y-12">
+              <p className="label">NASA Space Apps 2026 &middot; Space Mission Design Game</p>
+              <h1 className="display-xl">
+                <span className="block font-extralight">Tenth</span>
+                <span className="block font-extrabold -mt-[0.08em]">Light</span>
               </h1>
-              <p className="font-serif text-xl md:text-2xl text-[#e39b12] italic">
-                “Design the ship. Stay in the seat. Send the droid.”
+              <p className="font-serif italic text-2xl md:text-3xl text-[#e9e6dc]/80 max-w-xl leading-snug">
+                Design the ship. Stay in the seat. Send the droid.
               </p>
-              <div className="text-sm font-mono text-[#efe6d6]/70">
-                NASA Space Apps 2026: Space Mission Design Game
-              </div>
+              <blockquote className="max-w-xl border-l border-[#f0562b] pl-6 text-[15px] leading-[1.8] text-[#e9e6dc]/65">
+                “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive.
+                The voyage past the heliopause is a mission simulation that uses the archive’s numbers.
+                The aliens, the depot fight, and the droid are the story.”
+              </blockquote>
             </div>
 
-            {/* Callsign Input */}
-            <div className="max-w-sm mx-auto bg-[#1a1714] border border-[#efe6d6]/20 p-5 rounded-lg space-y-3 text-left font-mono shadow-md">
-              <label className="text-sm uppercase tracking-wider text-[#e39b12] font-bold block">
-                Specialist Callsign (Max 16 chars):
-              </label>
-              <input
-                type="text"
-                maxLength={16}
-                value={gameState.callsign}
-                onChange={(e) => updateGameState({ callsign: e.target.value.trim() || 'Wren' })}
-                className="w-full px-3.5 py-2 bg-[#100e0c] border border-[#efe6d6]/30 text-[#efe6d6] rounded font-mono text-base focus:border-[#e39b12] focus:outline-none"
-                placeholder="Wren"
-              />
-              <div className="text-xs text-[#efe6d6]/70 leading-relaxed">
-                The specialist never leaves the ship and appears only in dialogue.
+            <div className="space-y-12 pb-2">
+              <div className="space-y-3">
+                <label htmlFor="callsign" className="label">Specialist callsign</label>
+                <input
+                  id="callsign"
+                  type="text"
+                  maxLength={16}
+                  value={gameState.callsign}
+                  onChange={(e) => updateGameState({ callsign: e.target.value.trim() || 'Wren' })}
+                  className="field"
+                  placeholder="Wren"
+                />
+                <p className="text-sm text-[#e9e6dc]/50 leading-relaxed">
+                  The specialist never leaves the ship and appears only in dialogue.
+                </p>
               </div>
-            </div>
 
-            {/* Menu Actions */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
-              <button
-                onClick={handleStartBriefing}
-                onMouseEnter={() => sound.playHoverBlip()}
-                className="sensory-btn px-8 py-3.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-sm md:text-base uppercase tracking-wider rounded transition-colors shadow-lg"
-              >
-                Begin Mission (Earth Briefing)
-              </button>
-
-              {gameState.currentStop > 0 && (
+              <div className="space-y-8">
                 <button
-                  onClick={handleResumeGame}
+                  onClick={handleStartBriefing}
                   onMouseEnter={() => sound.playHoverBlip()}
-                  className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors"
+                  className="btn"
                 >
-                  Resume Corridor (Stop {gameState.currentStop})
+                  Begin mission
+                  <span aria-hidden>&rarr;</span>
                 </button>
-              )}
 
-              <button
-                onClick={() => {
-                  sound.playUiClick();
-                  setIsLogbookOpen(true);
-                }}
-                onMouseEnter={() => sound.playHoverBlip()}
-                className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors flex items-center gap-2 font-bold"
-              >
-                <span>📖</span>
-                <span>Mission Logbook</span>
-              </button>
-
-
-              <Link
-                href="/data"
-                onMouseEnter={() => sound.playHoverBlip()}
-                className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors"
-              >
-                Scientific Data (/data)
-              </Link>
+                <ul className="index-list">
+                  {gameState.currentStop > 0 && (
+                    <li>
+                      <button onClick={handleResumeGame} onMouseEnter={() => sound.playHoverBlip()}>
+                        <span>Resume corridor</span><em>Stop {gameState.currentStop}</em>
+                      </button>
+                    </li>
+                  )}
+                  <li>
+                    <button
+                      onClick={() => {
+                        sound.playUiClick();
+                        setIsLogbookOpen(true);
+                      }}
+                      onMouseEnter={() => sound.playHoverBlip()}
+                    >
+                      <span>Mission logbook</span><em>11 acts</em>
+                    </button>
+                  </li>
+                  <li>
+                    <Link href="/presentation" onMouseEnter={() => sound.playHoverBlip()}>
+                      <span>Demo deck</span><em>7 slides</em>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/data" onMouseEnter={() => sound.playHoverBlip()}>
+                      <span>Scientific data</span><em>NASA sources</em>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         )}
@@ -499,26 +504,26 @@ export default function TenthLightGame() {
 
               {/* Sky Planet Card for TOI-700 e & d */}
               {dialogueIndex >= 3 && (
-                <div className="absolute top-4 right-4 z-20 w-80 bg-[#1a1714]/95 border-2 border-[#e39b12] p-4 rounded text-xs font-mono shadow-2xl backdrop-blur-none animate-fadeIn">
-                  <div className="font-serif font-bold text-base text-[#e39b12] border-b border-[#efe6d6]/20 pb-1 mb-2">
+                <div className="absolute top-4 right-4 z-20 w-80 bg-[#12151b]/95 border border-[#f0562b] p-6 rounded text-xs shadow-2xl backdrop-blur-none animate-fadeIn">
+                  <div className="font-serif text-base text-[#f0562b] border-b border-[#e9e6dc]/20 pb-1.5 mb-2">
                     NASA Exoplanet Archive
                   </div>
-                  <div className="text-xs text-[#efe6d6]/70 mb-3 leading-relaxed">
+                  <div className="text-xs text-[#e9e6dc]/70 mb-3 leading-relaxed">
                     Snapshot 15 Nov 2026. Equilibrium temp is not weather.
                   </div>
 
-                  <div className="space-y-2 text-xs leading-relaxed">
-                    <div className="text-[#5bc0be] font-bold text-sm">
+                  <div className="space-y-3 text-xs leading-relaxed">
+                    <div className="text-[#e9e6dc] font-bold text-sm">
                       ✓ Target: TOI-700 e (Harbor)
                     </div>
-                    <div className="text-[#efe6d6]/90 pl-2">
+                    <div className="text-[#e9e6dc]/90 pl-3">
                       0.919 R⊕ • 0.718 M⊕ • 27.81d • 272.9 K • 101.5 ly
                     </div>
 
-                    <div className="text-[#efe6d6]/50 font-bold text-sm pt-1">
+                    <div className="text-[#e9e6dc]/50 font-bold text-sm pt-1.5">
                       ✕ Twin You Do Not Fly: TOI-700 d
                     </div>
-                    <div className="text-[#efe6d6]/60 pl-2">
+                    <div className="text-[#e9e6dc]/60 pl-3">
                       1.145 R⊕ • 1.580 M⊕ • 37.42d • 268.8 K
                     </div>
                   </div>
@@ -553,12 +558,12 @@ export default function TenthLightGame() {
             <Ship3DView design={gameState.shipDesign} cruiseMode={true} interactive={true} />
 
             {/* In-Transit Telemetry HUD */}
-            <div className="absolute top-4 left-4 bg-[#1a1714]/90 border border-[#efe6d6]/30 p-3 rounded text-sm font-mono z-20 shadow-lg">
-              <div className="text-[#e39b12] font-bold text-base">
+            <div className="absolute top-4 left-4 bg-[#12151b]/90 border border-[#e9e6dc]/30 p-5 rounded text-sm z-20 shadow-lg">
+              <div className="text-[#f0562b] font-bold text-base">
                 Burning to Stop {gameState.currentStop}: {stopNames[gameState.currentStop]}
               </div>
-              <div className="text-[#efe6d6]/90 mt-1">
-                Remaining Delta-v: <span className="font-bold text-[#e39b12]">{gameState.currentDeltaV} m/s</span>
+              <div className="text-[#e9e6dc]/90 mt-1">
+                Remaining Delta-v: <span className="font-bold text-[#f0562b]">{gameState.currentDeltaV} m/s</span>
               </div>
             </div>
 
@@ -577,7 +582,7 @@ export default function TenthLightGame() {
         {gameState.phase === 'gate' && (
           <div className="w-full h-[calc(100vh-160px)] relative flex flex-col justify-between">
             {/* Top Area: 3D Ship + Planet Cards in the sky */}
-            <div className="w-full h-full relative flex items-center justify-center p-2">
+            <div className="w-full h-full relative flex items-center justify-center p-3">
               {/* If dialogue is NOT active, show interactive puzzle or mini-game */}
               {!dialoguePhase && (
                 <div className="z-20 w-full">

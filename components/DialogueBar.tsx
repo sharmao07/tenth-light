@@ -90,9 +90,9 @@ export function DialogueBar({
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 min-h-[130px] bg-[#1a1714] border-t-2 border-[#e39b12] text-[#efe6d6] px-4 py-3 select-none z-40 shadow-2xl transition-all ${className}`}
+      className={`fixed bottom-0 left-0 right-0 min-h-[130px] bg-[#12151b] border-t-2 border-[#f0562b] text-[#e9e6dc] px-6 py-5 select-none z-40 shadow-2xl transition-all ${className}`}
     >
-      <div className="flex flex-col md:flex-row items-center gap-4 max-w-6xl mx-auto w-full">
+      <div className="flex flex-col md:flex-row items-center gap-6 max-w-6xl mx-auto w-full">
         {/* Pixel Portrait */}
         <div className="shrink-0 flex items-center">
           <PixelPortrait speaker={currentLine.speaker} size={80} />
@@ -100,47 +100,47 @@ export function DialogueBar({
 
         {/* Content: Relaxed, clear, non-compact typography */}
         <div className="flex-1 min-w-0 w-full py-0.5">
-          <div className="flex items-center gap-3 mb-1.5">
-            <span className="font-serif font-bold text-base md:text-lg text-[#e39b12] tracking-wide">
+          <div className="flex items-center gap-5 mb-1.5">
+            <span className="font-serif text-base md:text-lg text-[#f0562b] tracking-wide">
               {currentLine.speakerName}
             </span>
-            <span className="text-xs text-[#efe6d6]/60 uppercase tracking-widest font-mono">
+            <span className="text-xs text-[#e9e6dc]/60 uppercase tracking-widest ">
               [Line {currentIndex + 1} of {lines.length}]
             </span>
             {currentLine.speaker === 'nori' && (
-              <span className="hidden sm:inline-block text-[10px] font-mono text-[#5bc0be] bg-[#5bc0be]/10 px-2 py-0.5 rounded border border-[#5bc0be]/30">
+              <span className="hidden sm:inline-block text-xs text-[#e9e6dc] bg-[#e9e6dc]/10 px-3 py-0.5 rounded border border-[#e9e6dc]/30">
                 [AUTONOMY: RUNNING // SLEEVE: ARMED]
               </span>
             )}
             {currentLine.speaker === 'wren' && (
-              <span className="hidden sm:inline-block text-[10px] font-mono text-[#e39b12] bg-[#e39b12]/10 px-2 py-0.5 rounded border border-[#e39b12]/30">
+              <span className="hidden sm:inline-block text-xs text-[#f0562b] bg-[#f0562b]/10 px-3 py-0.5 rounded border border-[#f0562b]/30">
                 [CABIN: PRESSURIZED // IN SEAT]
               </span>
             )}
             {isAuto && (
-              <span className="text-[11px] font-mono text-[#5bc0be] bg-[#5bc0be]/15 px-2 py-0.5 rounded border border-[#5bc0be]/40 flex items-center gap-1 animate-pulse">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#5bc0be]"></span>
+              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/15 px-3 py-0.5 rounded border border-[#e9e6dc]/40 flex items-center gap-1.5 animate-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#e9e6dc]"></span>
                 Auto Playing (3s)
               </span>
             )}
           </div>
 
-          <p className="text-base md:text-lg leading-relaxed text-[#efe6d6] font-serif">
+          <p className="text-base md:text-lg leading-relaxed text-[#e9e6dc] font-serif">
             {currentLine.text}
           </p>
         </div>
 
         {/* The 3 Navigation Buttons: Previous, Auto, Next */}
-        <div className="shrink-0 flex items-center gap-2 mt-2 md:mt-0">
+        <div className="shrink-0 flex items-center gap-3 mt-2 md:mt-0">
           {/* 1. Previous Button */}
           <button
             onClick={handlePrevious}
             onMouseEnter={() => !isFirst && sound.playHoverBlip()}
             disabled={isFirst}
-            className={`sensory-btn px-3 py-2 text-xs md:text-sm font-mono uppercase tracking-wider rounded border transition-colors flex items-center gap-1.5 ${
+            className={`sensory-btn px-5 py-3 text-xs md:text-sm tracking-wide rounded border transition-colors flex items-center gap-2 ${
               isFirst
-                ? 'bg-[#100e0c]/50 text-[#efe6d6]/30 border-[#efe6d6]/10 cursor-not-allowed'
-                : 'bg-[#100e0c] hover:bg-[#e39b12] hover:text-[#100e0c] text-[#efe6d6] border-[#efe6d6]/40 cursor-pointer'
+                ? 'bg-[#0a0c10]/50 text-[#e9e6dc]/30 border-[#e9e6dc]/10 cursor-not-allowed'
+                : 'bg-[#0a0c10] hover:bg-[#f0562b] hover:text-[#0a0c10] text-[#e9e6dc] border-[#e9e6dc]/40 cursor-pointer'
             }`}
             title="Go to previous dialogue line"
           >
@@ -152,10 +152,10 @@ export function DialogueBar({
           <button
             onClick={toggleAuto}
             onMouseEnter={() => sound.playHoverBlip()}
-            className={`sensory-btn px-3 py-2 text-xs md:text-sm font-mono uppercase tracking-wider rounded border transition-colors flex items-center gap-1.5 ${
+            className={`sensory-btn px-5 py-3 text-xs md:text-sm tracking-wide rounded border transition-colors flex items-center gap-2 ${
               isAuto
-                ? 'bg-[#e39b12] text-[#100e0c] border-[#e39b12] font-bold shadow'
-                : 'bg-[#100e0c] hover:bg-[#efe6d6]/10 text-[#efe6d6] border-[#efe6d6]/40'
+                ? 'bg-[#f0562b] text-[#0a0c10] border-[#f0562b] font-bold shadow'
+                : 'bg-[#0a0c10] hover:bg-[#e9e6dc]/10 text-[#e9e6dc] border-[#e9e6dc]/40'
             }`}
             title="Automatically advance dialogue every 3 seconds"
           >
@@ -167,7 +167,7 @@ export function DialogueBar({
           <button
             onClick={handleNext}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-4 py-2 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-bold border border-[#e39b12] text-xs md:text-sm font-mono uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 shadow"
+            className="sensory-btn px-6 py-3 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] border border-[#f0562b] text-xs md:text-sm tracking-wide rounded transition-colors flex items-center gap-2 shadow"
             title="Go to next dialogue line (or press Space)"
           >
             <span>{isLast ? 'Proceed' : 'Next'}</span>
