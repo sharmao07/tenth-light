@@ -78,9 +78,9 @@ export function PersistentHeader({
                 onClick={act(onOpenClearance)} 
                 onMouseEnter={() => sound.playHoverBlip()} 
                 className="btn-quiet !border-signal !text-signal font-mono text-xs uppercase" 
-                title="View Gate Clearance Protocol [H]"
+                title="View How This Works Clearance Protocol [H]"
               >
-                How to clear
+                How this works
               </button>
             )}
             <button 

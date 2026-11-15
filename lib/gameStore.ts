@@ -32,6 +32,7 @@ export const DEFAULT_SAVE_STATE: GameSaveState = {
   isMuted: false,
   reducedMotion: false,
   soundCaptions: true,
+  seenTutorials: {},
   lastUpdated: new Date().toISOString(),
 };
 

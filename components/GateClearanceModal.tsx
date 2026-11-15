@@ -189,7 +189,7 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 bg-signal" aria-hidden="true" />
             <span className="label text-signal">
-              CLEARANCE DIRECTIVE &middot; PROTOCOL #<span className="tabular-nums">{stopIndex}</span>
+              HOW THIS WORKS &middot; PROTOCOL #<span className="tabular-nums">{stopIndex}</span>
             </span>
           </div>
           <span className="label text-paper-muted">

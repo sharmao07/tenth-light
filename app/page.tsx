@@ -1,49 +1,41 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
 import {
   GameSaveState,
   FLIGHT_LEGS,
   DialogueLine,
+  STOP_DOSSIER_INFO,
 } from '@/lib/gameTypes';
 import { loadSave, saveState, calculateShipMetrics, DEFAULT_SAVE_STATE } from '@/lib/gameStore';
 import { getBriefingLines, STOP_DIALOGUES } from '@/lib/storyScripts';
-import { NASA_IMAGE_PLATES } from '@/lib/nasaSnapshots';
 import { sound } from '@/components/AudioController';
-import { Ship3DView } from '@/components/Ship3DView';
 import { PersistentHeader } from '@/components/PersistentHeader';
 import { PauseModal } from '@/components/PauseModal';
 import { MissionLogbookModal } from '@/components/MissionLogbookModal';
 import { PinnedTelemetryPill } from '@/components/PinnedTelemetryPill';
-import { DialogueBar } from '@/components/DialogueBar';
 import { SoundCaptionsHUD } from '@/components/SoundCaptionsHUD';
 import { HangarView } from '@/components/HangarView';
-import { DodgeRing } from '@/components/DodgeRing';
-import { FormationShooter } from '@/components/FormationShooter';
-import { SleeveMaze } from '@/components/SleeveMaze';
-import { MoonHorizons } from '@/components/puzzles/MoonHorizons';
-import { MarsSouvenir } from '@/components/puzzles/MarsSouvenir';
-import { CeresSelection } from '@/components/puzzles/CeresSelection';
-import { EnceladusPlume } from '@/components/puzzles/EnceladusPlume';
-import { UranusBreakers } from '@/components/puzzles/UranusBreakers';
-import { NeptuneLag } from '@/components/puzzles/NeptuneLag';
-import { PlutoHeart } from '@/components/puzzles/PlutoHeart';
-import { HeliopauseOrder } from '@/components/puzzles/HeliopauseOrder';
 import { EndingView } from '@/components/EndingView';
 import { GateClearanceModal } from '@/components/GateClearanceModal';
 
-const STOP_DOSSIER_INFO: Record<number, { sector: string; distance: string; historicalMission: string }> = {
-  0: { sector: 'Inner Terrestrial', distance: '1.00 AU (Origin)', historicalMission: 'Apollo & Artemis' },
-  1: { sector: 'Lunar Vicinity', distance: '384,400 km', historicalMission: 'Apollo 11 & Surveyor' },
-  2: { sector: 'Martian Orbit', distance: '1.52 AU', historicalMission: 'Mars Global Surveyor & Perseverance' },
-  3: { sector: 'Asteroid Belt', distance: '2.77 AU', historicalMission: 'Dawn Spacecraft' },
-  4: { sector: 'Jovian System', distance: '5.20 AU', historicalMission: 'Pioneer 10 & Cassini' },
-  5: { sector: 'Saturnian Cryosphere', distance: '9.58 AU', historicalMission: 'Cassini-Huygens' },
-  6: { sector: 'Ice Giant Void', distance: '19.2 AU', historicalMission: 'Voyager 2 (1986)' },
-  7: { sector: 'Outer Solar Fringe', distance: '30.1 AU', historicalMission: 'Voyager 2 (1989)' },
-  8: { sector: 'Kuiper Belt', distance: '39.5 AU', historicalMission: 'New Horizons (2015)' },
-  9: { sector: 'Heliopause Frontier', distance: '122 AU', historicalMission: 'Voyager 1 (2012)' },
-  10: { sector: 'TOI-700 Planetary System', distance: '101.5 Light-Years (31.13 pc)', historicalMission: 'TESS Exoplanet Archive' },
+// Phase Components
+import { TitlePhase } from '@/components/phases/TitlePhase';
+import { BriefingPhase } from '@/components/phases/BriefingPhase';
+import { TransitPhase } from '@/components/phases/TransitPhase';
+import { GatePhase } from '@/components/phases/GatePhase';
+
+const STOP_NAMES: Record<number, string> = {
+  0: 'Earth',
+  1: 'Moon (Lumen)',
+  2: 'Mars (Redline)',
+  3: 'Ceres (Pebble)',
+  4: 'Jupiter Depot (Bolt)',
+  5: 'Enceladus (Spray)',
+  6: 'Uranus (Tilt)',
+  7: 'Neptune (Lag)',
+  8: 'Pluto (Heart ♥)',
+  9: 'Heliopause (Whisper)',
+  10: 'Harbor (TOI-700 e)',
 };
 
 export default function TenthLightGame() {
@@ -139,7 +131,7 @@ export default function TenthLightGame() {
     }
   }, [gameState, isLoaded]);
 
-  // Global PC game keyboard shortcuts (Escape: Pause, L: Logbook, M: Mute)
+  // Global PC game keyboard shortcuts (Escape: Pause, L: Logbook, M: Mute, H: How this works)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
@@ -148,6 +140,9 @@ export default function TenthLightGame() {
       if (e.key === 'Escape') {
         if (isLogbookOpen) {
           setIsLogbookOpen(false);
+          sound.playUiClick();
+        } else if (isGateClearanceOpen) {
+          setIsGateClearanceOpen(false);
           sound.playUiClick();
         } else if (gameState.phase !== 'title') {
           setIsPaused((p) => !p);
@@ -165,26 +160,12 @@ export default function TenthLightGame() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState.phase, isLogbookOpen, handleToggleMute, dialoguePhase]);
-
-  const stopNames: Record<number, string> = {
-    0: 'Earth',
-    1: 'Moon (Lumen)',
-    2: 'Mars (Redline)',
-    3: 'Ceres (Pebble)',
-    4: 'Jupiter Depot (Bolt)',
-    5: 'Enceladus (Spray)',
-    6: 'Uranus (Tilt)',
-    7: 'Neptune (Lag)',
-    8: 'Pluto (Heart ♥)',
-    9: 'Heliopause (Whisper)',
-    10: 'Harbor (TOI-700 e)',
-  };
+  }, [gameState.phase, isLogbookOpen, isGateClearanceOpen, handleToggleMute, dialoguePhase]);
 
   const triggerSceneFade = (callback: () => void, targetStop?: number) => {
     const nextStop = targetStop !== undefined ? targetStop : gameState.currentStop;
     const dossier = STOP_DOSSIER_INFO[nextStop] || STOP_DOSSIER_INFO[0];
-    const name = stopNames[nextStop] || 'Deep Space';
+    const name = STOP_NAMES[nextStop] || 'Deep Space';
 
     setTransitionState({
       visible: true,
@@ -332,10 +313,27 @@ export default function TenthLightGame() {
     }
   };
 
-  // Gate dialogue before puzzle completed -> Show clearance directive modal
+  // Gate dialogue before puzzle completed -> Show "How this works" overlay once per puzzle type
   const handleGateBeforeComplete = () => {
     setDialoguePhase(null);
-    setIsGateClearanceOpen(true);
+    const stopIdx = gameState.currentStop;
+    // Show "How this works" overlay once at start of each puzzle type
+    if (!gameState.seenTutorials?.[stopIdx]) {
+      setIsGateClearanceOpen(true);
+    }
+  };
+
+  const handleCloseGateClearance = () => {
+    setIsGateClearanceOpen(false);
+    const stopIdx = gameState.currentStop;
+    if (!gameState.seenTutorials?.[stopIdx]) {
+      updateGameState({
+        seenTutorials: {
+          ...(gameState.seenTutorials || {}),
+          [stopIdx]: true,
+        },
+      });
+    }
   };
 
   // Puzzle success -> show keeper success dialogue
@@ -433,7 +431,7 @@ export default function TenthLightGame() {
       {gameState.phase !== 'title' && (
         <PersistentHeader
           lives={gameState.lives}
-          currentStopName={stopNames[gameState.currentStop]}
+          currentStopName={STOP_NAMES[gameState.currentStop]}
           currentStopIndex={gameState.currentStop}
           onPause={() => setIsPaused(true)}
           onMenu={() => {
@@ -475,7 +473,7 @@ export default function TenthLightGame() {
       <GateClearanceModal
         isOpen={isGateClearanceOpen}
         stopIndex={gameState.currentStop}
-        onClose={() => setIsGateClearanceOpen(false)}
+        onClose={handleCloseGateClearance}
       />
 
       {/* Pinned Telemetry Pill during flight */}
@@ -490,409 +488,83 @@ export default function TenthLightGame() {
         />
       )}
 
-      {/* Main Screen Views */}
+      {/* Main Screen Phase Views */}
       <main className="flex-1 w-full relative flex flex-col justify-center min-h-0">
-        {/* ================= 1. TITLE SCREEN ================= */}
         {gameState.phase === 'title' && (
-          <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24 select-none grid gap-16 lg:gap-24 lg:grid-cols-[1.5fr_1fr] items-end animate-fadeIn">
-            <div className="space-y-12">
-              <p className="label">NASA Space Apps 2026 &middot; Space Mission Design Game</p>
-              <h1 className="display-xl">
-                <span className="block font-extralight">Tenth</span>
-                <span className="block font-extrabold -mt-[0.08em]">Light</span>
-              </h1>
-              <h2 className="font-serif italic text-2xl md:text-3xl text-paper max-w-xl leading-snug">
-                Design the ship. Stay in the seat. Send the droid.
-              </h2>
-              <blockquote className="max-w-xl border-l border-signal pl-6 text-[15px] leading-[1.8] text-paper-muted">
-                &ldquo;Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive.
-                The voyage past the heliopause is a mission simulation that uses the archive&rsquo;s numbers.
-                The aliens, the depot fight, and the droid are the story.&rdquo;
-              </blockquote>
-            </div>
-
-            <div className="space-y-12 pb-2">
-              <div className="space-y-3">
-                <label htmlFor="callsign" className="label">Specialist callsign</label>
-                <input
-                  id="callsign"
-                  type="text"
-                  maxLength={16}
-                  value={gameState.callsign}
-                  onChange={(e) => updateGameState({ callsign: e.target.value.trim() || 'Wren' })}
-                  className="field"
-                  placeholder="Wren"
-                />
-                <p className="text-sm text-paper-muted leading-relaxed">
-                  The specialist never leaves the ship and appears only in dialogue.
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <button
-                  onClick={handleStartBriefing}
-                  onMouseEnter={() => sound.playHoverBlip()}
-                  className="btn"
-                >
-                  <span>Begin mission</span>
-                  <span aria-hidden="true">&rarr;</span>
-                </button>
-
-                <ul className="index-list">
-                  {gameState.currentStop > 0 && (
-                    <li>
-                      <button onClick={handleResumeGame} onMouseEnter={() => sound.playHoverBlip()}>
-                        <span>Resume corridor</span><em className="tabular-nums">Stop {gameState.currentStop}</em>
-                      </button>
-                    </li>
-                  )}
-                  <li>
-                    <button
-                      onClick={() => {
-                        sound.playUiClick();
-                        setIsLogbookOpen(true);
-                      }}
-                      onMouseEnter={() => sound.playHoverBlip()}
-                    >
-                      <span>Mission logbook</span><em className="tabular-nums">11 acts</em>
-                    </button>
-                  </li>
-                  <li>
-                    <Link href="/presentation" onMouseEnter={() => sound.playHoverBlip()}>
-                      <span>Demo deck</span><em className="tabular-nums">7 slides</em>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/data" onMouseEnter={() => sound.playHoverBlip()}>
-                      <span>Scientific data</span><em>NASA sources</em>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <TitlePhase
+            callsign={gameState.callsign}
+            currentStop={gameState.currentStop}
+            onUpdateCallsign={(callsign) => updateGameState({ callsign })}
+            onStartBriefing={handleStartBriefing}
+            onResumeGame={handleResumeGame}
+            onOpenLogbook={() => setIsLogbookOpen(true)}
+          />
         )}
 
-        {/* ================= 2. BRIEFING SCREEN ================= */}
         {gameState.phase === 'briefing' && (
-          <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
-            <div>
-              {/* Dossier Header */}
-              <div className="flex items-baseline justify-between border-b border-paper/15 pb-4 mb-8">
-                <div className="flex items-baseline gap-4">
-                  <span className="label text-signal">
-                    DOSSIER &middot; EXPEDITION ORDER 00
-                  </span>
-                  <span className="text-paper/40 text-xs font-mono">/</span>
-                  <span className="label text-paper-muted">
-                    DEPARTURE CLEARANCE PROTOCOL
-                  </span>
-                </div>
-                <div className="label text-paper-muted font-mono">
-                  REF: NASA-EXOPLANET-ARCHIVE-2026
-                </div>
-              </div>
-
-              {/* Monumental Headline */}
-              <div className="mb-8">
-                <p className="label">Mission Directive &middot; Ground Station Uplink</p>
-                <h1 className="font-serif font-extralight text-5xl sm:text-6xl md:text-7xl tracking-tight text-paper mt-2">
-                  Flight Directive: <span className="font-extrabold text-paper">TOI-700 e</span>
-                </h1>
-                <p className="font-serif italic text-lg text-paper-muted mt-2 max-w-xl">
-                  Specialist {gameState.callsign} &middot; Sealed cabin flight &middot; Astromech Droid Nori deployed for surface sampling
-                </p>
-              </div>
-
-              {/* Ruled Asymmetrical Columns */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
-                {/* Left Column: Large Uncropped NASA Photo of Earth + Exoplanet Archive Stats */}
-                <div className="lg:col-span-6 space-y-6">
-                  <figure className="w-full border border-paper/15 bg-void p-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={NASA_IMAGE_PLATES[10].url}
-                      alt={NASA_IMAGE_PLATES[10].caption}
-                      className="w-full max-h-[360px] object-contain bg-void"
-                    />
-                    <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
-                      <span className="text-signal font-bold">PLATE 00 &middot;</span> {NASA_IMAGE_PLATES[10].caption}
-                      <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
-                        Credit: {NASA_IMAGE_PLATES[10].credit}
-                      </span>
-                    </figcaption>
-                  </figure>
-
-                  {/* Exoplanet Archive Dossier Ledger */}
-                  <div className="border border-paper/15 p-5 bg-void font-mono text-xs space-y-3">
-                    <h2 className="label text-signal border-b border-paper/10 pb-2">
-                      NASA Exoplanet Archive Composite Parameters
-                    </h2>
-                    <div className="flex justify-between py-1 border-b border-paper/10">
-                      <span className="text-paper font-bold">&check; Target: TOI-700 e (Harbor)</span>
-                      <span className="text-signal font-mono text-xs uppercase">Optimistic Habitable Zone</span>
-                    </div>
-                    <div className="text-paper-muted pl-2 space-y-0.5 text-[11px] tabular-nums">
-                      <div>Radius: 0.919 R&oplus; &middot; Mass: 0.718 M&oplus; &middot; Orbital Period: 27.81 days</div>
-                      <div>Insolation: 1.27 &middot; Equilibrium Temp: 272.9 K &middot; Distance: 101.5 ly (31.13 pc)</div>
-                      <div className="text-paper-muted italic">Discovered 2023 by transit photometry.</div>
-                    </div>
-
-                    <div className="flex justify-between py-1 border-b border-paper/10 pt-2">
-                      <span className="text-paper-muted font-bold">&cross; Twin You Do Not Fly: TOI-700 d</span>
-                      <span className="text-paper-muted text-[11px] uppercase">Outer Conservative Zone</span>
-                    </div>
-                    <div className="text-paper-muted pl-2 text-[11px] tabular-nums">
-                      1.145 R&oplus; &middot; 1.580 M&oplus; &middot; 37.42 days &middot; 268.8 K &middot; Discovered 2020.
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Column: 3D Vessel View + Pre-Flight Directives */}
-                <div className="lg:col-span-6 space-y-6">
-                  <div className="border border-paper/15 h-[360px] relative bg-void">
-                    <div className="absolute top-3 left-3 z-10 label text-[11px]">
-                      Integration Gantry &middot; Tenth Light Cabin
-                    </div>
-                    <Ship3DView design={gameState.shipDesign} interactive={true} />
-                  </div>
-
-                  <div className="border border-paper/15 p-5 bg-void space-y-4">
-                    <h2 className="label text-signal">Specialist Flight Orders</h2>
-                    <p className="font-serif text-sm text-paper leading-relaxed">
-                      &ldquo;Scientists demand empirical soil and water samples from Harbor. The hatch never opens
-                      for human footsteps. At TOI-700 e, Droid Nori walks the sample sleeve across the cryogenic
-                      regolith. Earth’s reception when you coast home depends entirely on what your sensors certify.&rdquo;
-                    </p>
-                    <button
-                      onClick={handleBriefingComplete}
-                      onMouseEnter={() => sound.playHoverBlip()}
-                      className="btn w-full text-center"
-                    >
-                      <span>Enter VAB Assembly Bay (Stage 0)</span>
-                      <span aria-hidden="true">&rarr;</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Fixed Dialogue Bar */}
-            <DialogueBar
-              lines={activeDialogueLines}
-              currentIndex={dialogueIndex}
-              onAdvance={() => setDialogueIndex((i) => i + 1)}
-              onPrevious={() => setDialogueIndex((i) => Math.max(0, i - 1))}
-              onComplete={handleBriefingComplete}
-            />
-          </div>
+          <BriefingPhase
+            callsign={gameState.callsign}
+            shipDesign={gameState.shipDesign}
+            activeDialogueLines={activeDialogueLines}
+            dialogueIndex={dialogueIndex}
+            onAdvanceDialogue={() => setDialogueIndex((i) => i + 1)}
+            onPreviousDialogue={() => setDialogueIndex((i) => Math.max(0, i - 1))}
+            onBriefingComplete={handleBriefingComplete}
+          />
         )}
 
-        {/* ================= 3. HANGAR SCREEN ================= */}
         {gameState.phase === 'hangar' && (
           <HangarView
             design={gameState.shipDesign}
+            lives={gameState.lives}
             onUpdateDesign={(d) => updateGameState({ shipDesign: d })}
             onLaunch={handleLaunchFromHangar}
           />
         )}
 
-        {/* ================= 4. TRANSIT SCREEN ================= */}
         {gameState.phase === 'transit' && (
-          <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
-            {/* Top Dossier Ledger Bar */}
-            <div className="flex items-baseline justify-between border-b border-paper/15 pb-4 mb-8">
-              <div className="flex items-baseline gap-4">
-                <span className="label text-signal">
-                  DOSSIER &middot; TRANSIT LEG 0<span className="tabular-nums">{gameState.currentStop}</span>
-                </span>
-                <span className="text-paper/40 text-xs font-mono">/</span>
-                <span className="label text-paper-muted">
-                  INTERPLANETARY CORRIDOR &middot; {stopNames[gameState.currentStop]}
-                </span>
-              </div>
-              <div className="label text-paper-muted">
-                REMAINING DELTA-V: <span className="text-signal font-bold tabular-nums font-mono">{gameState.currentDeltaV} m/s</span>
-              </div>
-            </div>
-
-            {/* Monumental Headline */}
-            <div className="mb-6">
-              <p className="label">Interplanetary Burn &middot; Hazard Avoidance</p>
-              <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-6xl tracking-tight text-paper mt-1">
-                Cruising to <span className="font-extrabold text-paper">{stopNames[gameState.currentStop].split(' ')[0]}</span>
-              </h1>
-            </div>
-
-            {/* Ruled 2-Column Transit Workspace */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
-              {/* Left Column: Approaching Target Real NASA Image Plate */}
-              <div className="lg:col-span-5 space-y-4">
-                {NASA_IMAGE_PLATES[gameState.currentStop] && (
-                  <figure className="w-full border border-paper/15 bg-void p-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={NASA_IMAGE_PLATES[gameState.currentStop].url}
-                      alt={NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                      className="w-full max-h-[380px] object-contain bg-void"
-                    />
-                    <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
-                      <span className="text-signal font-bold">APPROACH TARGET &middot;</span> {NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                      <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
-                        Credit: {NASA_IMAGE_PLATES[gameState.currentStop].credit}
-                      </span>
-                    </figcaption>
-                  </figure>
-                )}
-              </div>
-
-              {/* Right Column: 3D Cruising View & Dodge Ring */}
-              <div className="lg:col-span-7 space-y-4">
-                <div className="border border-paper/15 h-[420px] relative bg-void">
-                  <Ship3DView design={gameState.shipDesign} cruiseMode={true} interactive={true} />
-                  <DodgeRing
-                    isPaused={isPaused}
-                    dodgeIndex={currentDodgeIndex}
-                    totalDodges={totalDodgesOnLeg}
-                    onSuccess={handleDodgeSuccess}
-                    onMiss={handleSpendLife}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <TransitPhase
+            currentStop={gameState.currentStop}
+            currentDeltaV={gameState.currentDeltaV}
+            stopName={STOP_NAMES[gameState.currentStop]}
+            shipDesign={gameState.shipDesign}
+            isPaused={isPaused}
+            currentDodgeIndex={currentDodgeIndex}
+            totalDodgesOnLeg={totalDodgesOnLeg}
+            onDodgeSuccess={handleDodgeSuccess}
+            onDodgeMiss={handleSpendLife}
+          />
         )}
 
-        {/* ================= 5. STOP GATE SCREENS ================= */}
         {gameState.phase === 'gate' && (
-          <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
-            <div>
-              {/* Top Dossier Ledger Bar */}
-              <div className="flex flex-wrap items-baseline justify-between border-b border-paper/15 pb-4 mb-8 gap-4">
-                <div className="flex items-baseline gap-4">
-                  <span className="label text-signal">
-                    DOSSIER &middot; STOP 0<span className="tabular-nums">{gameState.currentStop}</span>
-                  </span>
-                  <span className="text-paper/40 text-xs font-mono">/</span>
-                  <span className="label text-paper-muted">
-                    {STOP_DOSSIER_INFO[gameState.currentStop]?.sector || 'Planetary Waypoint'} &middot; <span className="tabular-nums">{STOP_DOSSIER_INFO[gameState.currentStop]?.distance}</span>
-                  </span>
-                </div>
-                <div className="label text-paper-muted font-mono">
-                  HERITAGE: {STOP_DOSSIER_INFO[gameState.currentStop]?.historicalMission}
-                </div>
-              </div>
-
-              {/* Monumental Type-Led Headline */}
-              <div className="mb-8 border-b border-paper/15 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                  <p className="label">Planetary Gate Challenge &middot; Clearance Required</p>
-                  <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-7xl tracking-tight text-paper mt-1">
-                    {stopNames[gameState.currentStop].split(' ')[0]} <span className="font-extrabold text-paper">Station</span>
-                  </h1>
-                </div>
-
-                <div className="label text-paper-muted font-mono">
-                  Hull: <span className="text-signal font-bold tabular-nums">{gameState.lives}/3</span> &middot; Delta-V: <span className="text-paper font-bold tabular-nums">{gameState.currentDeltaV} m/s</span>
-                </div>
-              </div>
-
-              {/* Ruled 2-Column Dossier Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
-                {/* Left Column: Large Uncropped Real NASA Image */}
-                <div className="lg:col-span-5 space-y-4">
-                  {NASA_IMAGE_PLATES[gameState.currentStop] && (
-                    <figure className="w-full border border-paper/15 bg-void p-3">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={NASA_IMAGE_PLATES[gameState.currentStop].url}
-                        alt={NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                        className="w-full max-h-[460px] object-contain bg-void"
-                      />
-                      <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
-                        <span className="text-signal font-bold">PLATE 0<span className="tabular-nums">{gameState.currentStop}</span> &middot;</span> {NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                        <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
-                          Credit: {NASA_IMAGE_PLATES[gameState.currentStop].credit}
-                        </span>
-                      </figcaption>
-                    </figure>
-                  )}
-                </div>
-
-                {/* Right Column: Interactive Puzzle Console */}
-                <div className="lg:col-span-7">
-                  {!dialoguePhase ? (
-                    <div className="w-full border border-paper/15 p-6 bg-void">
-                      {gameState.currentStop === 1 && <MoonHorizons onSuccess={handlePuzzleSuccess} />}
-                      {gameState.currentStop === 2 && <MarsSouvenir onSuccess={handlePuzzleSuccess} />}
-                      {gameState.currentStop === 3 && <CeresSelection onSuccess={handlePuzzleSuccess} />}
-                      {gameState.currentStop === 4 && (
-                        <FormationShooter
-                          isPaused={isPaused}
-                          onVictory={handlePuzzleSuccess}
-                          onHit={handleSpendLife}
-                        />
-                      )}
-                      {gameState.currentStop === 5 && <EnceladusPlume onSuccess={handlePuzzleSuccess} />}
-                      {gameState.currentStop === 6 && (
-                        <UranusBreakers
-                          design={gameState.shipDesign}
-                          onSuccess={() => {
-                            updateGameState({ uranusBreakersPassed: true });
-                            handlePuzzleSuccess();
-                          }}
-                          onScrubToHangar={handleScrubToHangar}
-                        />
-                      )}
-                      {gameState.currentStop === 7 && (
-                        <NeptuneLag isPaused={isPaused} onSuccess={handlePuzzleSuccess} />
-                      )}
-                      {gameState.currentStop === 8 && <PlutoHeart onSuccess={handlePuzzleSuccess} />}
-                      {gameState.currentStop === 9 && <HeliopauseOrder onSuccess={handlePuzzleSuccess} />}
-                      {gameState.currentStop === 10 && (
-                        <SleeveMaze
-                          isPaused={isPaused}
-                          lives={gameState.lives}
-                          onVictory={(w, s) => {
-                            updateGameState({ collectedWater: w, collectedSoil: s });
-                            handlePuzzleSuccess();
-                          }}
-                          onHit={handleSpendLife}
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <div className="w-full border border-paper/15 p-6 bg-void space-y-4">
-                      <span className="label text-signal">Incoming Gate Transmission</span>
-                      <p className="font-serif italic text-base text-paper leading-relaxed">
-                        Communications feed established with the planetary gate entity. Review mission dialogue below.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Fixed Dialogue Bar */}
-            {dialoguePhase && (
-              <DialogueBar
-                lines={activeDialogueLines}
-                currentIndex={dialogueIndex}
-                onAdvance={() => setDialogueIndex((i) => i + 1)}
-                onPrevious={() => setDialogueIndex((i) => Math.max(0, i - 1))}
-                onComplete={() => {
-                  if (dialoguePhase === 'before') {
-                    handleGateBeforeComplete();
-                  } else {
-                    handleGateSuccessComplete();
-                  }
-                }}
-              />
-            )}
-          </div>
+          <GatePhase
+            currentStop={gameState.currentStop}
+            stopName={STOP_NAMES[gameState.currentStop]}
+            lives={gameState.lives}
+            currentDeltaV={gameState.currentDeltaV}
+            shipDesign={gameState.shipDesign}
+            isPaused={isPaused}
+            dialoguePhase={dialoguePhase}
+            activeDialogueLines={activeDialogueLines}
+            dialogueIndex={dialogueIndex}
+            onAdvanceDialogue={() => setDialogueIndex((i) => i + 1)}
+            onPreviousDialogue={() => setDialogueIndex((i) => Math.max(0, i - 1))}
+            onDialogueComplete={() => {
+              if (dialoguePhase === 'before') {
+                handleGateBeforeComplete();
+              } else {
+                handleGateSuccessComplete();
+              }
+            }}
+            onPuzzleSuccess={handlePuzzleSuccess}
+            onSpendLife={handleSpendLife}
+            onScrubToHangar={handleScrubToHangar}
+            onUranusBreakersPassed={() => updateGameState({ uranusBreakersPassed: true })}
+            onHarborSampleVictory={(w, s) => updateGameState({ collectedWater: w, collectedSoil: s })}
+            onOpenHowThisWorks={() => setIsGateClearanceOpen(true)}
+          />
         )}
 
-        {/* ================= 6. ENDING SCREEN ================= */}
         {gameState.phase === 'ending' && (
           <EndingView
             design={gameState.shipDesign}

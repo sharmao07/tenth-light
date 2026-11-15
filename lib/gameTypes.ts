@@ -143,6 +143,20 @@ export const OPTIONAL_PARTS: ShipPart[] = [
   },
 ];
 
+export const STOP_DOSSIER_INFO: Record<number, { sector: string; distance: string; historicalMission: string }> = {
+  0: { sector: 'Inner Terrestrial', distance: '1.00 AU (Origin)', historicalMission: 'Apollo & Artemis' },
+  1: { sector: 'Lunar Vicinity', distance: '384,400 km', historicalMission: 'Apollo 11 & Surveyor' },
+  2: { sector: 'Martian Orbit', distance: '1.52 AU', historicalMission: 'Mars Global Surveyor & Perseverance' },
+  3: { sector: 'Asteroid Belt', distance: '2.77 AU', historicalMission: 'Dawn Spacecraft' },
+  4: { sector: 'Jovian System', distance: '5.20 AU', historicalMission: 'Pioneer 10 & Cassini' },
+  5: { sector: 'Saturnian Cryosphere', distance: '9.58 AU', historicalMission: 'Cassini-Huygens' },
+  6: { sector: 'Ice Giant Void', distance: '19.2 AU', historicalMission: 'Voyager 2 (1986)' },
+  7: { sector: 'Outer Solar Fringe', distance: '30.1 AU', historicalMission: 'Voyager 2 (1989)' },
+  8: { sector: 'Kuiper Belt', distance: '39.5 AU', historicalMission: 'New Horizons (2015)' },
+  9: { sector: 'Heliopause Frontier', distance: '122 AU', historicalMission: 'Voyager 1 (2012)' },
+  10: { sector: 'TOI-700 Planetary System', distance: '101.5 Light-Years (31.13 pc)', historicalMission: 'TESS Exoplanet Archive' },
+};
+
 // Delta-v budget legs in m/s
 export interface FlightLeg {
   fromStop: number;
@@ -193,6 +207,7 @@ export interface GameSaveState {
   isMuted: boolean;
   reducedMotion?: boolean;
   soundCaptions?: boolean;
+  seenTutorials?: Record<number, boolean>;
   lastUpdated: string;
 }
 

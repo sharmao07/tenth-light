@@ -14,9 +14,10 @@ interface HangarViewProps {
   design: ShipDesign;
   onUpdateDesign: (newDesign: ShipDesign) => void;
   onLaunch: () => void;
+  lives?: number;
 }
 
-export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps) {
+export function HangarView({ design, onUpdateDesign, onLaunch, lives = 3 }: HangarViewProps) {
   const [activeCategory, setActiveCategory] = useState<'all' | 'propulsion' | 'power' | 'instrument'>('all');
   const [showCoM, setShowCoM] = useState<boolean>(false);
   const [showCoT, setShowCoT] = useState<boolean>(false);
@@ -150,6 +151,103 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 </button>
               );
             })}
+          </div>
+        </div>
+      </div>
+
+      {/* Persistent Hull & Budget Readout Bar (Always Visible inside Hangar) */}
+      <div 
+        role="region" 
+        aria-label="Hangar telemetry readouts"
+        className="w-full bg-void border border-paper/15 p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-center select-none"
+      >
+        {/* Hull Integrity Readout */}
+        <div className="flex flex-col gap-1.5 sm:border-r sm:border-paper/10 sm:pr-4">
+          <div className="flex items-baseline justify-between">
+            <span className="label text-paper-muted">Hull Integrity</span>
+            <span className="font-mono text-xs font-bold tabular-nums text-paper">{lives}/3</span>
+          </div>
+          <div className="flex items-center gap-2 pt-0.5">
+            <div className="flex gap-1.5" aria-label={`Hull integrity ${lives} of 3`}>
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  aria-hidden="true"
+                  className={`block h-3 w-7 transition-colors duration-500 ${
+                    i < lives ? 'bg-signal' : 'bg-paper/20'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="font-mono text-[11px] text-paper-muted">
+              {lives === 3 ? 'Max Nominal' : lives === 2 ? 'Sub-optimal' : 'Critical'}
+            </span>
+          </div>
+        </div>
+
+        {/* Teaching Budget Readout */}
+        <div className="flex flex-col gap-1.5 sm:border-r sm:border-paper/10 sm:pr-4">
+          <div className="flex items-baseline justify-between">
+            <span className="label text-paper-muted">Teaching Budget</span>
+            <span className={`font-mono text-xs font-bold tabular-nums ${metrics.isCostLegal ? 'text-signal' : 'text-signal font-extrabold'}`}>
+              {metrics.totalCost} / {MAX_TEACHING_BUDGET} c
+            </span>
+          </div>
+          <div className="w-full h-2 bg-paper/10">
+            <div
+              className="h-full bg-signal transition-all"
+              style={{ width: `${Math.min(100, (metrics.totalCost / MAX_TEACHING_BUDGET) * 100)}%` }}
+            />
+          </div>
+          <div className="flex justify-between font-mono text-[11px] text-paper-muted tabular-nums">
+            <span>{metrics.isCostLegal ? `${MAX_TEACHING_BUDGET - metrics.totalCost} c remaining` : `Exceeded by ${metrics.totalCost - MAX_TEACHING_BUDGET} c`}</span>
+            <span className={metrics.isCostLegal ? 'text-paper font-semibold' : 'text-signal font-bold'}>
+              {metrics.isCostLegal ? 'OK' : 'OVER BUDGET'}
+            </span>
+          </div>
+        </div>
+
+        {/* Launch Mass Readout */}
+        <div className="flex flex-col gap-1.5 sm:border-r sm:border-paper/10 sm:pr-4">
+          <div className="flex items-baseline justify-between">
+            <span className="label text-paper-muted">Payload Mass</span>
+            <span className={`font-mono text-xs font-bold tabular-nums ${metrics.isMassLegal ? 'text-paper' : 'text-signal font-extrabold'}`}>
+              {metrics.totalMass} / {metrics.massCap} kg
+            </span>
+          </div>
+          <div className="w-full h-2 bg-paper/10">
+            <div
+              className={`h-full transition-all ${metrics.isMassLegal ? 'bg-paper' : 'bg-signal'}`}
+              style={{ width: `${Math.min(100, (metrics.totalMass / metrics.massCap) * 100)}%` }}
+            />
+          </div>
+          <div className="flex justify-between font-mono text-[11px] text-paper-muted tabular-nums">
+            <span>{design.launcherId.toUpperCase()} launcher limit</span>
+            <span className={metrics.isMassLegal ? 'text-paper font-semibold' : 'text-signal font-bold'}>
+              {metrics.isMassLegal ? 'OK' : 'OVERWEIGHT'}
+            </span>
+          </div>
+        </div>
+
+        {/* Delta-V Patched-Conic Readout */}
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-baseline justify-between">
+            <span className="label text-paper-muted">Delta-V (Jupiter Leg)</span>
+            <span className={`font-mono text-xs font-bold tabular-nums ${metrics.canReachJupiter ? 'text-paper font-bold' : 'text-signal font-extrabold'}`}>
+              {metrics.totalDeltaV} m/s
+            </span>
+          </div>
+          <div className="w-full h-2 bg-paper/10">
+            <div
+              className={`h-full transition-all ${metrics.canReachJupiter ? 'bg-signal' : 'bg-signal/50'}`}
+              style={{ width: `${Math.min(100, (metrics.totalDeltaV / 7200) * 100)}%` }}
+            />
+          </div>
+          <div className="flex justify-between font-mono text-[11px] text-paper-muted tabular-nums">
+            <span>6,700 m/s burn req.</span>
+            <span className={metrics.canReachJupiter ? 'text-signal font-semibold' : 'text-signal font-bold'}>
+              {metrics.canReachJupiter ? 'REACHES DEPOT' : 'SHORTAGE'}
+            </span>
           </div>
         </div>
       </div>
