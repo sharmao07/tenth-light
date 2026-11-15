@@ -25,30 +25,36 @@ Captured at 1920x1080 from the live build at [tenth-light.vercel.app](https://te
 | `12_mission_completion_debrief.png` | Mission Debrief | Mission debrief report evaluating returned samples based on surviving science instruments. |
 | `13_nasa_data_scientific_disclosures.png` | Data Disclosures | Disclosure page detailing NASA API connections, fallback snapshots, and the honesty statement. |
 
-## NASA scientific data sources
+## NASA scientific data sources & open APIs
 
-Public domain astronomical data and ephemerides under 17 U.S.C. § 105:
+Open astronomical data, ephemeris calculations, and telemetry endpoints provided by NASA and partner centers:
 
-- NASA Exoplanet Archive (Caltech/IPAC / NExScI): TAP query against `pscomppars` for TOI-700 e parameters (radius 0.919 Earth radii, mass 0.718 Earth masses, orbital period 27.81 days, equilibrium temperature 272.9 K).
-- JPL Horizons On-Line Ephemeris: Calculates topocentric azimuth and elevation of Earth from the lunar south pole (`coord@301`) across a rolling 24-hour UTC window.
-- JPL Small-Body Database: Parameters for 1 Ceres (939.4 km diameter, semi-major axis 2.767 AU).
-- NASA NeoWs: Hazard velocities and diameters for near-Earth asteroids.
-- NASA DSCOVR EPIC: Calibrated natural-color daily Earth imagery from L1.
+- **NASA Exoplanet Archive (Caltech/IPAC / NExScI):** Live synchronous Table Access Protocol (TAP) queries against `pscomppars` for composite parameters of TOI-700 e (radius 0.919 Earth radii, mass 0.718 Earth masses, orbital period 27.81 days, equilibrium temperature 272.9 K) and companion TOI-700 d.
+- **NASA JPL Horizons On-Line Ephemeris System:** Computes topocentric azimuth and elevation coordinates of Earth viewed from the lunar south pole (`coord@301`) across a rolling 24-hour UTC window.
+- **NASA Near Earth Object Web Service (NeoWs):** Live near-Earth asteroid velocity, miss-distance, and diameter feeds for hazard sizing.
+- **NASA DSCOVR EPIC API:** Daily calibrated natural-color full-disc Earth imagery telemetry from the Lagrange 1 observatory.
+- **NASA JPL Small-Body Database API (SBDB):** Real-time endpoint connectivity verification check (`ssd-api.jpl.nasa.gov/sbdb.api`). In-game Ceres benchmark measurements (939.4 km diameter, 2.767 AU semi-major axis) and comparison asteroid data are curated static values derived from NASA Dawn mission publications.
+- **NASA Image and Video Library API:** Search and metadata endpoint for NASA mission reconnaissance imagery.
 
-## Archival photography
+## Archival photography & image licensing
 
-Photographic plates from NASA and partner missions:
+Image rights are audited individually based on mission origin and producing agency:
 
-1. Plate 01: Apollo 11 Lunar surface view at Tranquility Base (`AS11-40-5903`), NASA / Neil Armstrong (U.S. Government Public Domain)
-2. Plate 02: Mars Global Surveyor red planet view (`PIA04304`), NASA / JPL / Malin Space Science Systems (NASA Media Usage Guidelines)
-3. Plate 03: Ceres Occator crater and bright spots (`PIA21079`), NASA / JPL-Caltech / UCLA / MPS / DLR / IDA (NASA Media Usage Guidelines)
-4. Plate 04: Cassini true-color map of Jupiter (`PIA02873`), NASA / JPL / Space Science Institute (NASA Media Usage Guidelines)
-5. Plate 05: Cassini backlit view of Enceladus plumes (`PIA07758`), NASA / JPL / Space Science Institute (NASA Media Usage Guidelines)
-6. Plate 06: Voyager 2 Uranus encounter (`PIA18182`), NASA / JPL-Caltech (NASA Media Usage Guidelines)
-7. Plate 07: Voyager 2 Neptune and Great Dark Spot (`PIA01492`), NASA / JPL (NASA Media Usage Guidelines)
-8. Plate 08: New Horizons portrait of Tombaugh Regio (`PIA19952`), NASA / JHUAPL / SwRI (NASA Media Usage Guidelines)
-9. Plate 09: Voyager 1 heliopause crossing illustration (`PIA17046`), NASA / JPL-Caltech (NASA Media Usage Guidelines)
-10. Plate 10: Apollo 17 "Blue Marble" Earth portrait (`as17-148-22727`), NASA Apollo 17 Crew (U.S. Government Public Domain)
+### Confirmed Public-Domain Works (U.S. Federal Government)
+In accordance with 17 U.S.C. § 105, works created solely by officers or employees of the United States Government as part of their official duties are not eligible for domestic copyright protection:
+1. **Plate 01:** Apollo 11 Lunar surface view at Tranquility Base (`AS11-40-5903`), NASA / Neil Armstrong
+2. **Plate 10:** Apollo 17 "Blue Marble" Earth portrait (`as17-148-22727`), NASA / Apollo 17 Crew
+
+### NASA Contractor & Consortium Imagery (NASA Media Usage Guidelines)
+Photographic plates produced by contractor institutions, academic research consortia, or instrument teams are reproduced for non-commercial educational purposes under NASA Media Usage Guidelines with full scientific attribution. Their underlying copyright is held by their respective creator institutions and is not claimed as statutory federal public domain:
+1. **Plate 02:** Mars Global Surveyor red planet view (`PIA04304`), NASA / JPL / Malin Space Science Systems
+2. **Plate 03:** Ceres Occator crater and bright spots (`PIA21079`), NASA / JPL-Caltech / UCLA / MPS / DLR / IDA
+3. **Plate 04:** Cassini true-color map of Jupiter (`PIA02873`), NASA / JPL / Space Science Institute
+4. **Plate 05:** Cassini backlit view of Enceladus plumes (`PIA07758`), NASA / JPL / Space Science Institute
+5. **Plate 06:** Voyager 2 Uranus encounter (`PIA18182`), NASA / JPL-Caltech
+6. **Plate 07:** Voyager 2 Neptune and Great Dark Spot (`PIA01492`), NASA / JPL
+7. **Plate 08:** New Horizons portrait of Tombaugh Regio (`PIA19952`), NASA / JHUAPL / SwRI
+8. **Plate 09:** Voyager 1 heliopause crossing illustration (`PIA17046`), NASA / JPL-Caltech
 
 ## Third-party media status
 

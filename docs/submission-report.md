@@ -34,15 +34,20 @@
 * **Original Procedural Code:** 100% original Three.js procedural meshes (zero 3D model files) and 100% original Web Audio API synthesis engine (zero imported audio files).
 * **Cloud Infrastructure:** Vercel serverless edge deployment and GitHub public version control.
 
-### C. Assets Cleared for Submission
-* All 13 authentic 1920×1080 gameplay screenshots in `docs/screenshots/`.
-* Apollo 11 (`as11-40-5903`) and Apollo 17 (`as17-148-22727`) photography (confirmed U.S. Federal Government Public Domain under 17 U.S.C. § 105).
-* All source code, shaders, procedural audio synthesis, and responsive CSS in the GitHub repository.
-* All open-source packages and OFL 1.1 fonts.
+### C. Assets Preserved in the Repository
+* **Gameplay Screenshots (13 authentic captures):** Full 1920×1080 in-engine gameplay captures preserved in `docs/screenshots/`. In-game UI screens for Stops 1 through 10 embed photographic plates alongside telemetry widgets.
+* **Confirmed Public-Domain Photography (2 plates):**
+  * Plate 01: Apollo 11 lunar surface at Tranquility Base (`as11-40-5903`), NASA / Neil Armstrong.
+  * Plate 10: Apollo 17 "Blue Marble" Earth portrait (`as17-148-22727`), NASA / Apollo 17 Crew.
+  * *Rights Basis:* Work created solely by NASA civil servant astronauts in the scope of their official duties; confirmed U.S. Federal Government works in the public domain under 17 U.S.C. § 105.
+* **Planetary Mission Imagery with Unverified Rights Status (8 plates):**
+  * Plates 02 through 09 (Mars Global Surveyor `PIA04304`, Dawn Ceres `PIA21079`, Cassini Jupiter `PIA02873`, Cassini Enceladus `PIA07758`, Voyager 2 Uranus `PIA18182`, Voyager 2 Neptune `PIA01492`, New Horizons Pluto `PIA19952`, and Voyager 1 Heliopause `PIA17046`).
+  * *Rights Basis:* Produced by contractor institutions, academic consortia, or instrument teams (JPL/Caltech, MSSS, UCLA/MPS/DLR, SSI, JHUAPL/SwRI). Displayed whole and unaltered for non-commercial educational purposes under NASA Media Usage Guidelines with full scientific attribution; their underlying copyright status remains **UNVERIFIED — NOT STATUTORY FEDERAL PUBLIC DOMAIN**.
+* **Original Procedural Code & Assets:** 100% original Three.js procedural meshes (zero external 3D model files), 100% original Web Audio API synthesis engine (zero imported audio files), custom shaders, and responsive UI.
+* **Open-Source Software & Fonts:** Next.js, React, Three.js, Morphicons, Canvas-Confetti (all MIT License), and Fraunces, Instrument Sans, Martian Mono (all SIL Open Font License 1.1).
 
 ### D. Third-Party Media Removed
 * **Pop-Culture Memes & Celebrity Photos:** All unverified commercial media (`drake_meme.jpg`, `sign_character.jpg`, `will_smith_presentation.jpg`, and the animated cat video) have been **permanently purged** from the repository to maintain strict copyright hygiene.
-* **NASA Contractor Imagery Status:** Plates 02 through 09 (PIA04304, PIA21079, PIA02873, PIA07758, PIA18182, PIA01492, PIA19952, PIA17046) are produced by research consortia (Caltech/JPL, MSSS, UCLA/MPS/DLR, SSI, JHUAPL/SwRI) and displayed for non-commercial educational purposes under NASA Media Usage Guidelines with full scientific attribution.
 
 ### E. Official Submission Confirmation
 * **Submitted to NASA Space Apps Challenge 2026** under Team **Hubble Horizons** (*The Tenth Light*) on 15 November 2026.
