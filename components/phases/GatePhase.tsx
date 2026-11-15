@@ -59,13 +59,13 @@ export function GatePhase({
   const dossier = STOP_DOSSIER_INFO[currentStop] || STOP_DOSSIER_INFO[0];
 
   return (
-    <div className={`w-full max-w-7xl mx-auto px-8 md:px-16 pt-8 md:pt-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)] ${
-      dialoguePhase ? 'pb-44' : 'pb-8 md:pb-12'
+    <div className={`w-full max-w-7xl mx-auto px-6 md:px-12 py-3 md:py-4 select-none animate-fadeIn flex flex-col justify-start ${
+      dialoguePhase ? 'pb-32 md:pb-36' : 'pb-6'
     }`}>
       <div>
         {/* Top Dossier Ledger Bar */}
-        <div className="flex flex-wrap items-baseline justify-between border-b border-paper/15 pb-4 mb-8 gap-4">
-          <div className="flex items-baseline gap-4">
+        <div className="flex flex-wrap items-baseline justify-between border-b border-paper/15 pb-2 mb-3 gap-2">
+          <div className="flex items-baseline gap-3">
             <span className="label text-signal">
               DOSSIER &middot; STOP 0<span className="tabular-nums">{currentStop}</span>
             </span>
@@ -74,7 +74,7 @@ export function GatePhase({
               {dossier.sector} &middot; <span className="tabular-nums">{dossier.distance}</span>
             </span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={onOpenHowThisWorks}
               className="btn-quiet !border-signal !text-signal font-mono text-xs uppercase"
@@ -89,10 +89,10 @@ export function GatePhase({
         </div>
 
         {/* Monumental Type-Led Headline */}
-        <div className="mb-8 border-b border-paper/15 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="mb-3 border-b border-paper/15 pb-2 flex flex-col md:flex-row md:items-end justify-between gap-2">
           <div>
-            <p className="label">Planetary Gate Challenge &middot; Clearance Required</p>
-            <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-7xl tracking-tight text-paper mt-1">
+            <p className="label text-[11px]">Planetary Gate Challenge &middot; Clearance Required</p>
+            <h1 className="font-serif font-extralight text-3xl sm:text-4xl md:text-5xl tracking-tight text-paper mt-0.5">
               {stopName.replace(/\s*\([^)]*\)/g, '').trim()} <span className="font-extrabold text-paper">Station</span>
             </h1>
           </div>
@@ -103,20 +103,22 @@ export function GatePhase({
         </div>
 
         {/* Ruled 2-Column Dossier Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
-          {/* Left Column: Large Uncropped Real NASA Image */}
-          <div className="lg:col-span-5 space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start mb-3">
+          {/* Left Column: Real NASA Image Plate */}
+          <div className="lg:col-span-5 space-y-2">
             {NASA_IMAGE_PLATES[currentStop] && (
-              <figure className="w-full border border-paper/15 bg-void p-3">
+              <figure className="w-full border border-paper/15 bg-void p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={NASA_IMAGE_PLATES[currentStop].url}
                   alt={NASA_IMAGE_PLATES[currentStop].caption}
-                  className="w-full max-h-[460px] object-contain bg-void"
+                  className={`w-full object-contain bg-void ${
+                    dialoguePhase ? 'max-h-[180px] sm:max-h-[210px] md:max-h-[230px]' : 'max-h-[220px] sm:max-h-[260px] md:max-h-[280px]'
+                  }`}
                 />
-                <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
+                <figcaption className="mt-1.5 font-mono text-[11px] text-paper-muted leading-tight border-t border-paper/10 pt-1.5">
                   <span className="text-signal font-bold">PLATE 0<span className="tabular-nums">{currentStop}</span> &middot;</span> {NASA_IMAGE_PLATES[currentStop].caption}
-                  <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
+                  <span className="block mt-0.5 text-paper-dim font-mono text-[10px]">
                     Credit: {NASA_IMAGE_PLATES[currentStop].credit}
                   </span>
                 </figcaption>
@@ -127,7 +129,7 @@ export function GatePhase({
           {/* Right Column: Interactive Puzzle Console */}
           <div className="lg:col-span-7">
             {!dialoguePhase ? (
-              <div className="w-full border border-paper/15 p-6 bg-void">
+              <div className="w-full border border-paper/15 p-3 sm:p-4 bg-void">
                 {currentStop === 1 && <MoonHorizons onSuccess={onPuzzleSuccess} />}
                 {currentStop === 2 && <MarsSouvenir onSuccess={onPuzzleSuccess} />}
                 {currentStop === 3 && <CeresSelection onSuccess={onPuzzleSuccess} />}
@@ -167,9 +169,9 @@ export function GatePhase({
                 )}
               </div>
             ) : (
-              <div className="w-full border border-paper/15 p-6 bg-void space-y-4">
+              <div className="w-full border border-paper/15 p-4 bg-void space-y-2">
                 <span className="label text-signal">Incoming Gate Transmission</span>
-                <p className="font-serif italic text-base text-paper leading-relaxed">
+                <p className="font-serif italic text-sm md:text-base text-paper leading-relaxed">
                   Communications feed established with the planetary gate entity. Review mission dialogue below.
                 </p>
               </div>

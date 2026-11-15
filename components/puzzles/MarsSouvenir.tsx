@@ -29,16 +29,16 @@ export function MarsSouvenir({ onSuccess }: MarsSouvenirProps) {
   };
 
   return (
-    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
+    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
         HOW-TO: The ship is exactly 9 kg over mass cap. Jettison the unauthorized souvenir, not Nori’s optic.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
         {/* NASA Mars Image Plate */}
-        <div className="bg-[#0a0c10] p-4 border border-[#e9e6dc]/20 rounded-lg flex flex-col items-center">
-          <div className="w-full h-40 relative overflow-hidden rounded bg-[#12151b]">
+        <div className="bg-void p-3 border border-paper/20 flex flex-col items-center">
+          <div className="w-full h-32 relative overflow-hidden bg-surface">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={marsPlate.url}
@@ -46,60 +46,60 @@ export function MarsSouvenir({ onSuccess }: MarsSouvenirProps) {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-full mt-2 text-xs text-[#e9e6dc]/80 text-left leading-relaxed">
-            <span className="text-[#f0562b] font-bold block">{marsPlate.credit}</span>
+          <div className="w-full mt-2 text-xs text-paper-muted text-left leading-relaxed">
+            <span className="text-signal font-bold block">{marsPlate.credit}</span>
             <div className="truncate">{marsPlate.caption}</div>
           </div>
         </div>
 
         {/* Cargo Bay Bay doors & Jettison list */}
-        <div className="space-y-5 font-sans">
-          <div className="text-xs md:text-sm text-[#f0562b] border-b border-[#e9e6dc]/15 pb-2 font-bold">
-            Cargo Bay Mass Excess: <span className="text-[#f0562b] font-bold">+9.0 kg</span>
+        <div className="space-y-3 font-sans">
+          <div className="text-xs md:text-sm text-signal border-b border-paper/15 pb-1.5 font-bold font-mono">
+            Cargo Bay Mass Excess: <span className="text-signal font-bold tabular-nums">+9.0 kg</span>
           </div>
 
-          <p className="text-xs md:text-sm text-[#e9e6dc]/90 leading-relaxed">
+          <p className="text-xs text-paper-muted leading-relaxed">
             Redline’s radar gate will vaporize any vessel exceeding entry mass. Select cargo to eject into orbit:
           </p>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <button
               onClick={() => handleJettison('souvenir')}
-              className={`w-full py-4 px-5 text-left text-xs md:text-sm border rounded-lg transition-colors flex justify-between items-center shadow-sm ${
+              className={`w-full py-2.5 px-3.5 text-left text-xs md:text-sm border transition-colors flex justify-between items-center ${
                 droppedItem === 'souvenir'
-                  ? 'bg-[#e9e6dc] text-[#0a0c10] border-[#e9e6dc] font-bold'
-                  : 'bg-[#0a0c10] hover:bg-[#f0562b] hover:text-[#0a0c10] border-[#e9e6dc]/30 text-[#e9e6dc]'
+                  ? 'bg-paper text-void border-paper font-bold'
+                  : 'bg-void hover:bg-signal hover:text-void border-paper/30 text-paper'
               }`}
             >
               <span>Unauthorized Souvenir Crate</span>
-              <span className="font-bold text-[#f0562b]">(9.0 kg)</span>
+              <span className="font-bold text-signal tabular-nums">(9.0 kg)</span>
             </button>
 
             <button
               onClick={() => handleJettison('optic')}
-              className="w-full py-4 px-5 text-left text-xs md:text-sm bg-[#0a0c10] hover:bg-[#f0562b]/20 border border-[#e9e6dc]/30 hover:border-[#f0562b] text-[#e9e6dc] rounded-lg transition-colors flex justify-between items-center"
+              className="w-full py-2.5 px-3.5 text-left text-xs md:text-sm bg-void hover:bg-signal/20 border border-paper/30 hover:border-signal text-paper transition-colors flex justify-between items-center"
             >
               <span>Nori’s Secondary Optical Array</span>
-              <span className="text-[#e9e6dc]/60 font-bold">(9.0 kg)</span>
+              <span className="text-paper-muted font-bold tabular-nums">(9.0 kg)</span>
             </button>
 
             <button
               onClick={() => handleJettison('avionics')}
-              className="w-full py-4 px-5 text-left text-xs md:text-sm bg-[#0a0c10] hover:bg-[#f0562b]/20 border border-[#e9e6dc]/30 hover:border-[#f0562b] text-[#e9e6dc] rounded-lg transition-colors flex justify-between items-center"
+              className="w-full py-2.5 px-3.5 text-left text-xs md:text-sm bg-void hover:bg-signal/20 border border-paper/30 hover:border-signal text-paper transition-colors flex justify-between items-center"
             >
               <span>Primary Avionics Rack</span>
-              <span className="text-[#e9e6dc]/60 font-bold">(9.0 kg)</span>
+              <span className="text-paper-muted font-bold tabular-nums">(9.0 kg)</span>
             </button>
           </div>
 
           {errorMsg && (
-            <div className="p-4 bg-[#f0562b]/20 border border-[#f0562b] rounded text-xs md:text-sm text-[#f0562b] leading-relaxed">
+            <div className="p-2.5 bg-signal/20 border border-signal text-xs text-signal leading-relaxed">
               {errorMsg}
             </div>
           )}
 
           {droppedItem === 'souvenir' && (
-            <div className="p-4 bg-[#e9e6dc]/20 border border-[#e9e6dc] rounded text-xs md:text-sm text-[#e9e6dc] leading-relaxed">
+            <div className="p-2.5 bg-surface border border-paper/30 text-xs text-paper leading-relaxed">
               ✓ Souvenir ejected! Ship mass within limits. Mars gate opens.
             </div>
           )}

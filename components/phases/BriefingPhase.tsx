@@ -26,11 +26,11 @@ export function BriefingPhase({
   onBriefingComplete,
 }: BriefingPhaseProps) {
   return (
-    <div className="w-full max-w-7xl mx-auto px-8 md:px-16 pt-8 md:pt-12 pb-44 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
+    <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-3 md:py-4 pb-32 md:pb-36 select-none animate-fadeIn flex flex-col justify-start">
       <div>
         {/* Dossier Header */}
-        <div className="flex items-baseline justify-between border-b border-paper/15 pb-4 mb-8">
-          <div className="flex items-baseline gap-4">
+        <div className="flex items-baseline justify-between border-b border-paper/15 pb-2 mb-3">
+          <div className="flex items-baseline gap-3">
             <span className="label text-signal">
               DOSSIER &middot; EXPEDITION ORDER 00
             </span>
@@ -45,76 +45,76 @@ export function BriefingPhase({
         </div>
 
         {/* Monumental Headline */}
-        <div className="mb-8">
-          <p className="label">Mission Directive &middot; Ground Station Uplink</p>
-          <h1 className="font-serif font-extralight text-5xl sm:text-6xl md:text-7xl tracking-tight text-paper mt-2">
+        <div className="mb-3">
+          <p className="label text-[11px]">Mission Directive &middot; Ground Station Uplink</p>
+          <h1 className="font-serif font-extralight text-3xl sm:text-4xl md:text-5xl tracking-tight text-paper mt-0.5">
             Flight Directive: <span className="font-extrabold text-paper">TOI-700 e</span>
           </h1>
-          <p className="font-serif italic text-lg text-paper-muted mt-2 max-w-xl">
+          <p className="font-serif italic text-sm text-paper-muted mt-1 max-w-xl">
             Specialist {callsign} &middot; Sealed cabin flight &middot; Astromech Droid Nori deployed for surface sampling
           </p>
         </div>
 
         {/* Ruled Asymmetrical Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
-          {/* Left Column: Large Uncropped NASA Photo of Earth + Exoplanet Archive Stats */}
-          <div className="lg:col-span-6 space-y-6">
-            <figure className="w-full border border-paper/15 bg-void p-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start mb-3">
+          {/* Left Column: NASA Photo of Earth + Exoplanet Archive Stats */}
+          <div className="lg:col-span-6 space-y-3">
+            <figure className="w-full border border-paper/15 bg-void p-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={NASA_IMAGE_PLATES[10].url}
                 alt={NASA_IMAGE_PLATES[10].caption}
-                className="w-full max-h-[360px] object-contain bg-void"
+                className="w-full max-h-[190px] sm:max-h-[220px] object-contain bg-void"
               />
-              <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
+              <figcaption className="mt-1 font-mono text-[11px] text-paper-muted leading-tight border-t border-paper/10 pt-1">
                 <span className="text-signal font-bold">PLATE 00 &middot;</span> {NASA_IMAGE_PLATES[10].caption}
-                <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
+                <span className="block mt-0.5 text-paper-dim font-mono text-[10px]">
                   Credit: {NASA_IMAGE_PLATES[10].credit}
                 </span>
               </figcaption>
             </figure>
 
             {/* Exoplanet Archive Dossier Ledger */}
-            <div className="border border-paper/15 p-5 bg-void font-mono text-xs space-y-3">
-              <h2 className="label text-signal border-b border-paper/10 pb-2">
+            <div className="border border-paper/15 p-3.5 bg-void font-mono text-xs space-y-2">
+              <h2 className="label text-signal border-b border-paper/10 pb-1.5">
                 NASA Exoplanet Archive Composite Parameters
               </h2>
-              <div className="flex justify-between py-1 border-b border-paper/10">
+              <div className="flex justify-between py-0.5 border-b border-paper/10">
                 <span className="text-paper font-bold">&check; Target: TOI-700 e (Harbor)</span>
-                <span className="text-signal font-mono text-xs uppercase">Optimistic Habitable Zone</span>
+                <span className="text-signal font-mono text-[10px] uppercase">Optimistic Habitable Zone</span>
               </div>
               <div className="text-paper-muted pl-2 space-y-0.5 text-[11px] tabular-nums">
                 <div>Radius: 0.919 R&oplus; &middot; Mass: 0.718 M&oplus; &middot; Orbital Period: 27.81 days</div>
                 <div>Insolation: 1.27 &middot; Equilibrium Temp: 272.9 K &middot; Distance: 101.5 ly (31.13 pc)</div>
-                <div className="text-paper-muted italic">Discovered 2023 by transit photometry.</div>
+                <div className="text-paper-dim italic">Discovered 2023 by transit photometry.</div>
               </div>
 
-              <div className="flex justify-between py-1 border-b border-paper/10 pt-2">
+              <div className="flex justify-between py-0.5 border-b border-paper/10 pt-1">
                 <span className="text-paper-muted font-bold">&cross; Twin You Do Not Fly: TOI-700 d</span>
-                <span className="text-paper-muted text-[11px] uppercase">Outer Conservative Zone</span>
+                <span className="text-paper-dim text-[10px] uppercase">Outer Conservative Zone</span>
               </div>
               <div className="text-paper-muted pl-2 text-[11px] tabular-nums">
                 1.145 R&oplus; &middot; 1.580 M&oplus; &middot; 37.42 days &middot; 268.8 K &middot; Discovered 2020.
               </div>
 
-              <div className="border-t border-paper/10 pt-2 text-[10px] text-paper-muted font-mono leading-relaxed">
+              <div className="border-t border-paper/10 pt-1.5 text-[10px] text-paper-dim font-mono leading-relaxed">
                 <span className="text-signal font-bold">SCIENCE NOTE:</span> Interstellar transit across 101.5 light-years is a speculative educational scenario (~1,015-year flight in Earth&rsquo;s frame at 0.1c). Chemical and electric propulsion have powered deep-space missions, and solar sails have demonstrated in-space deployment (e.g. ACS3), but no demonstrated system accelerates a practical spacecraft to relativistic speeds. Planetary atmosphere and surface environment of TOI-700 e remain unconfirmed by astronomical instrumentation.
               </div>
             </div>
           </div>
 
           {/* Right Column: 3D Vessel View + Pre-Flight Directives */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="border border-paper/15 h-[360px] relative bg-void">
-              <div className="absolute top-3 left-3 z-10 label text-[11px]">
+          <div className="lg:col-span-6 space-y-3">
+            <div className="border border-paper/15 h-[220px] sm:h-[250px] relative bg-void">
+              <div className="absolute top-2 left-2 z-10 label text-[10px]">
                 Integration Gantry &middot; Tenth Light Cabin
               </div>
               <Ship3DView design={shipDesign} interactive={true} />
             </div>
 
-            <div className="border border-paper/15 p-5 bg-void space-y-4">
+            <div className="border border-paper/15 p-4 bg-void space-y-3">
               <h2 className="label text-signal">Specialist Flight Orders</h2>
-              <p className="font-serif text-sm text-paper leading-relaxed">
+              <p className="font-serif text-xs sm:text-sm text-paper leading-relaxed">
                 &ldquo;Scientists demand empirical soil and water samples from Harbor. The hatch never opens
                 for human footsteps. At TOI-700 e, Droid Nori walks the sample sleeve across the cryogenic
                 regolith. Earth&rsquo;s reception when you coast home depends entirely on what your sensors certify.&rdquo;
@@ -122,7 +122,7 @@ export function BriefingPhase({
               <button
                 onClick={onBriefingComplete}
                 onMouseEnter={() => sound.playHoverBlip()}
-                className="btn w-full text-center"
+                className="btn w-full text-center py-2.5 px-4 text-xs sm:text-sm"
               >
                 <span>Enter VAB Assembly Bay (Stage 0)</span>
                 <span aria-hidden="true">&rarr;</span>

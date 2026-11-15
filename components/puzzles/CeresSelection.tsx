@@ -46,16 +46,16 @@ export function CeresSelection({ onSuccess }: CeresSelectionProps) {
   };
 
   return (
-    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
+    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
         HOW-TO: Identify the largest small body orbited by NASA Dawn. Ceres and Pluto are dwarf planets.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
         {/* NASA Ceres Plate */}
-        <div className="bg-[#0a0c10] p-4 border border-[#e9e6dc]/20 rounded-lg flex flex-col items-center">
-          <div className="w-full h-40 relative overflow-hidden rounded bg-[#12151b]">
+        <div className="bg-void p-3 border border-paper/20 flex flex-col items-center">
+          <div className="w-full h-32 relative overflow-hidden bg-surface">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={ceresPlate.url}
@@ -63,32 +63,32 @@ export function CeresSelection({ onSuccess }: CeresSelectionProps) {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-full mt-2 text-xs text-[#e9e6dc]/80 text-left leading-relaxed">
-            <span className="text-[#f0562b] font-bold block">{ceresPlate.credit}</span>
+          <div className="w-full mt-2 text-xs text-paper-muted text-left leading-relaxed">
+            <span className="text-signal font-bold block">{ceresPlate.credit}</span>
             <div className="truncate">{ceresPlate.caption}</div>
           </div>
         </div>
 
         {/* Small-Body Selection List */}
-        <div className="space-y-5 font-sans">
-          <div className="flex justify-between items-center border-b border-[#e9e6dc]/15 pb-2">
-            <span className="text-xs md:text-sm text-[#f0562b] font-bold">JPL Small-Body Database</span>
+        <div className="space-y-3 font-sans">
+          <div className="flex justify-between items-center border-b border-paper/15 pb-1.5">
+            <span className="text-xs md:text-sm text-signal font-bold font-mono">JPL Small-Body Database</span>
             {sourceType === 'live-verification' ? (
-              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/20 px-3 py-0.5 rounded" title="Verified against live JPL Small-Body Database API">
+              <span className="text-xs font-mono text-paper bg-surface border border-paper/30 px-2.5 py-0.5" title="Verified against live JPL Small-Body Database API">
                 Live Verification Check
               </span>
             ) : sourceType === 'live' ? (
-              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/20 px-3 py-0.5 rounded">
+              <span className="text-xs font-mono text-paper bg-surface border border-paper/30 px-2.5 py-0.5">
                 Live Data Ingestion
               </span>
             ) : (
-              <span className="text-xs text-[#f0562b] bg-[#f0562b]/20 px-3 py-0.5 rounded">
+              <span className="text-xs font-mono text-signal bg-signal/15 border border-signal/30 px-2.5 py-0.5">
                 15 Nov 2026 Archive Snapshot
               </span>
             )}
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {bodies.map((b) => {
               const isSelected = selectedBody === b.name;
               const isCorrect = isSelected && b.name.includes('Ceres');
@@ -97,36 +97,36 @@ export function CeresSelection({ onSuccess }: CeresSelectionProps) {
                 <button
                   key={b.name}
                   onClick={() => handleSelect(b.name)}
-                  className={`w-full py-4 px-5 text-left text-xs md:text-sm border rounded-lg transition-colors flex justify-between items-center shadow-sm ${
+                  className={`w-full py-2.5 px-3.5 text-left text-xs md:text-sm border transition-colors flex justify-between items-center ${
                     isCorrect
-                      ? 'bg-[#e9e6dc] text-[#0a0c10] border-[#e9e6dc] font-bold'
+                      ? 'bg-paper text-void border-paper font-bold'
                       : isSelected
-                      ? 'bg-[#f0562b]/20 text-[#f0562b] border-[#f0562b]'
-                      : 'bg-[#0a0c10] hover:bg-[#f0562b] hover:text-[#0a0c10] border-[#e9e6dc]/30 text-[#e9e6dc]'
+                      ? 'bg-signal/20 text-signal border-signal'
+                      : 'bg-void hover:bg-signal hover:text-void border-paper/30 text-paper'
                   }`}
                 >
                   <div>
-                    <div className="font-bold text-sm md:text-base">{b.name}</div>
-                    <div className="text-xs opacity-80 mt-0.5">{b.class}</div>
+                    <div className="font-bold text-xs md:text-sm">{b.name}</div>
+                    <div className="text-[11px] opacity-80">{b.class}</div>
                   </div>
-                  <div className="text-sm md:text-base font-bold text-[#f0562b]">{b.diameterKm} km</div>
+                  <div className="text-xs md:text-sm font-bold text-signal tabular-nums">{b.diameterKm} km</div>
                 </button>
               );
             })}
           </div>
 
-          <div className="text-xs font-sans text-[#e9e6dc]/80 italic border-t border-[#e9e6dc]/15 pt-3 leading-relaxed">
+          <div className="text-[11px] font-sans text-paper-muted italic border-t border-paper/15 pt-2 leading-relaxed">
             Note: Ceres and Pluto are dwarf planets, not mere asteroids.
           </div>
 
           {errorMsg && (
-            <div className="p-4 bg-[#f0562b]/20 border border-[#f0562b] rounded text-xs md:text-sm text-[#f0562b] leading-relaxed">
+            <div className="p-2.5 bg-signal/20 border border-signal text-xs text-signal leading-relaxed">
               {errorMsg}
             </div>
           )}
 
           {selectedBody?.includes('Ceres') && (
-            <div className="p-4 bg-[#e9e6dc]/20 border border-[#e9e6dc] rounded text-xs md:text-sm text-[#e9e6dc] leading-relaxed">
+            <div className="p-2.5 bg-surface border border-paper/30 text-xs text-paper leading-relaxed">
               ✓ 1 Ceres confirmed (939.4 km). Dawn’s destination. Pebble grants passage!
             </div>
           )}

@@ -73,16 +73,16 @@ export function NeptuneLag({ isPaused, onSuccess }: NeptuneLagProps) {
   }, [isTransmitting, isPaused, hasSucceeded, onSuccess, timerSeconds]);
 
   return (
-    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
+    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
         HOW-TO: Send exactly one command and wait 7 seconds. A second command during transit resets the buffer.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
         {/* NASA Neptune Plate */}
-        <div className="bg-[#0a0c10] p-4 border border-[#e9e6dc]/20 rounded-lg flex flex-col items-center">
-          <div className="w-full h-40 relative overflow-hidden rounded bg-[#12151b]">
+        <div className="bg-void p-3 border border-paper/20 flex flex-col items-center">
+          <div className="w-full h-32 relative overflow-hidden bg-surface">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={neptunePlate.url}
@@ -90,37 +90,37 @@ export function NeptuneLag({ isPaused, onSuccess }: NeptuneLagProps) {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-full mt-2 text-xs text-[#e9e6dc]/80 text-left leading-relaxed">
-            <span className="text-[#f0562b] font-bold block">{neptunePlate.credit}</span>
+          <div className="w-full mt-2 text-xs text-paper-muted text-left leading-relaxed font-mono">
+            <span className="text-signal font-bold block">{neptunePlate.credit}</span>
             <div className="truncate">{neptunePlate.caption}</div>
           </div>
         </div>
 
         {/* Telemetry Delay Console */}
-        <div className="space-y-5 font-sans">
-          <div className="border-b border-[#e9e6dc]/15 pb-3">
-            <div className="text-sm text-[#f0562b] font-bold">
+        <div className="space-y-3 font-sans">
+          <div className="border-b border-paper/15 pb-1.5">
+            <div className="text-xs sm:text-sm text-signal font-bold font-mono">
               Deep Space Light Travel Delay
             </div>
-            <div className="text-xs md:text-sm text-[#e9e6dc]/80 mt-1.5 leading-relaxed">
-              Distance: <span className="font-bold text-[#e9e6dc]">30.1 AU</span> (4.5 billion km)
+            <div className="text-xs text-paper-muted mt-1 leading-relaxed font-mono">
+              Distance: <span className="font-bold text-paper tabular-nums">30.1 AU</span> (4.5 billion km)
             </div>
-            <div className="text-xs md:text-sm text-[#e9e6dc] mt-1 leading-relaxed">
-              One-Way Light Time: <span className="font-bold text-[#f0562b]">4.17 hours</span> (~15,020 s)
+            <div className="text-xs text-paper mt-0.5 leading-relaxed font-mono">
+              One-Way Light Time: <span className="font-bold text-signal tabular-nums">4.17 hours</span> (~15,020 s)
             </div>
           </div>
 
           {/* 7-Second Simulation Timer Bar */}
-          <div className="p-5 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded-lg space-y-2">
-            <div className="flex justify-between items-center text-xs md:text-sm mb-1">
+          <div className="p-3 bg-void border border-paper/20 space-y-1.5">
+            <div className="flex justify-between items-center text-xs font-mono mb-1">
               <span>Simulation Delay:</span>
-              <span className="font-bold text-[#f0562b]">
+              <span className="font-bold text-signal tabular-nums">
                 {timerSeconds !== null ? `${timerSeconds.toFixed(1)}s` : '7.0s'} / 4.17h real
               </span>
             </div>
-            <div className="w-full h-3 bg-[#12151b] rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-surface overflow-hidden">
               <div
-                className="h-full bg-[#f0562b] transition-all duration-75"
+                className="h-full bg-signal transition-all duration-75"
                 style={{
                   width: timerSeconds !== null ? `${((7 - timerSeconds) / 7) * 100}%` : '0%',
                 }}
@@ -131,17 +131,17 @@ export function NeptuneLag({ isPaused, onSuccess }: NeptuneLagProps) {
           <button
             onClick={handleSendCommand}
             disabled={hasSucceeded}
-            className={`w-full py-5 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-colors shadow ${
+            className={`w-full py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider transition-colors font-mono ${
               isTransmitting
-                ? 'bg-[#f0562b] text-[#e9e6dc] hover:bg-[#cf4520]'
-                : 'bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10]'
+                ? 'bg-signal text-paper hover:bg-signal-hover'
+                : 'bg-signal hover:bg-signal-hover text-void'
             }`}
           >
             {isTransmitting ? '⚠ Sending 2nd Command Will Reset Buffer!' : 'Send Uplink Command'}
           </button>
 
           {statusMsg && (
-            <div className="p-4 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded-lg text-xs md:text-sm leading-relaxed">
+            <div className="p-2.5 bg-surface border border-paper/20 text-xs leading-relaxed font-mono">
               {statusMsg}
             </div>
           )}

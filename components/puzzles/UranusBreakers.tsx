@@ -79,17 +79,17 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
   };
 
   return (
-    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
+    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
         HOW-TO: Balance breakers at 19.2 AU. Keep heater, computer, and radio on. Switch off imager if overloaded.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
         {/* NASA Uranus Plate + 1/r^2 Physics Card */}
-        <div className="space-y-5">
-          <div className="bg-[#0a0c10] p-4 border border-[#e9e6dc]/20 rounded-lg">
-            <div className="w-full h-36 relative overflow-hidden rounded bg-[#12151b]">
+        <div className="space-y-3">
+          <div className="bg-void p-3 border border-paper/20">
+            <div className="w-full h-28 relative overflow-hidden bg-surface">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={uranusPlate.url}
@@ -97,40 +97,40 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="w-full mt-2 text-xs text-[#e9e6dc]/80 text-left leading-relaxed">
-              <span className="text-[#f0562b] font-bold block">{uranusPlate.credit}</span>
+            <div className="w-full mt-1.5 text-xs text-paper-muted text-left leading-relaxed font-mono">
+              <span className="text-signal font-bold block">{uranusPlate.credit}</span>
               <div className="truncate">{uranusPlate.caption}</div>
             </div>
           </div>
 
           {/* 1/r^2 Inverse-square box */}
-          <div className="p-5 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded-lg text-xs md:text-sm space-y-1.5">
-            <div className="text-[#f0562b] font-bold">Physics: Inverse-Square Law (1/r²)</div>
-            <div className="text-[#e9e6dc]/90 mt-1">
-              Distance: <span className="font-bold">19.2 AU</span> (r² = 368.6)
+          <div className="p-3 bg-void border border-paper/20 text-xs space-y-1 font-mono">
+            <div className="text-signal font-bold">Physics: Inverse-Square Law (1/r²)</div>
+            <div className="text-paper-muted">
+              Distance: <span className="font-bold text-paper tabular-nums">19.2 AU</span> (r² = 368.6)
             </div>
-            <div className="text-[#e9e6dc]/90">
-              Solar at 19.2 AU: <span className="font-bold text-[#f0562b]">~0.43 W</span> per array
+            <div className="text-paper-muted">
+              Solar at 19.2 AU: <span className="font-bold text-signal tabular-nums">~0.43 W</span> per array
             </div>
-            <div className="text-[#e9e6dc]/90">
-              RTG Supply: <span className="font-bold text-[#e9e6dc]">{hasRtg ? '100 W (Flat)' : '0 W (Missing!)'}</span>
+            <div className="text-paper-muted">
+              RTG Supply: <span className="font-bold text-paper">{hasRtg ? '100 W (Flat)' : '0 W (Missing!)'}</span>
             </div>
           </div>
         </div>
 
         {/* Breaker Switches Console */}
-        <div className="space-y-4 text-xs md:text-sm">
-          <div className="flex justify-between items-center border-b border-[#e9e6dc]/15 pb-2">
-            <span className="text-[#f0562b] font-bold text-sm">Bus Power Breakers</span>
-            <span className={`font-bold ${currentLoad <= totalSupply ? 'text-[#e9e6dc]' : 'text-[#f0562b]'}`}>
+        <div className="space-y-3 text-xs md:text-sm font-mono">
+          <div className="flex justify-between items-center border-b border-paper/15 pb-1.5">
+            <span className="text-signal font-bold text-xs sm:text-sm">Bus Power Breakers</span>
+            <span className={`font-bold tabular-nums ${currentLoad <= totalSupply ? 'text-paper' : 'text-signal'}`}>
               {currentLoad} W / {totalSupply.toFixed(1)} W
             </span>
           </div>
 
           {/* Essential Switches */}
-          <div className="space-y-2">
-            <label className="flex justify-between items-center bg-[#0a0c10] p-3 border border-[#e9e6dc]/25 rounded-lg cursor-pointer">
-              <span className="text-[#e9e6dc]">Computer / Command (20W)</span>
+          <div className="space-y-1.5">
+            <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
+              <span className="text-paper text-xs">Computer / Command (20W)</span>
               <input
                 type="checkbox"
                 checked={breakerComputer}
@@ -139,8 +139,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
               />
             </label>
 
-            <label className="flex justify-between items-center bg-[#0a0c10] p-3 border border-[#e9e6dc]/25 rounded-lg cursor-pointer">
-              <span className="text-[#e9e6dc]">High-Gain Radio (15W)</span>
+            <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
+              <span className="text-paper text-xs">High-Gain Radio (15W)</span>
               <input
                 type="checkbox"
                 checked={breakerRadio}
@@ -149,8 +149,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
               />
             </label>
 
-            <label className="flex justify-between items-center bg-[#0a0c10] p-3 border border-[#e9e6dc]/25 rounded-lg cursor-pointer">
-              <span className="text-[#e9e6dc]">Bus Thermal Heater (+20W)</span>
+            <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
+              <span className="text-paper text-xs">Bus Thermal Heater (+20W)</span>
               <input
                 type="checkbox"
                 checked={breakerHeater}
@@ -161,10 +161,10 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
           </div>
 
           {/* Optional Breakers */}
-          <div className="space-y-2 border-t border-[#e9e6dc]/15 pt-2">
+          <div className="space-y-1.5 border-t border-paper/15 pt-1.5">
             {hasImager && (
-              <label className="flex justify-between items-center bg-[#0a0c10] p-3 border border-[#e9e6dc]/25 rounded-lg cursor-pointer">
-                <span className="text-[#e9e6dc]/80">Imager Camera (5W)</span>
+              <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
+                <span className="text-paper-muted text-xs">Imager Camera (5W)</span>
                 <input
                   type="checkbox"
                   checked={breakerImager}
@@ -175,8 +175,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
             )}
 
             {hasSpec && (
-              <label className="flex justify-between items-center bg-[#0a0c10] p-3 border border-[#e9e6dc]/25 rounded-lg cursor-pointer">
-                <span className="text-[#e9e6dc]/80">Mass Spectrometer (20W)</span>
+              <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
+                <span className="text-paper-muted text-xs">Mass Spectrometer (20W)</span>
                 <input
                   type="checkbox"
                   checked={breakerSpec}

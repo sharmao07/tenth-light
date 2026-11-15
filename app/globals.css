@@ -109,24 +109,32 @@ button, a, input, .sensory-btn { transition: color 0.4s var(--ease), background-
 .tui-frame { border: 1px solid rgba(233, 230, 220, 0.16); background: var(--surface); }
 
 /* Universal CSS Variable Fallbacks for Hard-Coded Hexes: One edit in :root changes everything */
-[class*="bg-[#0a0c10]"] { background-color: var(--void) !important; }
-[class*="bg-[#0e1116]"] { background-color: var(--surface) !important; }
-[class*="bg-[#12151b]"] { background-color: var(--surface-raised) !important; }
-[class*="bg-[#0f1217]"] { background-color: var(--surface-raised) !important; }
-[class*="bg-[#f0562b]"] { background-color: var(--signal) !important; }
-[class*="bg-[#cf4520]"] { background-color: var(--signal-hover) !important; }
-[class*="bg-[#e9e6dc]"] { background-color: var(--paper) !important; }
+[class~="bg-[#0a0c10]"] { background-color: var(--void) !important; }
+[class~="bg-[#0e1116]"] { background-color: var(--surface) !important; }
+[class~="bg-[#12151b]"] { background-color: var(--surface-raised) !important; }
+[class~="bg-[#0f1217]"] { background-color: var(--surface-raised) !important; }
+[class~="bg-[#f0562b]"] { background-color: var(--signal) !important; }
+[class~="bg-[#cf4520]"] { background-color: var(--signal-hover) !important; }
+[class~="bg-[#e9e6dc]"] { background-color: var(--paper) !important; }
 
-[class*="text-[#0a0c10]"] { color: var(--void) !important; }
-[class*="text-[#12151b]"] { color: var(--void) !important; }
-[class*="text-[#f0562b]"] { color: var(--signal) !important; }
-[class*="text-[#cf4520]"] { color: var(--signal-hover) !important; }
-[class*="text-[#e9e6dc]"] { color: var(--paper) !important; }
+/* Translucent color fallbacks so opacity is never clobbered into solid white/amber */
+[class~="bg-[#e9e6dc]/20"], [class~="bg-[#e9e6dc]/15"], [class~="bg-[#e9e6dc]/10"] {
+  background-color: rgba(233, 230, 220, 0.15) !important;
+}
+[class~="bg-[#f0562b]/20"], [class~="bg-[#f0562b]/15"], [class~="bg-[#f0562b]/10"] {
+  background-color: rgba(240, 86, 43, 0.18) !important;
+}
 
-[class*="border-[#0a0c10]"] { border-color: var(--void) !important; }
-[class*="border-[#12151b]"] { border-color: rgba(233, 230, 220, 0.2) !important; }
-[class*="border-[#f0562b]"] { border-color: var(--signal) !important; }
-[class*="border-[#e9e6dc]"] { border-color: var(--paper) !important; }
+[class~="text-[#0a0c10]"] { color: var(--void) !important; }
+[class~="text-[#12151b]"] { color: var(--void) !important; }
+[class~="text-[#f0562b]"] { color: var(--signal) !important; }
+[class~="text-[#cf4520]"] { color: var(--signal-hover) !important; }
+[class~="text-[#e9e6dc]"] { color: var(--paper) !important; }
+
+[class~="border-[#0a0c10]"] { border-color: var(--void) !important; }
+[class~="border-[#12151b]"] { border-color: rgba(233, 230, 220, 0.2) !important; }
+[class~="border-[#f0562b]"] { border-color: var(--signal) !important; }
+[class~="border-[#e9e6dc]"] { border-color: var(--paper) !important; }
 
 /* Elevated contrast for secondary and dim text to guarantee WCAG AA (>4.5:1 on void) */
 .text-paper\/40, .text-paper\/45, .text-paper\/50, .text-paper\/55,

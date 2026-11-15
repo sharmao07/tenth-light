@@ -18,7 +18,10 @@ test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
   });
 
   test('JPL Horizons API returns robustly parsed lunar az/el coordinates', async ({ request }) => {
+    const requestStartTime = new Date();
     const res = await request.get('/api/nasa/horizons');
+    const requestEndTime = new Date();
+
     expect(res.ok()).toBeTruthy();
     const json = await res.json();
     expect(json).toHaveProperty('source');
@@ -34,16 +37,17 @@ test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
       expect(json.data).toHaveProperty('coordinateConvention');
       expect(json.data.coordinateConvention).toContain('GEODETIC');
 
-      // Assert that the returned epoch matches the current UTC date
-      const now = new Date();
-      const year = now.getUTCFullYear();
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const monthStr = monthNames[now.getUTCMonth()];
-      const pad = (n: number) => String(n).padStart(2, '0');
-      const dayStr = pad(now.getUTCDate());
+      // Independently verify that the live API returns the requested minute precision
+      // Parse the returned epoch (e.g. "2026-Nov-15 14:15" or "2026-11-15 14:15") into UTC timestamp
+      const returnedEpochDate = new Date(json.data.epoch.trim() + ' UTC');
+      expect(isNaN(returnedEpochDate.getTime())).toBeFalsy();
 
-      // Matches both Horizons textual month ("2026-Nov-15 13:23") and numeric format ("2026-11-15 13:23")
-      expect(json.data.epoch).toMatch(new RegExp(`^${year}-(?:${monthStr}|${pad(now.getUTCMonth() + 1)})-${dayStr}`));
+      // Compare returned epoch against request's captured window, allowing a 2-minute precision buffer for network latency and rollovers
+      const minAllowed = new Date(requestStartTime.getTime() - 2 * 60 * 1000);
+      const maxAllowed = new Date(requestEndTime.getTime() + 2 * 60 * 1000);
+
+      expect(returnedEpochDate.getTime()).toBeGreaterThanOrEqual(minAllowed.getTime());
+      expect(returnedEpochDate.getTime()).toBeLessThanOrEqual(maxAllowed.getTime());
     }
   });
 

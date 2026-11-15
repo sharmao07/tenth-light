@@ -28,15 +28,15 @@ export function PlutoHeart({ onSuccess }: PlutoHeartProps) {
   };
 
   return (
-    <div className="bg-[#12151b]/95 border border-[#f0562b] p-8 rounded-lg max-w-2xl mx-auto text-[#e9e6dc] shadow-2xl select-none">
+    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-[#0a0c10] px-6 py-4 rounded border border-[#f0562b]/50 text-sm text-[#f0562b] mb-4 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
         HOW-TO: Mark the bright frozen heart ♥ (Tombaugh Regio), not a dark plain. A photograph is not a soil sample.
       </div>
 
-      <div className="space-y-6 font-sans">
+      <div className="space-y-4 font-sans">
         {/* Pluto Interactive Plate */}
-        <div className="relative w-full h-64 bg-[#0a0c10] border border-[#e9e6dc]/30 rounded-lg overflow-hidden shadow-inner">
+        <div className="relative w-full h-48 sm:h-52 bg-void border border-paper/30 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={plutoPlate.url}
@@ -47,15 +47,15 @@ export function PlutoHeart({ onSuccess }: PlutoHeartProps) {
           {/* The Heart ♥ Tombaugh Regio */}
           <button
             onClick={() => handleSelectZone('heart')}
-            className={`absolute top-[32%] right-[26%] w-28 h-28 rounded-full border border-dashed transition-all flex flex-col items-center justify-center cursor-pointer group shadow-lg ${
+            className={`absolute top-[30%] right-[24%] w-24 h-24 rounded-full border border-dashed transition-all flex flex-col items-center justify-center cursor-pointer group ${
               markedTarget === 'heart'
-                ? 'bg-[#f0562b]/30 border-[#f0562b] scale-105'
-                : 'border-[#e9e6dc]/70 hover:border-[#f0562b] hover:bg-[#f0562b]/20'
+                ? 'bg-signal/30 border-signal scale-105'
+                : 'border-paper/70 hover:border-signal hover:bg-signal/20'
             }`}
             title="Mark Tombaugh Regio (The Heart ♥)"
           >
-            <span className="text-3xl animate-bounce">♥</span>
-            <span className="text-xs font-bold bg-[#0a0c10]/90 px-2 py-0.5 rounded text-[#e9e6dc] mt-0.5">
+            <span className="text-2xl animate-bounce">♥</span>
+            <span className="text-[10px] font-mono font-bold bg-void/90 px-1.5 py-0.5 text-paper mt-0.5">
               Tombaugh Regio
             </span>
           </button>
@@ -63,23 +63,23 @@ export function PlutoHeart({ onSuccess }: PlutoHeartProps) {
           {/* Dark Plain Cthulhu Macula */}
           <button
             onClick={() => handleSelectZone('dark_plain')}
-            className={`absolute top-[45%] left-[10%] w-24 h-20 rounded border border-dashed transition-all flex flex-col items-center justify-center cursor-pointer ${
+            className={`absolute top-[45%] left-[10%] w-20 h-16 border border-dashed transition-all flex flex-col items-center justify-center cursor-pointer ${
               markedTarget === 'dark_plain'
-                ? 'bg-[#f0562b]/30 border-[#f0562b]'
-                : 'border-[#e9e6dc]/30 hover:border-[#f0562b] hover:bg-[#f0562b]/15'
+                ? 'bg-signal/30 border-signal'
+                : 'border-paper/30 hover:border-signal hover:bg-signal/15'
             }`}
             title="Cthulhu Macula (Dark Plain)"
           >
-            <span className="text-xs bg-[#0a0c10]/85 px-2 py-0.5 rounded text-[#e9e6dc]/70 font-semibold">
+            <span className="text-[10px] font-mono bg-void/85 px-1.5 py-0.5 text-paper-muted font-semibold">
               Dark Plain
             </span>
           </button>
         </div>
 
         {/* Footer info & Honesty quote */}
-        <div className="flex flex-wrap justify-between items-center text-xs md:text-sm text-[#e9e6dc]/80 border-t border-[#e9e6dc]/15 pt-3 leading-relaxed">
-          <span className="font-bold text-[#f0562b]">{plutoPlate.credit}</span>
-          <span className="italic text-[#f0562b] font-serif text-sm">“A photograph is not a soil sample.”</span>
+        <div className="flex flex-wrap justify-between items-center text-xs text-paper-muted border-t border-paper/15 pt-2 leading-relaxed font-mono">
+          <span className="font-bold text-signal">{plutoPlate.credit}</span>
+          <span className="italic text-signal font-serif text-xs md:text-sm">“A photograph is not a soil sample.”</span>
         </div>
 
         {statusMsg && (
