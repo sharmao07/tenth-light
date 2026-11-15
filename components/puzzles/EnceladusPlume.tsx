@@ -35,9 +35,9 @@ export function EnceladusPlume({ onSuccess }: EnceladusPlumeProps) {
   };
 
   return (
-    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
+    <div className="bg-surface-raised border border-signal p-5 sm:p-6 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2.5 border border-signal/40 text-xs sm:text-sm text-signal mb-4 text-center leading-relaxed font-sans">
         HOW-TO: Click the illuminated south-pole water vapor jets (the plume Cassini flew through).
       </div>
 
@@ -51,6 +51,8 @@ export function EnceladusPlume({ onSuccess }: EnceladusPlumeProps) {
           <img
             src={enceladusPlate.url}
             alt="Enceladus Plumes"
+            loading="eager"
+            decoding="async"
             className="w-full h-full object-cover"
           />
 
@@ -79,19 +81,19 @@ export function EnceladusPlume({ onSuccess }: EnceladusPlumeProps) {
           )}
         </div>
 
-        <div className="flex justify-between items-center text-xs text-paper-muted leading-relaxed font-mono">
+        <div className="flex justify-between items-center text-xs text-paper-muted leading-relaxed font-mono pt-1">
           <span className="font-bold text-signal">{enceladusPlate.credit}</span>
           <span className="truncate max-w-[340px]">{enceladusPlate.caption}</span>
         </div>
 
         {errorMsg && (
-          <div className="p-2.5 bg-signal/20 border border-signal text-xs text-signal leading-relaxed">
+          <div className="p-3.5 bg-signal/20 border border-signal text-xs sm:text-sm text-signal leading-relaxed font-mono mt-3">
             {errorMsg}
           </div>
         )}
 
         {isSuccess && (
-          <div className="p-2.5 bg-surface border border-paper/30 text-xs text-paper leading-relaxed">
+          <div className="p-3.5 bg-surface border border-paper/30 text-xs sm:text-sm text-paper leading-relaxed font-mono mt-3">
             ✓ Target locked on Cassini plume track! Salty vapor detected. Spray grants passage.
           </div>
         )}

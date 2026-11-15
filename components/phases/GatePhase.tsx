@@ -64,7 +64,7 @@ export function GatePhase({
     }`}>
       <div>
         {/* Top Dossier Ledger Bar */}
-        <div className="flex flex-wrap items-baseline justify-between border-b border-paper/15 pb-2 mb-3 gap-2">
+        <div className="flex flex-wrap items-baseline justify-between border-b border-paper/15 pb-3 mb-4 gap-3">
           <div className="flex items-baseline gap-3">
             <span className="label text-signal">
               DOSSIER &middot; STOP 0<span className="tabular-nums">{currentStop}</span>
@@ -89,7 +89,7 @@ export function GatePhase({
         </div>
 
         {/* Monumental Type-Led Headline */}
-        <div className="mb-3 border-b border-paper/15 pb-2 flex flex-col md:flex-row md:items-end justify-between gap-2">
+        <div className="mb-4 border-b border-paper/15 pb-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
           <div>
             <p className="label text-[11px]">Planetary Gate Challenge &middot; Clearance Required</p>
             <h1 className="font-serif font-extralight text-3xl sm:text-4xl md:text-5xl tracking-tight text-paper mt-0.5">
@@ -103,22 +103,25 @@ export function GatePhase({
         </div>
 
         {/* Ruled 2-Column Dossier Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start mb-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-4">
           {/* Left Column: Real NASA Image Plate */}
           <div className="lg:col-span-5 space-y-2">
             {NASA_IMAGE_PLATES[currentStop] && (
-              <figure className="w-full border border-paper/15 bg-void p-2">
+              <figure className="w-full border border-paper/15 bg-void p-2.5 sm:p-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={NASA_IMAGE_PLATES[currentStop].url}
                   alt={NASA_IMAGE_PLATES[currentStop].caption}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className={`w-full object-contain bg-void ${
                     dialoguePhase ? 'max-h-[180px] sm:max-h-[210px] md:max-h-[230px]' : 'max-h-[220px] sm:max-h-[260px] md:max-h-[280px]'
                   }`}
                 />
-                <figcaption className="mt-1.5 font-mono text-[11px] text-paper-muted leading-tight border-t border-paper/10 pt-1.5">
+                <figcaption className="mt-2.5 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
                   <span className="text-signal font-bold">PLATE 0<span className="tabular-nums">{currentStop}</span> &middot;</span> {NASA_IMAGE_PLATES[currentStop].caption}
-                  <span className="block mt-0.5 text-paper-dim font-mono text-[10px]">
+                  <span className="block mt-1 text-paper-dim font-mono text-[11px]">
                     Credit: {NASA_IMAGE_PLATES[currentStop].credit}
                   </span>
                 </figcaption>
@@ -129,7 +132,7 @@ export function GatePhase({
           {/* Right Column: Interactive Puzzle Console */}
           <div className="lg:col-span-7">
             {!dialoguePhase ? (
-              <div className="w-full border border-paper/15 p-3 sm:p-4 bg-void">
+              <div className="w-full border border-paper/15 p-4 sm:p-5 md:p-6 bg-void">
                 {currentStop === 1 && <MoonHorizons onSuccess={onPuzzleSuccess} />}
                 {currentStop === 2 && <MarsSouvenir onSuccess={onPuzzleSuccess} />}
                 {currentStop === 3 && <CeresSelection onSuccess={onPuzzleSuccess} />}

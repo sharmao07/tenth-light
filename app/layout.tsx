@@ -14,6 +14,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${data.variable} h-full bg-[#0a0c10]`}>
+      <head>
+        <link rel="preconnect" href="https://images-assets.nasa.gov" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://images-assets.nasa.gov" />
+      </head>
       <body className="h-full bg-[#0a0c10] text-[#e9e6dc] overflow-x-hidden antialiased">{children}</body>
     </html>
   );

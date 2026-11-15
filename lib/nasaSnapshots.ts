@@ -259,7 +259,7 @@ export const NASA_IMAGE_PLATES: Record<number, NASAImagePlate> = {
   10: {
     stopIndex: 10,
     locationName: "Earth",
-    url: "https://images-assets.nasa.gov/image/as17-148-22727/as17-148-22727~large.jpg",
+    url: "https://images-assets.nasa.gov/image/as17-148-22727/as17-148-22727~medium.jpg",
     caption: "The Blue Marble (Apollo 17) - Earth viewed from deep space.",
     credit: "NASA. Unaltered.",
   },

@@ -7,6 +7,7 @@ import {
   STOP_DOSSIER_INFO,
 } from '@/lib/gameTypes';
 import { loadSave, saveState, calculateShipMetrics, DEFAULT_SAVE_STATE } from '@/lib/gameStore';
+import { NASA_IMAGE_PLATES } from '@/lib/nasaSnapshots';
 import { getBriefingLines, STOP_DIALOGUES } from '@/lib/storyScripts';
 import { sound } from '@/components/AudioController';
 import { PersistentHeader } from '@/components/PersistentHeader';
@@ -127,6 +128,16 @@ export default function TenthLightGame() {
       setIsLoaded(true);
     }, 0);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Preload official NASA archival photographic plates into browser cache
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      Object.values(NASA_IMAGE_PLATES).forEach((plate) => {
+        const img = new window.Image();
+        img.src = plate.url;
+      });
+    }
   }, []);
 
   // Save changes to localStorage

@@ -181,7 +181,7 @@ export function PersistentHeader({
       </div>
 
       {showSentence && (
-        <p className="max-w-7xl mx-auto px-6 md:px-12 pb-3 text-[12px] leading-relaxed text-paper-muted font-serif italic border-t border-paper/10 pt-2 m-0">
+        <p className="max-w-7xl mx-auto px-6 md:px-12 pb-3.5 pt-2.5 text-xs sm:text-[13px] leading-relaxed text-paper-muted font-serif italic border-t border-paper/10 m-0">
           &ldquo;Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive&rsquo;s numbers. The aliens, the depot fight, and the droid are the story.&rdquo;
         </p>
       )}

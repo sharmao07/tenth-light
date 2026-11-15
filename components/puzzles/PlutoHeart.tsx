@@ -28,9 +28,9 @@ export function PlutoHeart({ onSuccess }: PlutoHeartProps) {
   };
 
   return (
-    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
+    <div className="bg-surface-raised border border-signal p-5 sm:p-6 max-w-2xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2.5 border border-signal/40 text-xs sm:text-sm text-signal mb-4 text-center leading-relaxed font-sans">
         HOW-TO: Mark the bright frozen heart ♥ (Tombaugh Regio), not a dark plain. A photograph is not a soil sample.
       </div>
 
@@ -41,6 +41,8 @@ export function PlutoHeart({ onSuccess }: PlutoHeartProps) {
           <img
             src={plutoPlate.url}
             alt="Pluto"
+            loading="eager"
+            decoding="async"
             className="w-full h-full object-cover"
           />
 
@@ -77,13 +79,13 @@ export function PlutoHeart({ onSuccess }: PlutoHeartProps) {
         </div>
 
         {/* Footer info & Honesty quote */}
-        <div className="flex flex-wrap justify-between items-center text-xs text-paper-muted border-t border-paper/15 pt-2 leading-relaxed font-mono">
+        <div className="flex flex-wrap justify-between items-center text-xs text-paper-muted border-t border-paper/15 pt-3 leading-relaxed font-mono">
           <span className="font-bold text-signal">{plutoPlate.credit}</span>
           <span className="italic text-signal font-serif text-xs md:text-sm">“A photograph is not a soil sample.”</span>
         </div>
 
         {statusMsg && (
-          <div className="p-4 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded-lg text-xs md:text-sm leading-relaxed">
+          <div className="p-3.5 bg-surface border border-paper/20 text-xs sm:text-sm leading-relaxed font-mono mt-3">
             {statusMsg}
           </div>
         )}

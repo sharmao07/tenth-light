@@ -102,6 +102,8 @@ export function EndingView({
             <img
               src={earthPlate.url}
               alt={earthPlate.caption}
+              loading="eager"
+              decoding="async"
               className="w-full max-h-[500px] object-contain border border-paper/15 bg-void"
             />
             <figcaption className="mt-4 font-mono text-xs text-paper-muted leading-relaxed">

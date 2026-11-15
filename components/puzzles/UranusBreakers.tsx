@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { ShipDesign } from '@/lib/gameTypes';
-import { NASA_IMAGE_PLATES } from '@/lib/nasaSnapshots';
 import { sound } from '../AudioController';
 
 interface UranusBreakersProps {
@@ -33,8 +32,6 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
 
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
 
-  const uranusPlate = NASA_IMAGE_PLATES[6];
-
   let currentLoad = 0;
   if (breakerComputer) currentLoad += 20;
   if (breakerRadio) currentLoad += 15;
@@ -51,7 +48,7 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
     if (!hasRtg) {
       sound.playMiss();
       setStatusMsg(
-        'FATAL: Solar power at 19.2 AU yields only 0.43 W (1/r² law). Alive bus requires 55 W. Deep freeze blackout! Mission scrubbed to hangar.'
+        'FATAL: Solar power at 19.2 AU yields only ~0.43 W per array (1/r² law). Alive bus requires 55 W. Deep freeze blackout! Mission scrubbed to hangar.'
       );
       setTimeout(onScrubToHangar, 2000);
       return;
@@ -79,58 +76,45 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
   };
 
   return (
-    <div className="bg-surface-raised border border-signal p-4 sm:p-5 max-w-2xl mx-auto text-paper select-none">
+    <div className="bg-surface-raised border border-signal p-5 sm:p-6 max-w-3xl mx-auto text-paper select-none">
       {/* One-line how-to */}
-      <div className="bg-void px-4 py-2 border border-signal/40 text-xs sm:text-sm text-signal mb-3 text-center leading-relaxed">
+      <div className="bg-void px-4 py-2.5 border border-signal/40 text-xs sm:text-sm text-signal mb-5 text-center leading-relaxed font-sans">
         HOW-TO: Balance breakers at 19.2 AU. Keep heater, computer, and radio on. Switch off imager if overloaded.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-        {/* NASA Uranus Plate + 1/r^2 Physics Card */}
-        <div className="space-y-3">
-          <div className="bg-void p-3 border border-paper/20">
-            <div className="w-full h-28 relative overflow-hidden bg-surface">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={uranusPlate.url}
-                alt="Uranus"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="w-full mt-1.5 text-xs text-paper-muted text-left leading-relaxed font-mono">
-              <span className="text-signal font-bold block">{uranusPlate.credit}</span>
-              <div className="truncate">{uranusPlate.caption}</div>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+        {/* 1/r^2 Physics Card */}
+        <div className="p-4 sm:p-5 bg-void border border-paper/20 space-y-3 font-mono text-xs sm:text-sm">
+          <div className="text-signal font-bold border-b border-paper/15 pb-2">
+            Physics: Inverse-Square Law (1/r²)
           </div>
-
-          {/* 1/r^2 Inverse-square box */}
-          <div className="p-3 bg-void border border-paper/20 text-xs space-y-1 font-mono">
-            <div className="text-signal font-bold">Physics: Inverse-Square Law (1/r²)</div>
-            <div className="text-paper-muted">
-              Distance: <span className="font-bold text-paper tabular-nums">19.2 AU</span> (r² = 368.6)
-            </div>
-            <div className="text-paper-muted">
-              Solar at 19.2 AU: <span className="font-bold text-signal tabular-nums">~0.43 W</span> per array
-            </div>
-            <div className="text-paper-muted">
-              RTG Supply: <span className="font-bold text-paper">{hasRtg ? '100 W (Flat)' : '0 W (Missing!)'}</span>
-            </div>
+          <div className="text-paper-muted leading-relaxed">
+            Heliocentric Distance: <span className="font-bold text-paper tabular-nums">19.2 AU</span> (r² = 368.6)
+          </div>
+          <div className="text-paper-muted leading-relaxed">
+            Solar Irradiance at 19.2 AU: <span className="font-bold text-signal tabular-nums">~0.43 W</span> per array
+          </div>
+          <div className="text-paper-muted leading-relaxed">
+            RTG Generator Supply: <span className="font-bold text-paper">{hasRtg ? '100 W (Constant)' : '0 W (Missing!)'}</span>
+          </div>
+          <div className="text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
+            Survival Bus Minimum: <span className="font-bold text-paper">55 W</span> (Heat 20W + Nav 20W + Radio 15W)
           </div>
         </div>
 
         {/* Breaker Switches Console */}
-        <div className="space-y-3 text-xs md:text-sm font-mono">
-          <div className="flex justify-between items-center border-b border-paper/15 pb-1.5">
-            <span className="text-signal font-bold text-xs sm:text-sm">Bus Power Breakers</span>
+        <div className="space-y-3 text-xs sm:text-sm font-mono">
+          <div className="flex justify-between items-center border-b border-paper/15 pb-2">
+            <span className="text-signal font-bold">Bus Power Breakers</span>
             <span className={`font-bold tabular-nums ${currentLoad <= totalSupply ? 'text-paper' : 'text-signal'}`}>
               {currentLoad} W / {totalSupply.toFixed(1)} W
             </span>
           </div>
 
           {/* Essential Switches */}
-          <div className="space-y-1.5">
-            <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
-              <span className="text-paper text-xs">Computer / Command (20W)</span>
+          <div className="space-y-2">
+            <label className="flex justify-between items-center bg-void p-2.5 border border-paper/20 cursor-pointer hover:border-paper/40 transition-colors">
+              <span className="text-paper">Computer / Command (20W)</span>
               <input
                 type="checkbox"
                 checked={breakerComputer}
@@ -139,8 +123,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
               />
             </label>
 
-            <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
-              <span className="text-paper text-xs">High-Gain Radio (15W)</span>
+            <label className="flex justify-between items-center bg-void p-2.5 border border-paper/20 cursor-pointer hover:border-paper/40 transition-colors">
+              <span className="text-paper">High-Gain Radio (15W)</span>
               <input
                 type="checkbox"
                 checked={breakerRadio}
@@ -149,8 +133,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
               />
             </label>
 
-            <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
-              <span className="text-paper text-xs">Bus Thermal Heater (+20W)</span>
+            <label className="flex justify-between items-center bg-void p-2.5 border border-paper/20 cursor-pointer hover:border-paper/40 transition-colors">
+              <span className="text-paper">Bus Thermal Heater (+20W)</span>
               <input
                 type="checkbox"
                 checked={breakerHeater}
@@ -161,10 +145,10 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
           </div>
 
           {/* Optional Breakers */}
-          <div className="space-y-1.5 border-t border-paper/15 pt-1.5">
+          <div className="space-y-2 border-t border-paper/15 pt-2">
             {hasImager && (
-              <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
-                <span className="text-paper-muted text-xs">Imager Camera (5W)</span>
+              <label className="flex justify-between items-center bg-void p-2.5 border border-paper/20 cursor-pointer hover:border-paper/40 transition-colors">
+                <span className="text-paper-muted">Imager Camera (5W)</span>
                 <input
                   type="checkbox"
                   checked={breakerImager}
@@ -175,8 +159,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
             )}
 
             {hasSpec && (
-              <label className="flex justify-between items-center bg-void p-2 border border-paper/20 cursor-pointer">
-                <span className="text-paper-muted text-xs">Mass Spectrometer (20W)</span>
+              <label className="flex justify-between items-center bg-void p-2.5 border border-paper/20 cursor-pointer hover:border-paper/40 transition-colors">
+                <span className="text-paper-muted">Mass Spectrometer (20W)</span>
                 <input
                   type="checkbox"
                   checked={breakerSpec}
@@ -187,8 +171,8 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
             )}
 
             {hasDrill && (
-              <label className="flex justify-between items-center bg-[#0a0c10] p-3 border border-[#e9e6dc]/25 rounded-lg cursor-pointer">
-                <span className="text-[#e9e6dc]/80">Sample Drill (25W)</span>
+              <label className="flex justify-between items-center bg-void p-2.5 border border-paper/20 cursor-pointer hover:border-paper/40 transition-colors">
+                <span className="text-paper-muted">Sample Drill (25W)</span>
                 <input
                   type="checkbox"
                   checked={breakerDrill}
@@ -201,13 +185,13 @@ export function UranusBreakers({ design, onSuccess, onScrubToHangar }: UranusBre
 
           <button
             onClick={handleTestBus}
-            className="w-full mt-2.5 py-4 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] font-bold uppercase tracking-wider rounded-lg transition-colors shadow text-xs md:text-sm"
+            className="w-full mt-3 py-3.5 bg-signal hover:bg-signal-hover text-void font-bold uppercase tracking-wider transition-colors text-xs sm:text-sm font-mono"
           >
             Verify Power Stability
           </button>
 
           {statusMsg && (
-            <div className="p-4 bg-[#0a0c10] border border-[#e9e6dc]/20 rounded-lg text-xs leading-relaxed">
+            <div className="p-3.5 bg-surface border border-paper/20 text-xs sm:text-sm leading-relaxed font-mono mt-3">
               {statusMsg}
             </div>
           )}
