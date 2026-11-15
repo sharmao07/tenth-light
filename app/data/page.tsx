@@ -214,49 +214,57 @@ export default function DataPage() {
           </div>
         </section>
 
-        {/* 2026 Space Agency Partners */}
+        {/* 2026 Space Apps Challenge Space Agency Partners */}
         <section className="bg-[#1a1714] border border-[#efe6d6]/20 p-6 md:p-7 rounded-lg space-y-4 shadow-md">
-          <h2 className="font-serif text-2xl font-bold text-[#e39b12]">
-            Named 2026 Space Agency Partners
-          </h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-[#efe6d6]/10 pb-3">
+            <h2 className="font-serif text-2xl font-bold text-[#e39b12]">
+              2026 Space Apps Space Agency Partners
+            </h2>
+            <span className="font-mono text-xs text-[#5bc0be] bg-[#5bc0be]/10 px-2.5 py-1 rounded border border-[#5bc0be]/30 font-bold">
+              17 International Agencies
+            </span>
+          </div>
           <p className="text-sm font-sans text-[#efe6d6]/80 leading-relaxed">
-            NASA Space Apps collaborates with international space agency partners around the world.
-            (This game does not claim live data feeds from all listed partner agencies; feeds utilized are local local-server snapshots and specific NASA endpoints.)
+            Many contributed to the scientific archives and resources found across the 2026 NASA Space Apps Challenge “Space Mission Design Game”. The official global agency partners for this year’s challenge are:
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs md:text-sm font-mono">
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• NASA (United States)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• ESA (Europe)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• JAXA (Japan)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• CSA (Canada)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• CNES (France)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• DLR (Germany)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• ASI (Italy)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• UKSA (United Kingdom)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• ISRO (India)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• AEB (Brazil)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• CONAE (Argentina)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• ASA (Australia)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• SANSA (South Africa)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• GISTDA (Thailand)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• TÜBİTAK (Türkiye)</div>
-            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• UAESA (United Arab Emirates)</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs md:text-sm font-mono">
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Angola National Space Programme Management Office (GGPEN)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Bahrain Space Agency (NSSA)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Brazilian Space Agency (AEB)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• CSA (Canadian Space Agency)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• ESA (European Space Agency)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• ISRO (Indian Space Research Organisation)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Italian Space Agency (ASI)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• JAXA (Japan Aerospace Exploration Agency)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• KASA (Korea AeroSpace Administration)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Mohammed Bin Rashid Space Center of the UAE (MBRSC)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• National Space Activities Commission of Argentina (CONAE)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Nigeria’s National Space Research & Development Agency (NASRDA)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Paraguayan Space Agency (AEP)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Senegalese Space Studies Agency (ASES)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Spanish Space Agency (AEE)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• Turkish Space Agency (TUA)</div>
+            <div className="p-3 bg-[#100e0c] border border-[#efe6d6]/15 rounded-lg">• UK Space Agency (UKSA)</div>
           </div>
         </section>
 
-        {/* Development & Endorsement Disclaimer */}
-        <section className="bg-[#1a1714] border border-[#efe6d6]/20 p-6 md:p-7 rounded-lg space-y-3 text-xs md:text-sm font-mono text-[#efe6d6]/85 shadow-md leading-relaxed">
+        {/* Development, Image Use & Endorsement Disclaimer */}
+        <section className="bg-[#1a1714] border border-[#efe6d6]/20 p-6 md:p-7 rounded-lg space-y-3.5 text-xs md:text-sm font-mono text-[#efe6d6]/85 shadow-md leading-relaxed">
           <h2 className="font-serif text-xl font-bold text-[#e39b12]">
-            Engineering & Attribution Disclaimers
+            Engineering, Image Guidelines & Attribution Disclaimers
           </h2>
           <div>
-            • <strong>Code generation:</strong> Cursor with Grok wrote code and there are no AI images.
+            • <strong>NASA Media Guidelines Compliance:</strong> Photographs from NASA (Apollo 11, Cassini, New Horizons, Viking, Voyager) are displayed whole and unaltered with full attribution to NASA and respective mission teams (e.g. NASA/JPL-Caltech). In accordance with NASA Media Guidelines (<a href="https://www.nasa.gov/nasa-brand-center/images-and-media/" target="_blank" rel="noopener noreferrer" className="text-[#e39b12] underline">nasa.gov/nasa-brand-center/images-and-media/</a>), educational and non-commercial usage is observed, with zero implied endorsement. No NASA insignia, agency logo, national flag, or mission patch is used as game assets.
           </div>
           <div>
-            • <strong>Art & Sound:</strong> Original pixel portraits, original procedural WebGL 3D meshes, and procedural Web Audio API synthesizers. Unaltered NASA photographs are displayed in designated windows with direct attribution. No NASA logo, flag, mission patch, or copyrighted game audio is utilized.
+            • <strong>Original Art & Procedural Audio:</strong> 100% original 16×16 pixel art portraits, custom SVG pixel tokens, procedural WebGL Three.js spacecraft meshes, and procedural Web Audio API synthesizers. Zero copyrighted game clips, meme audio, or Golden Record audio.
           </div>
           <div>
-            • <strong>Disclaimer:</strong> Nothing implies NASA endorsement or the endorsement of any partner space agency.
+            • <strong>Code Generation & Authorship:</strong> Written from scratch in Next.js, React, and TypeScript.
+          </div>
+          <div>
+            • <strong>Non-Endorsement Statement:</strong> Nothing in this simulation implies official NASA endorsement or the endorsement of any international partner space agency.
           </div>
         </section>
       </div>

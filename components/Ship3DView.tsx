@@ -8,6 +8,9 @@ interface Ship3DViewProps {
   cruiseMode?: boolean;
   interactive?: boolean;
   className?: string;
+  showCoM?: boolean;
+  showCoT?: boolean;
+  showCoL?: boolean;
 }
 
 export function Ship3DView({
@@ -15,6 +18,9 @@ export function Ship3DView({
   cruiseMode = false,
   interactive = true,
   className = '',
+  showCoM = false,
+  showCoT = false,
+  showCoL = false,
 }: Ship3DViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -244,6 +250,69 @@ export function Ship3DView({
 
     // Center ship vertically
     shipGroup.position.y = -currentY / 2;
+
+    // KSP Indicators (Center of Mass, Center of Thrust, Center of Lift)
+    if (showCoM) {
+      // Yellow/Black checkered Center of Mass sphere
+      const comGroup = new THREE.Group();
+      const comGeom = new THREE.SphereGeometry(0.16, 16, 16);
+      const comMat = new THREE.MeshBasicMaterial({ color: 0xe39b12, wireframe: true });
+      const comSphere = new THREE.Mesh(comGeom, comMat);
+      comGroup.add(comSphere);
+
+      const comCoreGeom = new THREE.SphereGeometry(0.08, 8, 8);
+      const comCore = new THREE.Mesh(comCoreGeom, new THREE.MeshBasicMaterial({ color: 0x100e0c }));
+      comGroup.add(comCore);
+
+      // Estimated center of mass: weighted towards heavy tanks and engine
+      comGroup.position.set(0, currentY * 0.42, 0);
+      shipGroup.add(comGroup);
+    }
+
+    if (showCoT) {
+      // Magenta/Cyan Center of Thrust vector arrow pointing directly up from engine bell
+      const cotArrow = new THREE.ArrowHelper(
+        new THREE.Vector3(0, 1, 0),
+        new THREE.Vector3(0, 0.1, 0),
+        0.9,
+        0xd90429,
+        0.25,
+        0.18
+      );
+      shipGroup.add(cotArrow);
+    }
+
+    if (showCoL) {
+      // Cyan Center of Lift / Aerodynamic ring around capsule
+      const colGeom = new THREE.TorusGeometry(0.48, 0.02, 8, 24);
+      colGeom.rotateX(Math.PI / 2);
+      const colMesh = new THREE.Mesh(colGeom, new THREE.MeshBasicMaterial({ color: 0x5bc0be }));
+      colMesh.position.set(0, currentY - 0.45, 0);
+      shipGroup.add(colMesh);
+    }
+
+    // VAB Floor Grid and Launch Clamps when in Hangar
+    if (!cruiseMode) {
+      const grid = new THREE.GridHelper(12, 24, 0xe39b12, 0x2e2820);
+      grid.position.y = -currentY / 2;
+      scene.add(grid);
+
+      // KSP Red/Yellow Launch Gantry Clamps
+      const clampMat = new THREE.MeshStandardMaterial({ color: 0x8a2b18, roughness: 0.6, metalness: 0.4 });
+      for (let c = 0; c < 2; c++) {
+        const sign = c === 0 ? 1 : -1;
+        const colGeom = new THREE.BoxGeometry(0.12, 1.8, 0.12);
+        const col = new THREE.Mesh(colGeom, darkMetal);
+        col.position.set(sign * 1.3, -currentY / 2 + 0.9, 0);
+        scene.add(col);
+
+        const armGeom = new THREE.BoxGeometry(0.65, 0.08, 0.08);
+        const arm = new THREE.Mesh(armGeom, clampMat);
+        arm.position.set(sign * 0.9, -currentY / 2 + 0.45, 0);
+        arm.rotation.z = sign * -0.2;
+        scene.add(arm);
+      }
+    }
 
     // Starfield for cruise mode
     let stars: THREE.Points | null = null;

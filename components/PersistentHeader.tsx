@@ -9,6 +9,8 @@ interface PersistentHeaderProps {
   onPause: () => void;
   onMenu: () => void;
   onOpenLogbook: () => void;
+  onOpenClearance?: () => void;
+  showClearanceButton?: boolean;
   isMuted: boolean;
   onToggleMute: () => void;
   showSentence?: boolean;
@@ -21,6 +23,8 @@ export function PersistentHeader({
   onPause,
   onMenu,
   onOpenLogbook,
+  onOpenClearance,
+  showClearanceButton = false,
   isMuted,
   onToggleMute,
   showSentence = true,
@@ -68,8 +72,24 @@ export function PersistentHeader({
           </div>
         </div>
 
-        {/* Right: Controls (Logbook, Pause, Menu, Mute) */}
+        {/* Right: Controls (Clearance, Logbook, Pause, Menu, Mute) */}
         <div className="flex items-center gap-2.5">
+          {/* Gate Clearance Directive Button (when at a gate puzzle) */}
+          {showClearanceButton && onOpenClearance && (
+            <button
+              onClick={() => {
+                onOpenClearance();
+                sound.playUiClick();
+              }}
+              onMouseEnter={() => sound.playHoverBlip()}
+              className="sensory-btn px-3 py-1.5 bg-[#e39b12]/15 hover:bg-[#e39b12]/25 border border-[#e39b12] rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors flex items-center gap-1.5 font-bold shadow-sm"
+              title="View Gate Clearance Protocol [H]"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#e39b12] animate-pulse" />
+              <span>How to Clear [H]</span>
+            </button>
+          )}
+
           {/* Mission Logbook Button */}
           <button
             onClick={() => {

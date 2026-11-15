@@ -30,12 +30,14 @@ import { NeptuneLag } from '@/components/puzzles/NeptuneLag';
 import { PlutoHeart } from '@/components/puzzles/PlutoHeart';
 import { HeliopauseOrder } from '@/components/puzzles/HeliopauseOrder';
 import { EndingView } from '@/components/EndingView';
+import { GateClearanceModal } from '@/components/GateClearanceModal';
 
 export default function TenthLightGame() {
   const [gameState, setGameState] = useState<GameSaveState>(DEFAULT_SAVE_STATE);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isLogbookOpen, setIsLogbookOpen] = useState(false);
+  const [isGateClearanceOpen, setIsGateClearanceOpen] = useState(false);
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [activeDialogueLines, setActiveDialogueLines] = useState<DialogueLine[]>([]);
   const [dialoguePhase, setDialoguePhase] = useState<'before' | 'success' | null>(null);
@@ -82,11 +84,14 @@ export default function TenthLightGame() {
         sound.playUiClick();
       } else if (e.code === 'KeyM') {
         handleToggleMute();
+      } else if (e.code === 'KeyH' && gameState.phase === 'gate' && !dialoguePhase) {
+        setIsGateClearanceOpen((prev) => !prev);
+        sound.playUiClick();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState.phase, isLogbookOpen, gameState.isMuted]);
+  }, [gameState.phase, isLogbookOpen, gameState.isMuted, dialoguePhase]);
 
   const triggerSceneFade = (callback: () => void) => {
     setFadeActive(true);
@@ -244,9 +249,10 @@ export default function TenthLightGame() {
     }
   };
 
-  // Gate dialogue before puzzle completed
+  // Gate dialogue before puzzle completed -> Show clearance directive modal
   const handleGateBeforeComplete = () => {
     setDialoguePhase(null); // Close dialogue to show interactive puzzle / fight
+    setIsGateClearanceOpen(true);
   };
 
   // Puzzle success -> show keeper success dialogue
@@ -353,6 +359,8 @@ export default function TenthLightGame() {
             updateGameState({ phase: 'title' });
           }}
           onOpenLogbook={() => setIsLogbookOpen(true)}
+          showClearanceButton={gameState.phase === 'gate' && !dialoguePhase}
+          onOpenClearance={() => setIsGateClearanceOpen(true)}
           isMuted={gameState.isMuted}
           onToggleMute={handleToggleMute}
           showSentence={true}
@@ -375,6 +383,13 @@ export default function TenthLightGame() {
         onClose={() => setIsLogbookOpen(false)}
         maxUnlockedStop={gameState.currentStop}
         callsign={gameState.callsign}
+      />
+
+      {/* Gate Clearance Directive Modal (How to clear this level) */}
+      <GateClearanceModal
+        stopIndex={gameState.currentStop}
+        isOpen={isGateClearanceOpen}
+        onClose={() => setIsGateClearanceOpen(false)}
       />
 
       {/* Pinned Telemetry Pill (pinui style) during flight */}
