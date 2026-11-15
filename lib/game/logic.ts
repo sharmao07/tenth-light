@@ -60,6 +60,7 @@ export type Action =
   | { type: "fight-hit" }
   | { type: "fight-win" }
   | { type: "maze-done"; water: boolean; soil: boolean }
+  | { type: "maze-hit" }
   | { type: "scrub" }
   | { type: "neos"; bodies: NeoBody[] }
   | { type: "restart" };
@@ -292,6 +293,10 @@ export function reduce(state: GameState, action: Action): GameState {
       return enter(state, { kind: "talk", script: "refuel", line: 0, stop: 4 }, {
         log: [...state.log, "Ambush broken. The depot is open."],
       });
+    case "maze-hit":
+      if (state.phase.kind !== "maze") return state;
+      if (state.lives <= 1) return die(state, "An alien caught the sleeve.");
+      return { ...state, lives: state.lives - 1, log: [...state.log, "An alien touched Nori. One life."] };
     case "maze-done":
       if (state.phase.kind !== "maze") return state;
       return enter(state, { kind: "return" }, {

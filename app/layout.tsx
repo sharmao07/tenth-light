@@ -16,7 +16,7 @@ const serif = Newsreader({
 
 export const metadata: Metadata = {
   title: "Tenth Light",
-  description: "Design the ship. Stay in the seat. Send the cat. A NASA Space Apps mission-design game.",
+  description: "Design the ship. Stay in the seat. Send the droid. A NASA Space Apps mission-design game.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

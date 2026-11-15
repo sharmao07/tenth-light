@@ -1,15 +1,16 @@
 export const MAZE_ROWS = [
-  "###########",
-  "#S..W.....#",
-  "#.#.###.#.#",
-  "#.#D..#.#.#",
-  "#.###.#.#.#",
-  "#.....#.W.#",
-  "#.###.###.#",
-  "#.#D....#.#",
-  "#.#.###.#.#",
-  "#...#...E.#",
-  "###########",
+  "###############",
+  "#S.....#......#",
+  "#.###.#.#.##..#",
+  "#.#K..#.#.##..#",
+  "#.#.###.#.A#..#",
+  "#...#...#....A#",
+  "#.#####.#####.#",
+  "#.............#",
+  "###G###########",
+  "#W..D..W..D...#",
+  "#............E#",
+  "###############",
 ];
 
 export type Cell = { row: number; col: number };
@@ -22,8 +23,11 @@ export function mazeChar(row: number, col: number): string {
   return MAZE_ROWS[row]?.[col] ?? "#";
 }
 
-export function isWall(row: number, col: number): boolean {
-  return mazeChar(row, col) === "#";
+export function isBlocked(row: number, col: number, gateOpen: boolean): boolean {
+  const char = mazeChar(row, col);
+  if (!char || char === "#") return true;
+  if (char === "G" && !gateOpen) return true;
+  return false;
 }
 
 export function findChar(char: string): Cell[] {
@@ -47,27 +51,49 @@ const STEPS: Cell[] = [
   { row: 0, col: 1 },
 ];
 
-export function reachable(): { water: number; soil: number; exit: boolean; widthsOk: boolean } {
-  const width = MAZE_ROWS[0].length;
-  const widthsOk = MAZE_ROWS.every((line) => line.length === width);
+function flood(gateOpen: boolean): { water: number; soil: number; exit: boolean; key: boolean } {
   const start = mazeStart();
   const seen = new Set<string>();
   const queue = [start];
   let water = 0;
   let soil = 0;
   let exit = false;
+  let key = false;
   while (queue.length) {
     const cell = queue.shift()!;
-    const key = `${cell.row},${cell.col}`;
-    if (seen.has(key) || isWall(cell.row, cell.col)) continue;
-    seen.add(key);
+    const id = `${cell.row},${cell.col}`;
+    if (seen.has(id) || isBlocked(cell.row, cell.col, gateOpen)) continue;
+    seen.add(id);
     const char = mazeChar(cell.row, cell.col);
     if (char === "W") water += 1;
     if (char === "D") soil += 1;
     if (char === "E") exit = true;
+    if (char === "K") key = true;
     for (const step of STEPS) {
       queue.push({ row: cell.row + step.row, col: cell.col + step.col });
     }
   }
-  return { water, soil, exit, widthsOk };
+  return { water, soil, exit, key };
+}
+
+export function reachable(): {
+  widthsOk: boolean;
+  keyBeforeGate: boolean;
+  waterBehind: boolean;
+  soilBehind: boolean;
+  exitBehind: boolean;
+  aliens: number;
+} {
+  const width = MAZE_ROWS[0].length;
+  const widthsOk = MAZE_ROWS.every((line) => line.length === width);
+  const closed = flood(false);
+  const open = flood(true);
+  return {
+    widthsOk,
+    keyBeforeGate: closed.key && closed.water === 0 && closed.soil === 0 && !closed.exit,
+    waterBehind: open.water === 2,
+    soilBehind: open.soil === 2,
+    exitBehind: open.exit,
+    aliens: findChar("A").length,
+  };
 }

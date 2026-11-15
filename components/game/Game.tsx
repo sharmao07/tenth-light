@@ -90,6 +90,7 @@ export function Game() {
   function send(action: Action) {
     if (action.type === "dodge") blip(action.hit ? "ok" : "miss");
     else if (action.type === "fight-hit") blip("miss");
+    else if (action.type === "maze-hit") blip("miss");
     else if (action.type === "fight-win" || action.type === "puzzle-pass" || action.type === "maze-done") blip("ok");
     else if (action.type === "launch" || action.type === "autobuild") blip("launch");
     else if (action.type === "next-line" || action.type === "talk-next") blip("talk");
@@ -166,7 +167,7 @@ export function Game() {
             <div className="title-copy">
               <p className="eyebrow">NASA Space Apps 2026 · Space Mission Design Game</p>
               <h1>Tenth Light</h1>
-              <p className="lede">Design the ship. Stay in the seat. Send the cat.</p>
+              <p className="lede">Design the ship. Stay in the seat. Send the droid.</p>
               <label>
                 Callsign
                 <input
@@ -264,7 +265,11 @@ export function Game() {
         )}
 
         {state.phase.kind === "maze" && (
-          <Maze onDone={(samples) => send({ type: "maze-done", ...samples })} />
+          <Maze
+            lives={state.lives}
+            onHit={() => send({ type: "maze-hit" })}
+            onDone={(samples) => send({ type: "maze-done", ...samples })}
+          />
         )}
 
         {state.phase.kind === "return" && (
@@ -365,7 +370,7 @@ const HINTS: Record<string, { gate: string; how: string }> = {
   },
   mars: {
     gate: "Mars",
-    how: "The scale is nine kilograms over. Drop the souvenir. Leave Nori’s harness where it is.",
+    how: "The scale is nine kilograms over. Drop the souvenir. Leave Nori’s optic where it is.",
   },
   ceres: {
     gate: "Ceres",
@@ -397,7 +402,7 @@ const HINTS: Record<string, { gate: string; how: string }> = {
   },
   maze: {
     gate: "Harbor",
-    how: "You stay in the ship. Move Nori with the arrows or the pad. Collect two water nodes and two soil nodes. The exit opens after that.",
+    how: "You stay in the ship. Nori is the ship’s droid. Move her with the arrows. Find the key, walk her into the gate, then pick up two water nodes and two soil nodes. Step off the aliens. A touch spends a life.",
   },
 };
 

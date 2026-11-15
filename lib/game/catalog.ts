@@ -119,7 +119,7 @@ export const PARTS: Record<PartId, PartDef> = {
     cost: 12,
     unique: true,
     required: false,
-    blurb: "Rides in Nori's sleeve. Certifies soil. Does not certify water.",
+    blurb: "Rides on Nori's arm. Certifies soil. Does not certify water.",
     cite: "Teaching mass and draw for a sample-acquisition head.",
   },
   imager: {

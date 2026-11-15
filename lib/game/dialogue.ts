@@ -34,7 +34,7 @@ export function briefingLines(callsign: string): Line[] {
     {
       who: "nori",
       name: "Nori",
-      text: "I open a sleeve. It is smaller than a hatch. Try to stop me.",
+      text: "I open a sleeve. It is smaller than a hatch. I was built to fit.",
     },
     {
       who: "control",
@@ -86,12 +86,12 @@ export const SCRIPTS: Record<ScriptId, (callsign: string) => Line[]> = {
     {
       who: "nori",
       name: "Nori",
-      text: "If they drop my harness, I end this mission myself.",
+      text: "If they drop my optic, I end this mission myself.",
     },
     {
       who: "wren",
       name: callsign,
-      text: "The gift goes. The harness stays.",
+      text: "The gift goes. The optic stays.",
     },
   ],
   ceres: (callsign) => [
@@ -244,7 +244,7 @@ export const SCRIPTS: Record<ScriptId, (callsign: string) => Line[]> = {
     {
       who: "nori",
       name: "Nori",
-      text: "Hatch stays shut. Open the sleeve.",
+      text: "Hatch stays shut. I am the droid on this ship. Open the sleeve.",
     },
     {
       who: "shore",

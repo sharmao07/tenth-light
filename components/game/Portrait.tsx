@@ -33,18 +33,18 @@ const HUMAN = [
   ".....pppppppp.......",
 ];
 
-const CAT = [
-  "..ff..........ff..",
-  ".ffff........ffff.",
-  ".ffcf........fcff.",
-  "..ffffffffffffff..",
-  "..ffkkffffffkkff..",
-  "..ffkffffffffkff..",
-  "..ffffffffffffff..",
-  "...fffccccccfff...",
-  "...ffffrrrrffff...",
-  "....ffffffffff....",
-  "...kkkkkkkkkkkk...",
+const DROID = [
+  ".....kkkkkk.....",
+  "...kkppppppkk...",
+  "..kppaaaaaappk..",
+  "..kppakkkappk...",
+  "..kppaaaaaappk..",
+  "...kkppppppkk...",
+  "....kkrrrrkk....",
+  "...mmkppppkmm...",
+  "..mmmkpppkkmmm..",
+  "...mmmmmmmmmm...",
+  "....kk....kk....",
 ];
 
 const ALIEN = [
@@ -64,7 +64,7 @@ const SPRITE: Record<Who, string[]> = {
   wren: HUMAN,
   scientist: HUMAN,
   control: HUMAN,
-  nori: CAT,
+  nori: DROID,
   lumen: ALIEN,
   redline: ALIEN,
   pebble: ALIEN,

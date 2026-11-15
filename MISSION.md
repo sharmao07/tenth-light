@@ -4,9 +4,9 @@ Mission plan for the 2026 NASA Space Apps challenge **Space Mission Design Game*
 
 This is the plan. The game is not started.
 
-Tagline: **Design the ship. Stay in the seat. Send the cat.**
+Tagline: **Design the ship. Stay in the seat. Send the droid.**
 
-One sentence for a judge: Tenth Light puts a student in the chair of a mission designer, with one budget, a corridor of real NASA worlds, and a cat who walks out to sample an Earth-sized planet that has nobody on it.
+One sentence for a judge: Tenth Light puts a student in the chair of a mission designer, with one budget, a corridor of real NASA worlds, and a droid who walks out to sample an Earth-sized planet that has nobody on it.
 
 ## Who it is for
 
@@ -16,7 +16,7 @@ Students, and anyone who has never been shown why a spacecraft is mostly the thi
 
 You are the specialist. Your callsign defaults to Wren, and the player can type another. You never leave the spacecraft. You appear only in the dialogue panels.
 
-Nori is the ship cat. She is the companion. Every line she speaks is written ahead of time. She is not a live chatbot. She notices concrete things: a meter, a smell, a hatch. She does not explain the theme.
+Nori is the ship's droid, a companion in the way an astromech is a companion. She is not a cat and not a passenger. Every line she speaks is written ahead of time. She is not a live chatbot. She notices concrete things: a meter, a seam, a hatch. She does not explain the theme.
 
 Scientists have a confirmed Earth-sized world and no sign of anyone on it. The catalog name is **TOI-700 e**. The crew calls it **Harbor**. You are sent to bring back water and soil readings so Earth can decide whether a second shore is even worth planning.
 
@@ -30,9 +30,9 @@ Earth cheers. The files go to the scientists. How loud the room is depends on wh
 
 A line in the mission log stays visible for the whole game:
 
-> Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive's numbers. The aliens, the depot fight, and the cat are the story.
+> Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive's numbers. The aliens, the depot fight, and the droid are the story.
 
-That line is how the game can keep the ambush, the cat, and the maze without pretending you can fly 101 light years and back before dinner.
+That line is how the game can keep the ambush, the droid, and the maze without pretending you can fly 101 light years and back before dinner.
 
 Snapshot retrieved from the NASA Exoplanet Archive composite table on 15 November 2026. The game fetches this live and falls back to these numbers if the archive is down. Equilibrium temperature is not a weather report.
 

@@ -66,9 +66,11 @@ assert(state.phase.kind === "talk", "one dodge should arrive at the Moon");
 
 const maze = reachable();
 assert(maze.widthsOk, "maze rows must share a width");
-assert(maze.water === 2, `maze should reach 2 water, got ${maze.water}`);
-assert(maze.soil === 2, `maze should reach 2 soil, got ${maze.soil}`);
-assert(maze.exit, "maze exit should be reachable");
+assert(maze.keyBeforeGate, "the key must be reachable before the gate opens");
+assert(maze.waterBehind, "both water samples must sit behind the gate");
+assert(maze.soilBehind, "both soil samples must sit behind the gate");
+assert(maze.exitBehind, "maze exit should be reachable once the gate is open");
+assert(maze.aliens >= 2, "the sleeve should have aliens to dodge");
 
 assert(
   endingKind({

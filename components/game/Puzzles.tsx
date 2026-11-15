@@ -64,10 +64,10 @@ export function MarsPuzzle({ ship, onPass }: { ship: ShipDesign; onPass: () => v
   return (
     <div className="puzzle">
       <Plate id="mars" alt="NASA photograph of the Martian surface" />
-      <p>Ship mass without the souvenir: {report.mass} kg. The gate wants the souvenir gone, not the harness.</p>
+      <p>Ship mass without the souvenir: {report.mass} kg. The gate wants the souvenir gone, not Nori&apos;s optic.</p>
       <p>{note}</p>
       <div className="choices">
-        <button type="button" onClick={() => setNote("Nori: Absolutely not.")}>Drop the harness, 2 kg</button>
+        <button type="button" onClick={() => setNote("Nori: Absolutely not.")}>Drop Nori&apos;s optic, 2 kg</button>
         <button type="button" className="primary" onClick={onPass}>Drop the souvenir, 9 kg</button>
         <button type="button" onClick={() => setNote("A lens cloth does not close a nine-kilogram door.")}>
           Drop the lens cloth, 1 kg

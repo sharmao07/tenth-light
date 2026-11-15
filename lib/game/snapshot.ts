@@ -54,7 +54,7 @@ export const MOON_SNAPSHOT = {
 };
 
 export const HONESTY =
-  "Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive's numbers. The aliens, the depot fight, and the cat are the story.";
+  "Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive's numbers. The aliens, the depot fight, and the droid are the story.";
 
 export function parsecsToLightYears(pc: number): number {
   return pc * 3.261563777;
