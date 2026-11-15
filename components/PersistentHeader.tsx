@@ -76,7 +76,8 @@ export function PersistentHeader({
               onOpenLogbook();
               sound.playUiClick();
             }}
-            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#e39b12]/20 hover:border-[#e39b12] border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors flex items-center gap-1.5 font-bold shadow-sm"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3 py-1.5 bg-[#1a1714] hover:bg-[#e39b12]/20 hover:border-[#e39b12] border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors flex items-center gap-1.5 font-bold shadow-sm"
             title="Open Specialist’s Journal & Mission Archive"
           >
             <span>📖</span>
@@ -89,7 +90,8 @@ export function PersistentHeader({
               onToggleMute();
               sound.playUiClick();
             }}
-            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#efe6d6] transition-colors"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#efe6d6] transition-colors"
             title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
           >
             {isMuted ? '🔇 Muted' : '🔊 Audio'}
@@ -101,7 +103,8 @@ export function PersistentHeader({
               onPause();
               sound.playUiClick();
             }}
-            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#efe6d6] transition-colors"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#efe6d6] transition-colors"
             title="Pause game (Escape)"
           >
             ⏸ Pause <span className="opacity-50 text-xs">(Esc)</span>
@@ -113,7 +116,8 @@ export function PersistentHeader({
               onMenu();
               sound.playUiClick();
             }}
-            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors font-bold"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors font-bold"
             title="Return to Title (keeps save)"
           >
             Title / Save

@@ -110,7 +110,8 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 <button
                   key={id}
                   onClick={() => setLauncher(id)}
-                  className={`px-3.5 py-1.5 text-xs md:text-sm font-mono border rounded transition-all text-left ${
+                  onMouseEnter={() => sound.playHoverBlip()}
+                  className={`sensory-btn px-3.5 py-1.5 text-xs md:text-sm font-mono border rounded transition-all text-left ${
                     isSelected
                       ? 'bg-[#e39b12] text-[#100e0c] border-[#e39b12] font-bold shadow'
                       : 'bg-[#1a1714] text-[#efe6d6] border-[#efe6d6]/30 hover:border-[#e39b12]'
@@ -135,7 +136,8 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
           </span>
           <button
             onClick={handleAutoBuild}
-            className="px-4 py-2 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] rounded text-xs md:text-sm font-mono uppercase tracking-wider transition-colors font-bold shadow"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-4 py-2 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] rounded text-xs md:text-sm font-mono uppercase tracking-wider transition-colors font-bold shadow"
             title="Equips the Keel certifying stack: 3 tanks, RTG, spectrometer, drill"
           >
             ⚡ Auto-Build Certifying Stack
@@ -321,8 +323,9 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   onLaunch();
                 }
               }}
+              onMouseEnter={() => metrics.isLaunchLegal && sound.playHoverBlip()}
               disabled={!metrics.isLaunchLegal}
-              className={`w-full py-3 rounded font-mono font-bold uppercase tracking-wider text-sm md:text-base transition-all shadow-md ${
+              className={`sensory-btn w-full py-3 rounded font-mono font-bold uppercase tracking-wider text-sm md:text-base transition-all shadow-md ${
                 metrics.isLaunchLegal
                   ? 'bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] cursor-pointer'
                   : 'bg-[#100e0c] text-[#efe6d6]/30 border border-[#efe6d6]/20 cursor-not-allowed'
@@ -357,7 +360,8 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 draggable={!isMaxed}
                 onDragStart={(e) => handleDragStart(e, part.id)}
                 onClick={() => addPart(part.id)}
-                className={`bg-[#1a1714] border p-2.5 rounded cursor-pointer transition-all flex flex-col justify-between hover:border-[#e39b12] ${
+                onMouseEnter={() => !isMaxed && sound.playHoverBlip()}
+                className={`sensory-btn bg-[#1a1714] border p-2.5 rounded cursor-pointer transition-all flex flex-col justify-between hover:border-[#e39b12] ${
                   currentCount > 0 ? 'border-[#e39b12]/80 bg-[#1a1714]' : 'border-[#efe6d6]/25'
                 }`}
                 title={`Click or drag onto ship to add ${part.name}`}

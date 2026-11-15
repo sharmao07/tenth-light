@@ -107,6 +107,16 @@ export function DialogueBar({
             <span className="text-xs text-[#efe6d6]/60 uppercase tracking-widest font-mono">
               [Line {currentIndex + 1} of {lines.length}]
             </span>
+            {currentLine.speaker === 'nori' && (
+              <span className="hidden sm:inline-block text-[10px] font-mono text-[#5bc0be] bg-[#5bc0be]/10 px-2 py-0.5 rounded border border-[#5bc0be]/30">
+                [AUTONOMY: RUNNING // SLEEVE: ARMED]
+              </span>
+            )}
+            {currentLine.speaker === 'wren' && (
+              <span className="hidden sm:inline-block text-[10px] font-mono text-[#e39b12] bg-[#e39b12]/10 px-2 py-0.5 rounded border border-[#e39b12]/30">
+                [CABIN: PRESSURIZED // IN SEAT]
+              </span>
+            )}
             {isAuto && (
               <span className="text-[11px] font-mono text-[#5bc0be] bg-[#5bc0be]/15 px-2 py-0.5 rounded border border-[#5bc0be]/40 flex items-center gap-1 animate-pulse">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#5bc0be]"></span>
@@ -125,8 +135,9 @@ export function DialogueBar({
           {/* 1. Previous Button */}
           <button
             onClick={handlePrevious}
+            onMouseEnter={() => !isFirst && sound.playHoverBlip()}
             disabled={isFirst}
-            className={`px-3 py-2 text-xs md:text-sm font-mono uppercase tracking-wider rounded border transition-colors flex items-center gap-1.5 ${
+            className={`sensory-btn px-3 py-2 text-xs md:text-sm font-mono uppercase tracking-wider rounded border transition-colors flex items-center gap-1.5 ${
               isFirst
                 ? 'bg-[#100e0c]/50 text-[#efe6d6]/30 border-[#efe6d6]/10 cursor-not-allowed'
                 : 'bg-[#100e0c] hover:bg-[#e39b12] hover:text-[#100e0c] text-[#efe6d6] border-[#efe6d6]/40 cursor-pointer'
@@ -140,7 +151,8 @@ export function DialogueBar({
           {/* 2. Auto Button (3 seconds) */}
           <button
             onClick={toggleAuto}
-            className={`px-3 py-2 text-xs md:text-sm font-mono uppercase tracking-wider rounded border transition-colors flex items-center gap-1.5 ${
+            onMouseEnter={() => sound.playHoverBlip()}
+            className={`sensory-btn px-3 py-2 text-xs md:text-sm font-mono uppercase tracking-wider rounded border transition-colors flex items-center gap-1.5 ${
               isAuto
                 ? 'bg-[#e39b12] text-[#100e0c] border-[#e39b12] font-bold shadow'
                 : 'bg-[#100e0c] hover:bg-[#efe6d6]/10 text-[#efe6d6] border-[#efe6d6]/40'
@@ -154,7 +166,8 @@ export function DialogueBar({
           {/* 3. Next Button */}
           <button
             onClick={handleNext}
-            className="px-4 py-2 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-bold border border-[#e39b12] text-xs md:text-sm font-mono uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 shadow"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-4 py-2 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-bold border border-[#e39b12] text-xs md:text-sm font-mono uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 shadow"
             title="Go to next dialogue line (or press Space)"
           >
             <span>{isLast ? 'Proceed' : 'Next'}</span>

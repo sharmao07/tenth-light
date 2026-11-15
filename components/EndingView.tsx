@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import { NASA_IMAGE_PLATES } from '@/lib/nasaSnapshots';
 import { sound } from './AudioController';
 import { ShipDesign } from '@/lib/gameTypes';
+import { PrintableCertificate } from './PrintableCertificate';
 
 interface EndingViewProps {
   design: ShipDesign;
@@ -150,21 +151,32 @@ export function EndingView({
         </div>
       </div>
 
-      {/* Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      {/* Printable Flight Certificate & Manifest Export (pdfcn / snapcn) */}
+      <PrintableCertificate
+        design={design}
+        collectedWater={collectedWater}
+        collectedSoil={collectedSoil}
+        uranusPassed={uranusPassed}
+        callsign={callsign}
+      />
+
+      {/* Buttons (Hidden when printing official document) */}
+      <div className="no-print flex flex-col sm:flex-row gap-4 mt-4">
         <button
           onClick={() => {
             sound.playUiClick();
             onRestart();
           }}
-          className="px-7 py-3 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold uppercase tracking-wider text-xs md:text-sm rounded transition-colors shadow-lg"
+          onMouseEnter={() => sound.playHoverBlip()}
+          className="sensory-btn px-7 py-3 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold uppercase tracking-wider text-xs md:text-sm rounded transition-colors shadow-lg"
         >
           Begin New Mission (Return to Hangar)
         </button>
 
         <a
           href="/data"
-          className="px-7 py-3 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors flex items-center justify-center"
+          onMouseEnter={() => sound.playHoverBlip()}
+          className="sensory-btn px-7 py-3 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors flex items-center justify-center font-bold"
         >
           View Scientific Data & Citations (/data)
         </a>

@@ -15,6 +15,7 @@ import { Ship3DView } from '@/components/Ship3DView';
 import { PersistentHeader } from '@/components/PersistentHeader';
 import { PauseModal } from '@/components/PauseModal';
 import { MissionLogbookModal } from '@/components/MissionLogbookModal';
+import { PinnedTelemetryPill } from '@/components/PinnedTelemetryPill';
 import { DialogueBar } from '@/components/DialogueBar';
 import { HangarView } from '@/components/HangarView';
 import { DodgeRing } from '@/components/DodgeRing';
@@ -364,6 +365,18 @@ export default function TenthLightGame() {
         callsign={gameState.callsign}
       />
 
+      {/* Pinned Telemetry Pill (pinui style) during flight */}
+      {(gameState.phase === 'transit' || gameState.phase === 'gate') && (
+        <PinnedTelemetryPill
+          currentStopIndex={gameState.currentStop}
+          currentDeltaV={gameState.currentDeltaV}
+          lives={gameState.lives}
+          onOpenLogbook={() => setIsLogbookOpen(true)}
+          isMuted={gameState.isMuted}
+          onToggleMute={handleToggleMute}
+        />
+      )}
+
       {/* Main Screen Views */}
       <main className="flex-1 w-full relative flex flex-col items-center justify-center min-h-0">
         {/* ================= 1. TITLE SCREEN ================= */}
@@ -410,7 +423,8 @@ export default function TenthLightGame() {
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
               <button
                 onClick={handleStartBriefing}
-                className="px-8 py-3.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-sm md:text-base uppercase tracking-wider rounded transition-colors shadow-lg"
+                onMouseEnter={() => sound.playHoverBlip()}
+                className="sensory-btn px-8 py-3.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-sm md:text-base uppercase tracking-wider rounded transition-colors shadow-lg"
               >
                 Begin Mission (Earth Briefing)
               </button>
@@ -418,7 +432,8 @@ export default function TenthLightGame() {
               {gameState.currentStop > 0 && (
                 <button
                   onClick={handleResumeGame}
-                  className="px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors"
+                  onMouseEnter={() => sound.playHoverBlip()}
+                  className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors"
                 >
                   Resume Corridor (Stop {gameState.currentStop})
                 </button>
@@ -429,7 +444,8 @@ export default function TenthLightGame() {
                   sound.playUiClick();
                   setIsLogbookOpen(true);
                 }}
-                className="px-6 py-3.5 bg-[#1a1714] hover:bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors flex items-center gap-2 font-bold"
+                onMouseEnter={() => sound.playHoverBlip()}
+                className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors flex items-center gap-2 font-bold"
               >
                 <span>📖</span>
                 <span>Mission Logbook</span>
@@ -437,7 +453,8 @@ export default function TenthLightGame() {
 
               <Link
                 href="/data"
-                className="px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors"
+                onMouseEnter={() => sound.playHoverBlip()}
+                className="sensory-btn px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors"
               >
                 Scientific Data (/data)
               </Link>
