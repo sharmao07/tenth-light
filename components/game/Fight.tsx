@@ -14,11 +14,13 @@ type Sim = { enemies: Craft[]; shots: Bolt[]; wave: number; cool: number; hurt: 
 export function Fight({
   parts,
   lives,
+  paused,
   onHit,
   onWin,
 }: {
   parts: PartId[];
   lives: number;
+  paused: boolean;
   onHit: () => void;
   onWin: () => void;
 }) {
@@ -28,7 +30,7 @@ export function Fight({
         <color attach="background" args={["#14120e"]} />
         <ambientLight intensity={0.7} />
         <directionalLight position={[4, 8, 6]} intensity={1.3} />
-        <Battle parts={parts} onHit={onHit} onWin={onWin} />
+        <Battle parts={parts} paused={paused} onHit={onHit} onWin={onWin} />
       </Canvas>
       <div className="fight-hud">
         <p>Ambush. Wave fight. Move and shoot. Hull lives: {lives}.</p>
@@ -56,10 +58,12 @@ function PadButton({ code, label }: { code: string; label: string }) {
 
 function Battle({
   parts,
+  paused,
   onHit,
   onWin,
 }: {
   parts: PartId[];
+  paused: boolean;
   onHit: () => void;
   onWin: () => void;
 }) {
@@ -67,13 +71,20 @@ function Battle({
   const player = useRef<Group>(null);
   const callbacks = useRef({ onHit, onWin });
   const sim = useRef<Sim | null>(null);
+  const pausedRef = useRef(paused);
 
   useEffect(() => {
     callbacks.current = { onHit, onWin };
   }, [onHit, onWin]);
 
   useEffect(() => {
+    pausedRef.current = paused;
+    if (paused) keys.current = { left: false, right: false, fire: false };
+  }, [paused]);
+
+  useEffect(() => {
     function down(event: KeyboardEvent) {
+      if (pausedRef.current) return;
       if (event.key === "ArrowLeft" || event.key === "a" || event.key === "A") keys.current.left = true;
       if (event.key === "ArrowRight" || event.key === "d" || event.key === "D") keys.current.right = true;
       if (event.key === " " || event.key === "ArrowUp" || event.key === "w" || event.key === "W") {
@@ -95,6 +106,7 @@ function Battle({
   }, []);
 
   useFrame((state, delta) => {
+    if (pausedRef.current) return;
     const dt = Math.min(delta, 0.05);
     sim.current ??= boot(state.scene);
     const world = sim.current;

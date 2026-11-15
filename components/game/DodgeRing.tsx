@@ -20,16 +20,23 @@ function arc(start: number, end: number, radius: number) {
 export function DodgeRing({
   neo,
   showTip,
+  paused,
   onResult,
 }: {
   neo: NeoBody;
   showTip: boolean;
+  paused: boolean;
   onResult: (hit: boolean) => void;
 }) {
   const angle = useRef(0);
   const dot = useRef<SVGCircleElement>(null);
   const ring = useRef<SVGSVGElement>(null);
   const done = useRef(false);
+  const pausedRef = useRef(paused);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     let frame = 0;
@@ -37,7 +44,7 @@ export function DodgeRing({
     const loop = (now: number) => {
       const dt = Math.min(32, now - last);
       last = now;
-      angle.current = (angle.current + dt * 0.11) % 360;
+      if (!pausedRef.current) angle.current = (angle.current + dt * 0.11) % 360;
       const rad = ((angle.current - 90) * Math.PI) / 180;
       const cx = 120 + Math.cos(rad) * 78;
       const cy = 120 + Math.sin(rad) * 78;
@@ -51,7 +58,7 @@ export function DodgeRing({
   }, []);
 
   function resolve() {
-    if (done.current) return;
+    if (done.current || pausedRef.current) return;
     done.current = true;
     const value = angle.current;
     const hit = value >= START && value <= END;

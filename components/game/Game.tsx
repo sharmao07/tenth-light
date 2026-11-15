@@ -9,6 +9,7 @@ import { initialState, reduce, type Action } from "@/lib/game/logic";
 import { HONESTY, parsecsToLightYears, ARCHIVE_SNAPSHOT, type WorldCard } from "@/lib/game/snapshot";
 import type { GameState, PartId, Who } from "@/lib/game/types";
 import { blip, setMuted } from "./audio";
+import { HoldControls } from "./HoldControls";
 import { DodgeRing } from "./DodgeRing";
 import { Ending } from "./Ending";
 import { Fight } from "./Fight";
@@ -60,6 +61,7 @@ export function Game() {
   const client = useClient();
   const canResume = useSavedRun();
   const [muted, setMuteState] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [worlds, setWorlds] = useState<WorldCard[]>(ARCHIVE_SNAPSHOT);
   const [archiveSource, setArchiveSource] = useState("snapshot");
 
@@ -122,6 +124,21 @@ export function Game() {
     send({ type: "restart" });
   }
 
+  function toMenu() {
+    setPaused(false);
+    send({ type: "restart" });
+  }
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setPaused((value) => !value);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const stopName = state.phase.kind === "transit"
     ? legBetween(state.phase.from, state.phase.to).name
     : state.phase.kind === "talk" || state.phase.kind === "puzzle"
@@ -159,7 +176,10 @@ export function Game() {
             <span key={index} className={index < state.lives ? "life on" : "life"} />
           ))}
         </div>
-        <button type="button" onClick={toggleSound}>{muted ? "Sound" : "Mute"}</button>
+        <div className="hud-tools">
+          <HoldControls paused={paused} onToggle={() => setPaused((value) => !value)} onMenu={toMenu} />
+          <button type="button" onClick={toggleSound}>{muted ? "Sound" : "Mute"}</button>
+        </div>
       </header>
       <main>
         <div key={sceneKey(state.phase)} className="screen-in">
@@ -231,6 +251,7 @@ export function Game() {
                 key={`${state.lives}-${state.phase.dodgesLeft}-${state.phase.neo.name}`}
                 neo={state.phase.neo}
                 showTip={state.phase.showTip}
+                paused={paused}
                 onResult={(hit) => send({ type: "dodge", hit })}
               />
             )}
@@ -252,7 +273,7 @@ export function Game() {
 
         {state.phase.kind === "puzzle" && (
           <section className="puzzle-screen">
-            <Puzzle stop={state.phase.stop} state={state} dispatch={send} />
+            <Puzzle stop={state.phase.stop} state={state} dispatch={send} paused={paused} />
           </section>
         )}
 
@@ -260,6 +281,7 @@ export function Game() {
           <Fight
             parts={state.ship.parts}
             lives={state.lives}
+            paused={paused}
             onHit={() => send({ type: "fight-hit" })}
             onWin={() => send({ type: "fight-win" })}
           />
@@ -268,6 +290,7 @@ export function Game() {
         {state.phase.kind === "maze" && (
           <Maze
             lives={state.lives}
+            paused={paused}
             onHit={() => send({ type: "maze-hit" })}
             onDone={(samples) => send({ type: "maze-done", ...samples })}
           />
@@ -453,10 +476,12 @@ function Puzzle({
   stop,
   state,
   dispatch,
+  paused,
 }: {
   stop: number;
   state: GameState;
   dispatch: (action: Action) => void;
+  paused: boolean;
 }) {
   const pass = (frozen?: PartId[]) => dispatch({ type: "puzzle-pass", frozen });
   if (stop === 1) return <MoonPuzzle onPass={() => pass()} />;
@@ -464,7 +489,7 @@ function Puzzle({
   if (stop === 3) return <CeresPuzzle onPass={() => pass()} />;
   if (stop === 5) return <EnceladusPuzzle onPass={() => pass()} />;
   if (stop === 6) return <UranusPuzzle ship={state.ship} onPass={(frozen) => pass(frozen)} onScrub={() => dispatch({ type: "scrub" })} />;
-  if (stop === 7) return <NeptunePuzzle onPass={() => pass()} />;
+  if (stop === 7) return <NeptunePuzzle paused={paused} onPass={() => pass()} />;
   if (stop === 8) return <PlutoPuzzle onPass={() => pass()} />;
   if (stop === 9) return <ManifestPuzzle onPass={() => pass()} />;
   return null;

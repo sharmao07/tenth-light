@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PARTS, URANUS_AU } from "@/lib/game/catalog";
 import { aliveDraw, analyze, scienceDraw } from "@/lib/game/ship";
 import type { PartId, ShipDesign } from "@/lib/game/types";
@@ -224,20 +224,33 @@ export function UranusPuzzle({
   );
 }
 
-export function NeptunePuzzle({ onPass }: { onPass: () => void }) {
+export function NeptunePuzzle({ paused, onPass }: { paused: boolean; onPass: () => void }) {
   const hours = (30.1 * 499) / 3600;
   const [mode, setMode] = useState<"ready" | "wait" | "fail" | "done">("ready");
   const [progress, setProgress] = useState(0);
+  const progressRef = useRef(0);
+  const pausedRef = useRef(paused);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     if (mode !== "wait") return;
     let frame = 0;
-    const started = performance.now();
+    let last = performance.now();
     const loop = (now: number) => {
-      const value = Math.min(1, (now - started) / 7000);
-      setProgress(value);
-      if (value >= 1) setMode("done");
-      else frame = requestAnimationFrame(loop);
+      const dt = Math.min(50, now - last);
+      last = now;
+      if (!pausedRef.current) {
+        progressRef.current = Math.min(1, progressRef.current + dt / 7000);
+        setProgress(progressRef.current);
+        if (progressRef.current >= 1) {
+          setMode("done");
+          return;
+        }
+      }
+      frame = requestAnimationFrame(loop);
     };
     frame = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frame);
@@ -259,7 +272,7 @@ export function NeptunePuzzle({ onPass }: { onPass: () => void }) {
       {mode === "done" ? (
         <button type="button" className="primary" onClick={onPass}>The reply is in. Depart.</button>
       ) : (
-        <button type="button" className="primary" onClick={mode === "fail" ? () => { setMode("ready"); setProgress(0); } : send}>
+        <button type="button" className="primary" onClick={mode === "fail" ? () => { progressRef.current = 0; setMode("ready"); setProgress(0); } : send}>
           {mode === "wait" ? "Do not send again" : mode === "fail" ? "Reset the command" : "Send"}
         </button>
       )}

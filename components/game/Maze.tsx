@@ -20,10 +20,12 @@ function freshAliens(): Alien[] {
 
 export function Maze({
   lives,
+  paused,
   onDone,
   onHit,
 }: {
   lives: number;
+  paused: boolean;
   onDone: (samples: { water: boolean; soil: boolean }) => void;
   onHit: () => void;
 }) {
@@ -44,6 +46,7 @@ export function Maze({
   const takenRef = useRef(taken);
   const aliensRef = useRef(aliens);
   const hurtRef = useRef(false);
+  const pausedRef = useRef(paused);
   const onHitRef = useRef(onHit);
   const onDoneRef = useRef(onDone);
   const moveRef = useRef<(dRow: number, dCol: number) => void>(() => {});
@@ -55,6 +58,7 @@ export function Maze({
     gateRef.current = gateOpen;
     takenRef.current = taken;
     aliensRef.current = aliens;
+    pausedRef.current = paused;
     onHitRef.current = onHit;
     onDoneRef.current = onDone;
     moveRef.current = move;
@@ -141,6 +145,7 @@ export function Maze({
         d: [0, 1],
         D: [0, 1],
       };
+      if (pausedRef.current) return;
       const delta = step[event.key];
       if (!delta) return;
       event.preventDefault();
@@ -152,7 +157,7 @@ export function Maze({
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      if (hurtRef.current) return;
+      if (hurtRef.current || pausedRef.current) return;
       const gate = gateRef.current;
       const nextAliens = aliensRef.current.map((alien) => {
         const turns = [0, 1, 3, 2];

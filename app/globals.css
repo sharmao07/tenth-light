@@ -89,13 +89,52 @@ a { color: var(--amber); }
 
 .rail li.done { color: var(--paper); border-color: #6d645b; box-shadow: inset 0 -2px 0 var(--amber); }
 
-.hud button {
+.hud-tools > button,
+.hold-controls > button {
   padding: 0.4rem 0.7rem;
   text-align: center;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.hud-tools, .hold-controls { display: flex; gap: 0.35rem; align-items: center; }
+.hud-tools, .data-hold { position: relative; z-index: 32; }
+.hud-tools > button,
+.hold-controls > button { position: relative; z-index: 2; }
+.pause-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: rgba(16, 14, 12, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+.pause-card {
+  width: min(460px, 100%);
+  background: var(--paper);
+  color: var(--ink);
+  border: 4px solid #1a1714;
+  box-shadow: inset 0 3px 0 var(--amber);
+  padding: 1.5rem 1.6rem 1.4rem;
+  display: grid;
+  gap: 0.85rem;
+}
+.pause-card h2 { margin: 0; color: var(--ink); font-size: 2rem; }
+.pause-card p { margin: 0; color: var(--ink); line-height: 1.5; }
+.pause-card button {
+  padding: 0.85rem 1.05rem;
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  color: var(--ink);
+  border-color: #1a1714;
+}
+.pause-card .primary { justify-self: start; }
+.data-hold { position: absolute; top: 0.75rem; right: 1rem; }
+.data-page { position: relative; }
+.data-page header { padding-right: 12rem; }
 
 .lives { display: flex; gap: 0.35rem; }
 .life {
@@ -739,7 +778,7 @@ footer.bar details ul {
   .hud > div:first-child { grid-area: brand; }
   .rail { grid-area: rail; grid-column: auto; justify-content: space-between; overflow: hidden; }
   .lives { grid-area: lives; }
-  .hud > button { grid-area: mute; padding: 0.4rem 0.55rem; }
+  .hud-tools { grid-area: mute; flex-wrap: wrap; justify-content: flex-end; }
   .rail li { width: 1.45rem; height: 1.45rem; font-size: 0.68rem; }
   .title { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 22vh; }
   .ending .dialogue, .dialogue, .dodge, .cards { grid-template-columns: 1fr; }

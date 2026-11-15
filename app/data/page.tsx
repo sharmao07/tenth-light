@@ -1,10 +1,14 @@
 import Link from "next/link";
+import { DataHold } from "@/components/game/DataHold";
 import { BUDGET, PARTS, VEHICLES } from "@/lib/game/catalog";
 import { HONESTY } from "@/lib/game/snapshot";
 
 export default function DataPage() {
   return (
     <main className="data-page screen-in">
+      <div className="data-hold">
+        <DataHold />
+      </div>
       <header>
         <p className="eyebrow">Tenth Light</p>
         <h1>Data and credits</h1>
