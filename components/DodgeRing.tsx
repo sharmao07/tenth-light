@@ -133,11 +133,20 @@ export function DodgeRing({
 
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 p-4 select-none">
-      <div className="flex flex-col md:flex-row items-center gap-6 bg-[#100e0c]/85 border-2 border-[#e39b12] p-4 rounded-lg shadow-2xl pointer-events-auto">
+      <div
+        className={`flex flex-col md:flex-row items-center gap-6 bg-[#100e0c]/90 border-2 rounded-lg p-5 shadow-2xl pointer-events-auto transition-all ${
+          resolved === 'miss'
+            ? 'animate-shake border-[#c4452d] bg-[#c4452d]/10'
+            : resolved === 'success'
+            ? 'border-[#5bc0be] bg-[#5bc0be]/10'
+            : 'border-[#e39b12]'
+        }`}
+      >
         {/* Ring Stage */}
         <div
           onClick={handleAction}
-          className="flex flex-col items-center cursor-pointer group"
+          onMouseEnter={() => resolved === null && sound.playHoverBlip()}
+          className="sensory-btn flex flex-col items-center cursor-pointer group"
           title="Click, Space, or Enter while needle is on amber arc"
         >
           <div className="relative w-40 h-40">

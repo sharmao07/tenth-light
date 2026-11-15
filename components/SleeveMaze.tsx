@@ -48,6 +48,7 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
     { x: 10, y: 5 },
   ]);
   const [gracePeriod, setGracePeriod] = useState(1.5);
+  const [hitShake, setHitShake] = useState(false);
 
   const aliensRef = useRef<PatrolAlien[]>([
     { x: 6, y: 1, dir: 1, axis: 'y', min: 1, max: 9 }, // Alien 1 patrols hallway
@@ -199,6 +200,8 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
         for (const al of aliensRef.current) {
           if (Math.round(al.x) === noriPos.x && Math.round(al.y) === noriPos.y) {
             sound.playMiss();
+            setHitShake(true);
+            setTimeout(() => setHitShake(false), 260);
             onHit();
             respawnNori();
             break;
@@ -249,7 +252,9 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
       </div>
 
       {/* The 2D Maze Canvas / Grid (Whole maze on screen) */}
-      <div className="relative border-2 border-[#e39b12] rounded bg-[#100e0c] p-1 shadow-2xl">
+      <div className={`relative border-2 rounded bg-[#100e0c] p-1 shadow-2xl transition-all ${
+        hitShake ? 'animate-shake border-[#c4452d] bg-[#c4452d]/10' : 'border-[#e39b12]'
+      }`}>
         <div
           className="grid gap-[2px]"
           style={{
@@ -359,25 +364,29 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
         <div className="flex items-center gap-2">
           <button
             onClick={() => tryMove(0, -1)}
-            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             ↑ N
           </button>
           <button
             onClick={() => tryMove(-1, 0)}
-            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             ← W
           </button>
           <button
             onClick={() => tryMove(0, 1)}
-            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             ↓ S
           </button>
           <button
             onClick={() => tryMove(1, 0)}
-            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
+            onMouseEnter={() => sound.playHoverBlip()}
+            className="sensory-btn px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             → E
           </button>

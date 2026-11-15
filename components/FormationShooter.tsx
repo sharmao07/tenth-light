@@ -13,12 +13,23 @@ interface Saucer {
   x: number;
   y: number;
   alive: boolean;
+  hitFlash?: number; // 0..1 timer for white hit-flash
 }
 
 interface Bullet {
   x: number;
   y: number;
   isEnemy: boolean;
+}
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  color: string;
 }
 
 export function FormationShooter({ isPaused, onVictory, onHit }: FormationShooterProps) {
@@ -31,6 +42,10 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
     playerY: 340,
     bullets: [] as Bullet[],
     saucers: [] as Saucer[],
+    particles: [] as Particle[],
+    trauma: 0,
+    playerHitFlash: 0,
+    muzzleFlash: 0,
     saucerDir: 1, // 1 = right, -1 = left
     saucerStepTimer: 0,
     saucerStepInterval: 0.6,
@@ -156,6 +171,8 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
       if (st.keys.shoot && now - st.lastShotTime > 240) {
         st.lastShotTime = now;
         st.bullets.push({ x: st.playerX, y: st.playerY - 14, isEnemy: false });
+        st.muzzleFlash = 0.05;
+        st.trauma = Math.min(1.0, st.trauma + 0.08); // micro trauma on cannon kick
         sound.playLaserShot();
       }
 
@@ -165,7 +182,20 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         if (st.invulnerableTimer <= 0) st.isInvulnerable = false;
       }
 
-      // 4. Update bullets
+      // Update muzzle flash
+      if (st.muzzleFlash > 0) {
+        st.muzzleFlash = Math.max(0, st.muzzleFlash - dt);
+      }
+
+      // 4. Update particles (hit-sparks from combat)
+      st.particles.forEach((p) => {
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.life -= dt;
+      });
+      st.particles = st.particles.filter((p) => p.life > 0);
+
+      // 5. Update bullets
       const bulletSpeed = 320;
       const enemyBulletSpeed = 160;
       st.bullets.forEach((b) => {
@@ -173,7 +203,7 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
       });
       st.bullets = st.bullets.filter((b) => b.y > 0 && b.y < canvas.height);
 
-      // 5. Saucers march
+      // 6. Saucers march
       st.saucerStepTimer += dt;
       const aliveSaucers = st.saucers.filter((s) => s.alive);
 
@@ -221,21 +251,38 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         }
       }
 
-      // 6. Collision: Player Bullets vs Saucers
+      // 7. Collision: Player Bullets vs Saucers
       for (const b of st.bullets) {
         if (b.isEnemy) continue;
         for (const s of aliveSaucers) {
           if (Math.abs(b.x - s.x) < 16 && Math.abs(b.y - s.y) < 12) {
             s.alive = false;
             b.y = -999; // destroy bullet
+            st.trauma = Math.min(1.0, st.trauma + 0.32); // medium trauma on saucer kill
             sound.playExplosion();
+
+            // Spawn 7 radiating hit sparks (game-feel principle)
+            for (let i = 0; i < 7; i++) {
+              const angle = Math.random() * Math.PI * 2;
+              const spd = 60 + Math.random() * 90;
+              st.particles.push({
+                x: s.x,
+                y: s.y,
+                vx: Math.cos(angle) * spd,
+                vy: Math.sin(angle) * spd,
+                life: 0.26,
+                maxLife: 0.26,
+                color: Math.random() > 0.4 ? '#e39b12' : '#efe6d6',
+              });
+            }
+
             setSaucersLeft(st.saucers.filter((sc) => sc.alive).length - 1);
             break;
           }
         }
       }
 
-      // 7. Collision: Enemy shots or Saucers vs Player
+      // 8. Collision: Enemy shots or Saucers vs Player
       if (!st.isInvulnerable) {
         let playerHit = false;
 
@@ -260,13 +307,27 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
 
         if (playerHit) {
           sound.playMiss();
+          st.trauma = 0.85; // heavy trauma on hull hit (shake = 0.85^2 = 0.72)
+          st.playerHitFlash = 0.16; // red hit border
           st.isInvulnerable = true;
           st.invulnerableTimer = 1.6;
           onHit();
         }
       }
 
-      // 8. Render
+      // 9. Render with Trauma Camera Shake (quadratic falloff: trauma^2 * offset)
+      let shakeX = 0;
+      let shakeY = 0;
+      if (st.trauma > 0) {
+        const shakeMag = st.trauma * st.trauma;
+        shakeX = (Math.random() * 2 - 1) * 8 * shakeMag;
+        shakeY = (Math.random() * 2 - 1) * 6 * shakeMag;
+        st.trauma = Math.max(0, st.trauma - dt * 3.5);
+      }
+
+      ctx.save();
+      ctx.translate(shakeX, shakeY);
+
       ctx.fillStyle = '#100e0c';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -345,6 +406,37 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
         // Visor
         ctx.fillStyle = '#e39b12';
         ctx.fillRect(st.playerX - 3, st.playerY - 5, 6, 3);
+
+        // Muzzle Flash on Cannon Nose (game-feel principle)
+        if (st.muzzleFlash > 0) {
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(st.playerX, st.playerY - 18, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#e39b12';
+          ctx.beginPath();
+          ctx.arc(st.playerX, st.playerY - 18, 8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Draw Hit-Spark Particles (game-feel principle)
+      for (const p of st.particles) {
+        ctx.fillStyle = p.color;
+        const alpha = Math.max(0, p.life / p.maxLife);
+        ctx.globalAlpha = alpha;
+        ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
+        ctx.globalAlpha = 1.0;
+      }
+
+      ctx.restore();
+
+      // Red Screen Hit Flash (The Holy Trinity of Game Feel)
+      if (st.playerHitFlash > 0) {
+        st.playerHitFlash = Math.max(0, st.playerHitFlash - dt);
+        ctx.strokeStyle = `rgba(196, 69, 45, ${Math.min(0.9, st.playerHitFlash * 6)})`;
+        ctx.lineWidth = 8;
+        ctx.strokeRect(0, 0, canvas.width, canvas.height);
       }
     };
 

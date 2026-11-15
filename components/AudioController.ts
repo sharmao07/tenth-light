@@ -123,6 +123,19 @@ class AudioController {
     return this.isAmbientActive;
   }
 
+  // Audio ducking for the ambient bus on major impacts/shots (game-feel principle)
+  public duckAmbient(duckAmount: number = 0.8, duration: number = 0.25) {
+    if (!this.isAmbientActive || !this.ambientGain || !this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      const targetGain = 0.035 * (1 - duckAmount);
+      this.ambientGain.gain.cancelScheduledValues(now);
+      this.ambientGain.gain.setValueAtTime(this.ambientGain.gain.value, now);
+      this.ambientGain.gain.linearRampToValueAtTime(targetGain, now + 0.03);
+      this.ambientGain.gain.linearRampToValueAtTime(0.035, now + duration);
+    } catch {}
+  }
+
   public playHoverBlip() {
     if (this.isMuted) return;
     this.initContext();
@@ -283,6 +296,8 @@ class AudioController {
     this.initContext();
     if (!this.ctx) return;
 
+    this.duckAmbient(0.85, 0.45);
+
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     const now = this.ctx.currentTime;
@@ -305,6 +320,8 @@ class AudioController {
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
+
+    this.duckAmbient(0.7, 1.4);
 
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
@@ -329,6 +346,8 @@ class AudioController {
     this.initContext();
     if (!this.ctx) return;
 
+    this.duckAmbient(0.35, 0.16);
+
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
@@ -351,6 +370,8 @@ class AudioController {
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
+
+    this.duckAmbient(0.85, 0.45);
 
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();

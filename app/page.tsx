@@ -62,19 +62,31 @@ export default function TenthLightGame() {
     }
   }, [gameState, isLoaded]);
 
-  // Escape key global listener for pause
+  // Global PC game keyboard shortcuts (Escape: Pause, L: Logbook, M: Mute)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept when user is typing in text fields
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+
       if (e.key === 'Escape') {
-        if (gameState.phase !== 'title') {
+        if (isLogbookOpen) {
+          setIsLogbookOpen(false);
+          sound.playUiClick();
+        } else if (gameState.phase !== 'title') {
           setIsPaused((p) => !p);
           sound.playUiClick();
         }
+      } else if (e.code === 'KeyL') {
+        setIsLogbookOpen((prev) => !prev);
+        sound.playUiClick();
+      } else if (e.code === 'KeyM') {
+        handleToggleMute();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState.phase]);
+  }, [gameState.phase, isLogbookOpen, gameState.isMuted]);
 
   const triggerSceneFade = (callback: () => void) => {
     setFadeActive(true);
