@@ -180,78 +180,76 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
   if (!isOpen || !info) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#0a0c10]/85 flex items-center justify-center p-6 backdrop-blur-none animate-fadeIn select-none">
-      <div className="w-full max-w-xl bg-[#12151b] border border-[#f0562b] rounded-lg shadow-2xl overflow-hidden text-[#e9e6dc] flex flex-col max-h-[90vh]">
-        {/* Terminal Chrome Header */}
-        <div className="bg-[#0a0c10] border-b border-[#f0562b]/40 px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#f0562b]" />
-            <span className="text-xs uppercase tracking-widest text-[#f0562b] font-bold">
-              GATE CLEARANCE DIRECTIVE // PROTOCOL #{stopIndex}
+    <div className="fixed inset-0 z-50 bg-[#0a0c10]/90 flex items-center justify-center p-6 backdrop-blur-none animate-fadeIn select-none">
+      <div className="w-full max-w-xl bg-[#0a0c10] border border-[#f0562b] text-[#e9e6dc] flex flex-col max-h-[90vh]">
+        {/* Dossier Modal Header */}
+        <div className="border-b border-[#e9e6dc]/15 px-8 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 bg-[#f0562b]" />
+            <span className="font-mono text-xs uppercase tracking-widest text-[#f0562b] font-bold">
+              CLEARANCE DIRECTIVE // PROTOCOL #{stopIndex}
             </span>
           </div>
-          <span className="text-xs text-[#e9e6dc]/60">
-            [ESC / SPACE / ENTER TO DISMISS]
+          <span className="font-mono text-[11px] text-[#e9e6dc]/40">
+            [ESC / SPACE TO DISMISS]
           </span>
         </div>
 
         {/* Modal Body */}
-        <div className="p-8 md:p-10 space-y-6 overflow-y-auto font-sans leading-relaxed text-sm">
+        <div className="p-8 md:p-10 space-y-6 overflow-y-auto leading-relaxed text-sm">
           {/* Destination & Title */}
           <div>
-            <div className="text-xs text-[#e9e6dc] uppercase tracking-wider font-bold">
-              {info.destination}
-            </div>
-            <h2 className="font-serif text-2xl text-[#e9e6dc] mt-0.5">
+            <p className="label">{info.destination}</p>
+            <h2 className="font-serif font-extralight text-3xl md:text-4xl text-[#e9e6dc] mt-1 tracking-tight">
               {info.title}
             </h2>
-            <div className="text-xs text-[#e9e6dc]/70 mt-1">
-              Mission Distance: <span className="text-[#f0562b]">{info.distance}</span>
+            <div className="font-mono text-xs text-[#e9e6dc]/60 mt-1">
+              Mission Distance: <span className="text-[#f0562b] font-bold">{info.distance}</span>
             </div>
           </div>
 
           {/* Objective Box */}
-          <div className="bg-[#0a0c10] border border-[#f0562b]/30 p-5 rounded">
-            <span className="text-xs uppercase tracking-wider text-[#f0562b] font-bold block mb-1">
-              Primary Objective:
+          <div className="border border-[#e9e6dc]/15 p-5 bg-[#0a0c10]">
+            <span className="label text-[#f0562b] block mb-1">
+              Primary Directive
             </span>
-            <p className="text-sm text-[#e9e6dc] font-medium">
+            <p className="font-serif text-base text-[#e9e6dc]">
               {info.objective}
             </p>
           </div>
 
           {/* Step-by-Step Procedure */}
           <div>
-            <span className="text-xs uppercase tracking-wider text-[#e9e6dc]/70 font-bold block mb-2">
-              Clearance Sequence:
+            <span className="label block mb-2">
+              Clearance Sequence
             </span>
-            <ol className="space-y-2 list-decimal list-inside text-xs md:text-sm text-[#e9e6dc]/90 pl-1.5">
+            <ol className="space-y-2 list-decimal list-inside font-mono text-xs text-[#e9e6dc]/80 pl-1">
               {info.steps.map((step, idx) => (
                 <li key={idx} className="leading-relaxed">
-                  <span className="font-sans">{step}</span>
+                  <span className="font-sans text-sm">{step}</span>
                 </li>
               ))}
             </ol>
           </div>
 
           {/* Controls Bar */}
-          <div className="bg-[#0a0c10] border border-[#e9e6dc]/20 p-5 rounded text-xs">
+          <div className="border border-[#e9e6dc]/15 p-4 bg-[#0a0c10] font-mono text-xs">
             <span className="text-[#e9e6dc] font-bold block mb-1 uppercase tracking-wider">
-              Input Controls:
+              Workstation Controls:
             </span>
-            <span className="text-[#e9e6dc]/90">{info.controls}</span>
+            <span className="text-[#e9e6dc]/80">{info.controls}</span>
           </div>
 
           {/* Technical Note */}
-          <div className="text-xs text-[#e9e6dc]/70 italic border-l-2 border-[#e9e6dc] pl-5 py-0.5">
+          <div className="font-serif text-xs text-[#e9e6dc]/60 italic border-l border-[#f0562b] pl-4 py-1 leading-relaxed">
             Note: {info.notes}
           </div>
         </div>
 
         {/* Modal Action Footer */}
-        <div className="bg-[#0a0c10] border-t border-[#e9e6dc]/20 px-8 py-5 flex items-center justify-between gap-5">
-          <div className="text-xs text-[#e9e6dc]/60 hidden sm:block">
-            Press <kbd className="px-2 py-0.5 bg-[#12151b] border border-[#e9e6dc]/30 rounded text-[#f0562b]">Space</kbd> to begin
+        <div className="border-t border-[#e9e6dc]/15 px-8 py-5 flex items-center justify-between gap-4">
+          <div className="font-mono text-xs text-[#e9e6dc]/50 hidden sm:block">
+            Press <kbd className="px-1.5 py-0.5 border border-[#e9e6dc]/20">Space</kbd> to engage
           </div>
           <button
             onClick={() => {
@@ -259,9 +257,9 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
               onClose();
             }}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn w-full sm:w-auto px-10 py-4 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] text-xs md:text-sm tracking-wide rounded transition-colors shadow"
+            className="btn w-full sm:w-auto"
           >
-            Acknowledge & Engage Protocol ▶
+            Acknowledge &amp; engage protocol &rarr;
           </button>
         </div>
       </div>

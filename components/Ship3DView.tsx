@@ -47,29 +47,42 @@ export function Ship3DView({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Lighting
-    const ambient = new THREE.AmbientLight(0xe9e6dc, 0.9);
-    scene.add(ambient);
-
-    const dirLight = new THREE.DirectionalLight(0xfdfaf2, 1.8);
-    dirLight.position.set(5, 10, 7);
-    scene.add(dirLight);
-
-    const rimLight = new THREE.DirectionalLight(0xf0562b, 0.6);
-    rimLight.position.set(-6, -4, -4);
-    scene.add(rimLight);
+    // Single light source: stark, directional solar illumination (matte shadows & highlights)
+    const sunLight = new THREE.DirectionalLight(0xf5f3ee, 2.4);
+    sunLight.position.set(7, 9, 6);
+    scene.add(sunLight);
 
     // Ship Group
     const shipGroup = new THREE.Group();
     scene.add(shipGroup);
 
-    // Build the ship stack:
-    // Engine at bottom (y = 0), then tanks, then capsule, antenna on top
-    const darkMetal = new THREE.MeshStandardMaterial({ color: 0x332f2b, roughness: 0.6, metalness: 0.7 });
-    const whiteHull = new THREE.MeshStandardMaterial({ color: 0xe9e6dc, roughness: 0.4, metalness: 0.1 });
-    const amberAccent = new THREE.MeshStandardMaterial({ color: 0xf0562b, roughness: 0.3, metalness: 0.4 });
-    const solarMaterial = new THREE.MeshStandardMaterial({ color: 0x1d3557, roughness: 0.2, metalness: 0.8 });
-    const engineExhaustMat = new THREE.MeshBasicMaterial({ color: 0xf0562b, transparent: true, opacity: 0.8 });
+    // Matte materials using Tenth Light palette:
+    // Void #0a0c10, Paper #e9e6dc, Signal #f0562b, Matte Dark #1f232b
+    const darkMetal = new THREE.MeshStandardMaterial({
+      color: 0x1f232b,
+      roughness: 0.92,
+      metalness: 0.05,
+    });
+    const whiteHull = new THREE.MeshStandardMaterial({
+      color: 0xe9e6dc,
+      roughness: 0.95,
+      metalness: 0.0,
+    });
+    const amberAccent = new THREE.MeshStandardMaterial({
+      color: 0xf0562b,
+      roughness: 0.88,
+      metalness: 0.0,
+    });
+    const solarMaterial = new THREE.MeshStandardMaterial({
+      color: 0x141a24,
+      roughness: 0.9,
+      metalness: 0.0,
+    });
+    const engineExhaustMat = new THREE.MeshBasicMaterial({
+      color: 0xf0562b,
+      transparent: true,
+      opacity: 0.85,
+    });
 
     // 1. Engine
     const engineBellGeom = new THREE.ConeGeometry(0.5, 0.7, 16, 1, true);
@@ -101,9 +114,9 @@ export function Ship3DView({
     for (let i = 0; i < tankCount; i++) {
       const tankGeom = new THREE.CylinderGeometry(tankRadius, tankRadius, tankHeight - 0.05, 16);
       const tankMat = new THREE.MeshStandardMaterial({
-        color: i % 2 === 0 ? 0xa9aeb6 : 0xc9c6bc,
-        roughness: 0.5,
-        metalness: 0.3,
+        color: i % 2 === 0 ? 0x242832 : 0xd8d4c7,
+        roughness: 0.94,
+        metalness: 0.0,
       });
       const tankMesh = new THREE.Mesh(tankGeom, tankMat);
       tankMesh.position.y = currentY + tankHeight / 2;
@@ -297,8 +310,8 @@ export function Ship3DView({
       grid.position.y = -currentY / 2;
       scene.add(grid);
 
-      // KSP Red/Yellow Launch Gantry Clamps
-      const clampMat = new THREE.MeshStandardMaterial({ color: 0x8a2b18, roughness: 0.6, metalness: 0.4 });
+      // KSP Launch Gantry Clamps with matte finish
+      const clampMat = new THREE.MeshStandardMaterial({ color: 0x301814, roughness: 0.95, metalness: 0.0 });
       for (let c = 0; c < 2; c++) {
         const sign = c === 0 ? 1 : -1;
         const colGeom = new THREE.BoxGeometry(0.12, 1.8, 0.12);
@@ -377,16 +390,24 @@ export function Ship3DView({
       const delta = clock.getDelta();
       const elapsed = clock.getElapsedTime();
 
+      // Calm camera drift: meditative, slow cosmic orbit around the vessel
+      const driftTime = elapsed * 0.08;
+      const baseRadius = cruiseMode ? 7.2 : 6.4;
+      const driftCamX = Math.sin(driftTime) * (baseRadius * 0.35) + 3.2;
+      const driftCamY = (cruiseMode ? 2.2 : 1.8) + Math.sin(driftTime * 0.7) * 0.25;
+      const driftCamZ = Math.cos(driftTime) * (baseRadius * 0.35) + 5.6;
+
       if (!isDragging) {
-        if (cruiseMode) {
-          targetRotationY += delta * 0.15;
-        } else {
-          targetRotationY += delta * 0.1;
-        }
+        camera.position.set(driftCamX, driftCamY, driftCamZ);
+        camera.lookAt(0, 0.35, 0);
+
+        // Very gentle attitude stabilization drift on ship
+        targetRotationY = Math.sin(driftTime * 0.5) * 0.12 + (cruiseMode ? -0.2 : 0.4);
+        targetRotationX = Math.cos(driftTime * 0.4) * 0.04;
       }
 
-      shipGroup.rotation.y += (targetRotationY - shipGroup.rotation.y) * 0.08;
-      shipGroup.rotation.x += (targetRotationX - shipGroup.rotation.x) * 0.08;
+      shipGroup.rotation.y += (targetRotationY - shipGroup.rotation.y) * 0.05;
+      shipGroup.rotation.x += (targetRotationX - shipGroup.rotation.x) * 0.05;
 
       if (plumeMesh) {
         plumeMesh.scale.y = 1 + Math.sin(elapsed * 25) * 0.15;
