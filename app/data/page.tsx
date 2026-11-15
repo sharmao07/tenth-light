@@ -59,10 +59,10 @@ export default function DataPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
             <div className="border border-paper/15 p-4 bg-surface space-y-1.5 font-mono text-xs">
               <span className="label text-signal block">
-                Speculative Propulsion Disclosure &middot; TRL 1&ndash;2
+                Speculative Interstellar Propulsion Disclosure
               </span>
               <p className="text-paper-muted leading-relaxed text-[11px]">
-                Stops 1 through 9 depict active and historical Solar System exploration governed by established Newtonian and relativistic astrodynamics. Transit past the heliopause to TOI-700 e at ~0.1c (tenth of light speed, ~30,000 km/s) is a pedagogical thought experiment / speculative hard-SF extrapolation. Such propulsion (antimatter catalysis, pulsed fusion, or relativistic beamed laser sails) is currently CML 1 / TRL 1&ndash;2 and not currently feasible space mission design.
+                Stops 1 through 9 depict active and historical Solar System exploration governed by demonstrated spaceflight engineering. Chemical and electric propulsion, as well as solar-sail technology, have been demonstrated in space (e.g. Dawn, Deep Space 1, ACS3). However, no demonstrated propulsion system can accelerate a practical spacecraft to 0.1c (~30,000 km/s). The proposed interstellar transit to TOI-700 e (101.5 light-years out) is therefore a speculative educational scenario, entailing an approximate 1,015-year journey in Earth&rsquo;s reference frame at 0.1c.
               </p>
             </div>
 
@@ -111,7 +111,7 @@ export default function DataPage() {
               <span className="label text-signal">Astrometry &middot; Lunar Alignment</span>
               <h3 className="font-serif text-lg font-bold text-paper">NASA JPL Horizons On-Line Ephemeris</h3>
               <p className="font-mono text-xs text-paper-muted leading-relaxed">
-                REST API querying Earth&rsquo;s apparent azimuth and elevation as observed from the Moon South Pole site (<code className="text-paper">coord@301</code>, Target <code className="text-paper">399</code>). Used in Stop 1 antenna alignment.
+                REST API querying Earth&rsquo;s apparent azimuth and elevation via a rolling 24-hour observer table. Observer site is defined under JPL&rsquo;s Geodetic coordinate standard (East Longitude 0&deg;, Latitude -89&deg; South, Altitude 0 km on the lunar IAU reference ellipsoid, <code className="text-paper">coord@301</code>) targeting Earth (<code className="text-paper">399</code>). Used in Stop 1 antenna alignment.
               </p>
               <div className="pt-2 border-t border-paper/10">
                 <a

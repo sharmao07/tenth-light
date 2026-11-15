@@ -98,7 +98,7 @@ export function BriefingPhase({
               </div>
 
               <div className="border-t border-paper/10 pt-2 text-[10px] text-paper-muted font-mono leading-relaxed">
-                <span className="text-signal font-bold">SCIENCE NOTE:</span> Interstellar propulsion past the heliopause and planetary surface sampling are speculative pedagogical scenarios. Planetary atmosphere and surface environment of TOI-700 e are currently unconfirmed by astronomical instrumentation.
+                <span className="text-signal font-bold">SCIENCE NOTE:</span> Interstellar transit across 101.5 light-years is a speculative educational scenario (~1,015-year flight in Earth&rsquo;s frame at 0.1c). Chemical, electric, and solar-sail propulsion have flown in space, but no demonstrated system accelerates a practical spacecraft to relativistic speeds. Planetary atmosphere and surface environment of TOI-700 e remain unconfirmed by astronomical instrumentation.
               </div>
             </div>
           </div>

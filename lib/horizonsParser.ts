@@ -29,12 +29,13 @@ export function parseHorizonsEphemeris(textOutput: string): HorizonsParsedResult
   // Match Horizons Date epoch: e.g. "2026-Nov-15 00:00" or "2026-Nov-15 00:00:00.000" or "2026-11-15 00:00"
   const epochRegex = /\d{4}-[A-Za-z0-9]{2,3}-\d{2}(?:\s+\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?/;
   const epochMatch = firstLine.match(epochRegex);
-  const epochStr = epochMatch ? epochMatch[0] : '2026-Nov-15 00:00';
+  // Ephemeris data line MUST contain an authentic date/time stamp; reject malformed lines without epoch
+  if (!epochMatch) return null;
+
+  const epochStr = epochMatch[0];
 
   // Strip the epoch timestamp from the line so timestamp digits are never confused with coordinates
-  const remainder = epochMatch
-    ? firstLine.slice(firstLine.indexOf(epochMatch[0]) + epochMatch[0].length).trim()
-    : firstLine;
+  const remainder = firstLine.slice(firstLine.indexOf(epochStr) + epochStr.length).trim();
 
   // Extract all signed float or integer numbers from the remaining columns
   // Matches "-179.82", "1.23", "180", "-5", etc.

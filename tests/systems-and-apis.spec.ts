@@ -29,6 +29,11 @@ test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
     expect(typeof json.data.elevationDeg).toBe('number');
     expect(json.data.azimuthDeg).toBeGreaterThanOrEqual(0);
     expect(json.data.azimuthDeg).toBeLessThanOrEqual(360);
+
+    if (json.source === 'live') {
+      expect(json.data).toHaveProperty('coordinateConvention');
+      expect(json.data.coordinateConvention).toContain('GEODETIC');
+    }
   });
 
   test('JPL Small-Bodies API performs live verification check with Dawn benchmark data', async ({ request }) => {
@@ -255,7 +260,15 @@ $$EOE
     expect(res5?.azimuthDeg).toBe(180);
     expect(res5?.elevationDeg).toBe(1);
 
-    // 6. Malformed outputs gracefully return null
+    // 6. Missing timestamp/epoch on line with numbers MUST return null (never fabricate a timestamp)
+    const formatMissingTimestamp = `
+$$SOE
+180.0 1.2
+$$EOE
+`;
+    expect(parseHorizonsEphemeris(formatMissingTimestamp)).toBeNull();
+
+    // 7. Malformed outputs gracefully return null
     expect(parseHorizonsEphemeris('')).toBeNull();
     expect(parseHorizonsEphemeris('$$SOE\n$$EOE')).toBeNull();
     expect(parseHorizonsEphemeris('No markers in this response')).toBeNull();

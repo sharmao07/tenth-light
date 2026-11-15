@@ -151,7 +151,7 @@ const GATE_CLEARANCE_DATA: Record<number, ClearanceInfo> = {
       'Reach the recovery airlock exit once all 4 samples are secured.',
     ],
     controls: '[W / A / S / D] or [Arrow Keys] to move Nori • On-screen directional buttons available',
-    notes: 'Avoid patrolling alien security drones (1 Life heart per collision). SCIENCE DISCLOSURE: Interstellar travel across 101.5 ly to TOI-700 e uses speculative propulsion (TRL 1–2). Water and soil canisters are candidate biosignature simulants within an educational simulation; true surface conditions remain unconfirmed by current astronomical instruments.',
+    notes: 'Avoid patrolling alien security drones (1 Life heart per collision). SCIENCE DISCLOSURE: Interstellar travel across 101.5 ly is a speculative educational scenario (~1,015-year journey at 0.1c in Earth reference frame; no demonstrated propulsion system achieves 0.1c). Water and soil canisters are candidate biosignature simulants within an educational simulation; true surface conditions remain unconfirmed by current astronomical instruments.',
   },
 };
 
