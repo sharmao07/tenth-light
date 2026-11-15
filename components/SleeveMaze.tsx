@@ -245,12 +245,12 @@ export function SleeveMaze({ isPaused, onVictory, onHit }: SleeveMazeProps) {
           <span className="text-[#e9e6dc]/30">|</span>
           <span className={`inline-flex items-center gap-1.5 ${waterCollected >= 2 ? 'text-[#e9e6dc] font-bold' : 'text-[#e9e6dc]/70'}`}>
             <WaterNodePixelToken size={14} className="inline-block" />
-            <span>Water: {waterCollected}/2</span>
+            <span>Water Simulant: {waterCollected}/2</span>
           </span>
           <span className="text-[#e9e6dc]/30">|</span>
           <span className={`inline-flex items-center gap-1.5 ${soilCollected >= 2 ? 'text-[#f0562b] font-bold' : 'text-[#e9e6dc]/70'}`}>
             <SoilNodePixelToken size={14} className="inline-block" />
-            <span>Soil: {soilCollected}/2</span>
+            <span>Soil Simulant: {soilCollected}/2</span>
           </span>
         </div>
         <div>

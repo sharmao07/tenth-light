@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { HORIZONS_MOON_SNAPSHOT, ARCHIVE_SNAPSHOT_DATE } from '@/lib/nasaSnapshots';
+import { parseHorizonsEphemeris } from '@/lib/horizonsParser';
 
 export async function GET() {
   const controller = new AbortController();
@@ -18,37 +19,19 @@ export async function GET() {
 
     if (res.ok) {
       const data = await res.json();
-      const textOutput = data.result || '';
-      // Look for azimuth and elevation in $$SOE ... $$EOE
-      // Format: YYYY-Mon-DD HH:MM [flags] Azi Elev ...
-      const soeIdx = textOutput.indexOf('$$SOE');
-      const eoeIdx = textOutput.indexOf('$$EOE');
-      if (soeIdx !== -1 && eoeIdx !== -1) {
-        const block = textOutput.substring(soeIdx + 5, eoeIdx).trim();
-        const lines = block.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
-        if (lines.length > 0) {
-          const firstLine = lines[0];
-          const epochMatch = firstLine.match(/\d{4}-[A-Za-z]{3}-\d{2}\s+\d{2}:\d{2}/);
-          // Match all float values (handles optional presence flags like '*' or 'm')
-          const numbers = firstLine.match(/-?\d+\.\d+/g);
-          if (numbers && numbers.length >= 2) {
-            const az = parseFloat(numbers[0]);
-            const el = parseFloat(numbers[1]);
-            if (!isNaN(az) && !isNaN(el)) {
-              return NextResponse.json({
-                source: 'live',
-                data: {
-                  target: 'Earth (399)',
-                  observer: 'South Polar Lunar Aitken Basin (coord@301 0,-89,0)',
-                  azimuthDeg: Math.round(az * 10) / 10,
-                  elevationDeg: Math.round(el * 10) / 10,
-                  targetToleranceDeg: 14,
-                  epoch: epochMatch ? epochMatch[0] : '2026-Nov-15 00:00',
-                },
-              });
-            }
-          }
-        }
+      const parsed = parseHorizonsEphemeris(data.result || '');
+      if (parsed) {
+        return NextResponse.json({
+          source: 'live',
+          data: {
+            target: 'Earth (399)',
+            observer: 'South Polar Lunar Aitken Basin (coord@301 0,-89,0)',
+            azimuthDeg: parsed.azimuthDeg,
+            elevationDeg: parsed.elevationDeg,
+            targetToleranceDeg: 14,
+            epoch: parsed.epoch,
+          },
+        });
       }
     }
   } catch {

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { parseHorizonsEphemeris } from '../lib/horizonsParser';
 
 test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
   test('NASA Exoplanet Archive API returns TOI-700 system parameters', async ({ request }) => {
@@ -61,8 +62,10 @@ test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
 
     // Start mission to Hangar
     await page.click('button:has-text("Begin mission")');
-    await page.waitForTimeout(600);
+    await expect(page.getByText('DOSSIER · EXPEDITION ORDER 00')).toBeVisible({ timeout: 10000 });
+    await page.waitForTimeout(1000);
     const enterVabBtn = page.getByRole('button', { name: /Enter VAB Assembly Bay/i });
+    await expect(enterVabBtn).toBeVisible();
     await enterVabBtn.scrollIntoViewIfNeeded();
     await enterVabBtn.click();
 
@@ -189,5 +192,73 @@ test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
     // Verify successful import message and transition to Pluto Station
     await expect(pauseDialog.getByText('Manifest successfully restored')).toBeVisible();
     await expect(page.getByText('Pluto Station')).toBeVisible({ timeout: 10000 });
+  });
+
+  test('Horizons parser handles multiple response formats and edge cases', () => {
+    // 1. Dual presence flags (*m) and standard floats
+    const formatWithDualFlags = `
+*******************************************************************************
+$$SOE
+ 2026-Nov-15 00:00 *m   179.8214   1.2341  0.0000000
+ 2026-Nov-15 01:00 *m   180.1234   1.5432  0.0000000
+$$EOE
+*******************************************************************************
+`;
+    const res1 = parseHorizonsEphemeris(formatWithDualFlags);
+    expect(res1).not.toBeNull();
+    expect(res1?.azimuthDeg).toBe(179.8);
+    expect(res1?.elevationDeg).toBe(1.2);
+    expect(res1?.epoch).toBe('2026-Nov-15 00:00');
+
+    // 2. Single solar presence flag (*)
+    const formatWithSingleFlag = `
+$$SOE
+ 2026-Nov-15 00:00 *    45.6789   12.3456
+$$EOE
+`;
+    const res2 = parseHorizonsEphemeris(formatWithSingleFlag);
+    expect(res2).not.toBeNull();
+    expect(res2?.azimuthDeg).toBe(45.7);
+    expect(res2?.elevationDeg).toBe(12.3);
+
+    // 3. No presence flags with negative elevation
+    const formatNoFlags = `
+$$SOE
+ 2026-Nov-15 00:00      210.5000  -15.2000
+$$EOE
+`;
+    const res3 = parseHorizonsEphemeris(formatNoFlags);
+    expect(res3).not.toBeNull();
+    expect(res3?.azimuthDeg).toBe(210.5);
+    expect(res3?.elevationDeg).toBe(-15.2);
+
+    // 4. Fractional seconds in timestamp (e.g. 00:00:00.000)
+    const formatFractionalSecs = `
+$$SOE
+ 2026-Nov-15 00:00:00.000 *m   180.0000   5.5000
+$$EOE
+`;
+    const res4 = parseHorizonsEphemeris(formatFractionalSecs);
+    expect(res4).not.toBeNull();
+    expect(res4?.azimuthDeg).toBe(180.0);
+    expect(res4?.elevationDeg).toBe(5.5);
+    expect(res4?.epoch).toBe('2026-Nov-15 00:00:00.000');
+
+    // 5. Whole integer azimuth and elevation without decimal points
+    const formatWholeIntegers = `
+$$SOE
+ 2026-Nov-15 00:00   180   1
+$$EOE
+`;
+    const res5 = parseHorizonsEphemeris(formatWholeIntegers);
+    expect(res5).not.toBeNull();
+    expect(res5?.azimuthDeg).toBe(180);
+    expect(res5?.elevationDeg).toBe(1);
+
+    // 6. Malformed outputs gracefully return null
+    expect(parseHorizonsEphemeris('')).toBeNull();
+    expect(parseHorizonsEphemeris('$$SOE\n$$EOE')).toBeNull();
+    expect(parseHorizonsEphemeris('No markers in this response')).toBeNull();
+    expect(parseHorizonsEphemeris('$$SOE\n2026-Nov-15 00:00\n$$EOE')).toBeNull();
   });
 });
