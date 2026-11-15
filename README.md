@@ -1,4 +1,4 @@
-# Tenth Light
+<p align="center"># The Tenth Light</p>
 
 <p align="center">
   <img src="public/nori-logo.svg" width="96" height="96" alt="Tenth Light Insignia - Astromech Droid Nori" />
