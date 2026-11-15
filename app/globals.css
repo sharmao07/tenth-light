@@ -1,117 +1,84 @@
 @import "tailwindcss";
 
+/* Tenth Light: see DESIGN.md. One dominant colour (void), one accent (signal). Everything else is paper at varying opacity. */
+@theme {
+  --font-serif: var(--font-display), Georgia, serif;
+  --font-sans: var(--font-body), "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-data), ui-monospace, Menlo, monospace;
+}
+
 :root {
-  --bg-dark: #100e0c;
-  --paper: #efe6d6;
-  --ink: #1a1714;
-  --amber: #e39b12;
-  --blood: #c4452d;
+  --void: #0a0c10;
+  --signal: #f0562b;
+  --paper: #e9e6dc;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* legacy aliases */
+  --bg-dark: var(--void); --ink: var(--void); --amber: var(--signal); --blood: var(--signal);
 }
 
+html { font-size: 17px; }
 body {
-  background-color: #100e0c;
-  color: #efe6d6;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--void);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  line-height: 1.7;
   margin: 0;
-  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+h1, h2, h3, .font-serif { font-family: var(--font-serif); font-weight: 300; letter-spacing: -0.02em; line-height: 1.05; font-optical-sizing: auto; }
+p { text-wrap: pretty; }
+::selection { background: var(--signal); color: var(--void); }
+:focus-visible { outline: 1px solid var(--paper); outline-offset: 4px; }
 
-h1, h2, h3, .font-serif {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: #2a3039; }
+::-webkit-scrollbar-thumb:hover { background: #7d8591; }
 
-/* Custom scrollbars matching retro palette */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* Calmer scale: small text is no longer tiny, and reading lines are loose. */
+.text-xs { font-size: 0.8125rem !important; line-height: 1.7 !important; }
+.text-sm { font-size: 0.9375rem !important; line-height: 1.75 !important; }
+.leading-relaxed { line-height: 1.85 !important; }
+.uppercase { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em !important; font-weight: 400; }
 
-::-webkit-scrollbar-track {
-  background: #100e0c;
-}
+/* Flat and square; no shadows or glows. */
+.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-r, .rounded-t, .rounded-b { border-radius: 0 !important; }
+.shadow, .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl, .shadow-inner { box-shadow: none !important; }
+.tracking-wider, .tracking-wide { letter-spacing: 0.02em; }
 
-::-webkit-scrollbar-thumb {
-  background: #3a342c;
-  border-radius: 3px;
-}
+/* Everything that can move, moves slowly and with the same curve. */
+button, a, input, .sensory-btn { transition: color 0.4s var(--ease), background-color 0.4s var(--ease), border-color 0.4s var(--ease), opacity 0.4s var(--ease), transform 0.4s var(--ease); }
+.sensory-btn { user-select: none; border-radius: 0; padding-block: 0.8rem !important; padding-inline: 1.5rem !important; font-weight: 400; letter-spacing: 0.02em; }
+.sensory-btn:active { opacity: 0.7; }
+.sensory-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+[class*="border-[#e9e6dc]/20"], [class*="border-[#e9e6dc]/30"], [class*="border-[#e9e6dc]/40"] { border-color: rgba(233, 230, 220, 0.16) !important; }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #e39b12;
-}
+/* Type roles */
+.label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(233, 230, 220, 0.55); display: block; }
+.display-xl { font-size: clamp(5rem, 15vw, 15rem); line-height: 0.86; letter-spacing: -0.04em; font-variation-settings: "opsz" 144; }
+.field { width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(233, 230, 220, 0.3); padding: 0.75rem 0; font-family: var(--font-serif); font-size: 2rem; font-weight: 300; color: var(--paper); border-radius: 0; }
+.field:focus { outline: none; border-color: var(--signal); }
+.btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; padding: 1.25rem 1.5rem; background: var(--signal); color: var(--void); border: 0; font-size: 1rem; font-weight: 500; cursor: pointer; }
+.btn:hover { background: var(--paper); }
+.btn-quiet { background: transparent; border: 1px solid rgba(233, 230, 220, 0.25); color: var(--paper); padding: 0.55rem 1.1rem; font-size: 0.875rem; cursor: pointer; }
+.btn-quiet:hover { border-color: var(--signal); color: var(--signal); }
+.index-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(233, 230, 220, 0.16); }
+.index-list li { border-bottom: 1px solid rgba(233, 230, 220, 0.16); }
+.index-list a, .index-list button { display: flex; width: 100%; align-items: baseline; justify-content: space-between; padding: 1.1rem 0; background: none; border: 0; color: var(--paper); font-size: 1.05rem; text-align: left; cursor: pointer; text-decoration: none; }
+.index-list em { font-style: normal; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(233, 230, 220, 0.45); }
+.index-list a:hover, .index-list button:hover { color: var(--signal); padding-left: 0.5rem; }
 
-/* Sensory-UI Tactile Button States */
-.sensory-btn {
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s ease, border-color 0.15s ease;
-  user-select: none;
-}
-.sensory-btn:hover {
-  transform: translateY(-1px);
-}
-.sensory-btn:active {
-  transform: translateY(1px) scale(0.98);
-}
+/* Panels: one hairline, generous inner space. */
+.tui-frame { border: 1px solid rgba(233, 230, 220, 0.16); background: #0e1116; }
 
-/* Screen shake for hits and impacts */
-@keyframes screenShake {
-  0%, 100% { transform: translate(0, 0); }
-  20% { transform: translate(-4px, 2px); }
-  40% { transform: translate(4px, -2px); }
-  60% { transform: translate(-3px, -1px); }
-  80% { transform: translate(3px, 1px); }
-}
-
-.animate-shake {
-  animation: screenShake 0.22s ease-in-out;
-}
-
-/* Warp Flash Transition (transition-kit) */
-@keyframes warpFlash {
-  0% { filter: brightness(1) blur(0px); }
-  40% { filter: brightness(1.5) blur(1.5px); }
-  100% { filter: brightness(1) blur(0px); }
-}
-
-.animate-warp {
-  animation: warpFlash 0.35s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.25s ease-out forwards;
-}
-
-/* Terminal Chrome & Frame (termcn & framecn) */
-.tui-frame {
-  position: relative;
-  border: 1px solid rgba(239, 230, 214, 0.25);
-  background-color: #1a1714;
-}
-
-.tui-frame::before {
-  content: "┌";
-  position: absolute;
-  top: -7px;
-  left: -4px;
-  color: #e39b12;
-  font-family: ui-monospace, monospace;
-  font-size: 11px;
-  line-height: 1;
-}
-
-.tui-frame::after {
-  content: "┐";
-  position: absolute;
-  top: -7px;
-  right: -4px;
-  color: #e39b12;
-  font-family: ui-monospace, monospace;
-  font-size: 11px;
-  line-height: 1;
-}
+@keyframes screenShake { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-3px,1px)} 50%{transform:translate(3px,-1px)} 75%{transform:translate(-2px,0)} }
+.animate-shake { animation: screenShake 0.22s ease-in-out; }
+@keyframes warpFlash { 0%{filter:brightness(1)} 40%{filter:brightness(1.3)} 100%{filter:brightness(1)} }
+.animate-warp { animation: warpFlash 0.6s var(--ease); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+.animate-fadeIn { animation: fadeIn 0.9s var(--ease) both; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 
 /* Print Stylesheet for pdfcn-inspired Flight Certificate Export */
 @media print {
