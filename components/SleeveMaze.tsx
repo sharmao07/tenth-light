@@ -1,6 +1,15 @@
 'use client';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { sound } from './AudioController';
+import {
+  NoriPixelToken,
+  AlienPixelToken,
+  KeyPixelToken,
+  GatePixelToken,
+  WaterNodePixelToken,
+  SoilNodePixelToken,
+  ExitPixelToken,
+} from './SleevePixelTokens';
 
 interface SleeveMazeProps {
   isPaused: boolean;
@@ -230,16 +239,19 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
       {/* Status Bar */}
       <div className="w-full max-w-[580px] bg-[#1a1714] border border-[#efe6d6]/25 p-3 rounded-lg flex flex-wrap justify-between items-center text-xs md:text-sm font-mono mb-2.5 shadow-md">
         <div className="flex items-center gap-3.5">
-          <span className={hasAmberKey ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/50'}>
-            🔑 Key: {hasAmberKey ? 'ACQUIRED' : 'MISSING'}
+          <span className={`inline-flex items-center gap-1.5 ${hasAmberKey ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/50'}`}>
+            <KeyPixelToken size={14} className="inline-block" />
+            <span>Key: {hasAmberKey ? 'ACQUIRED' : 'MISSING'}</span>
           </span>
           <span className="text-[#efe6d6]/30">|</span>
-          <span className={waterCollected >= 2 ? 'text-[#5bc0be] font-bold' : 'text-[#efe6d6]/70'}>
-            💧 Water: {waterCollected}/2
+          <span className={`inline-flex items-center gap-1.5 ${waterCollected >= 2 ? 'text-[#5bc0be] font-bold' : 'text-[#efe6d6]/70'}`}>
+            <WaterNodePixelToken size={14} className="inline-block" />
+            <span>Water: {waterCollected}/2</span>
           </span>
           <span className="text-[#efe6d6]/30">|</span>
-          <span className={soilCollected >= 2 ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/70'}>
-            🌱 Soil: {soilCollected}/2
+          <span className={`inline-flex items-center gap-1.5 ${soilCollected >= 2 ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/70'}`}>
+            <SoilNodePixelToken size={14} className="inline-block" />
+            <span>Soil: {soilCollected}/2</span>
           </span>
         </div>
         <div>
@@ -284,67 +296,40 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
                 >
                   {/* Amber Key */}
                   {isKey && (
-                    <span className="text-base animate-bounce" title="Amber Key">
-                      🔑
-                    </span>
+                    <KeyPixelToken size={22} />
                   )}
 
                   {/* Red Gate */}
                   {isGate && (
-                    <div
-                      className={`w-full h-full flex items-center justify-center text-[10px] font-mono font-bold transition-all ${
-                        hasAmberKey
-                          ? 'bg-[#5bc0be]/20 text-[#5bc0be] border border-[#5bc0be]/40'
-                          : 'bg-[#c4452d]/40 text-[#c4452d] border border-[#c4452d]'
-                      }`}
-                    >
-                      {hasAmberKey ? 'OPEN' : 'GATE'}
-                    </div>
+                    <GatePixelToken isUnlocked={hasAmberKey} size={28} />
                   )}
 
                   {/* Water Nodes */}
                   {isWaterNode && (
-                    <span className="text-sm animate-pulse" title="Water Sample Node">
-                      💧
-                    </span>
+                    <WaterNodePixelToken size={20} />
                   )}
 
                   {/* Soil Nodes */}
                   {isSoilNode && (
-                    <span className="text-sm animate-pulse" title="Soil Sample Node">
-                      🌱
-                    </span>
+                    <SoilNodePixelToken size={20} />
                   )}
 
                   {/* Exit */}
                   {isExit && (
-                    <div
-                      className={`w-full h-full flex items-center justify-center text-[9px] font-mono font-bold uppercase ${
-                        allSamplesCollected
-                          ? 'bg-[#5bc0be] text-[#100e0c] animate-pulse'
-                          : 'bg-[#100e0c] text-[#efe6d6]/30 border border-[#efe6d6]/20'
-                      }`}
-                    >
-                      Exit
-                    </div>
+                    <ExitPixelToken isUnlocked={allSamplesCollected} size={28} />
                   )}
 
                   {/* Patrolling Alien */}
                   {hasAlien && (
-                    <div className="absolute inset-0 flex items-center justify-center text-sm z-10 animate-pulse">
-                      👾
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <AlienPixelToken size={24} />
                     </div>
                   )}
 
                   {/* Nori Droid */}
                   {isNori && (
-                    <div
-                      className={`absolute inset-0 flex items-center justify-center text-sm z-20 ${
-                        gracePeriod > 0 ? 'opacity-60 animate-ping' : 'opacity-100'
-                      }`}
-                      title="Nori Astromech Droid"
-                    >
-                      🤖
+                    <div className="absolute inset-0 flex items-center justify-center z-20">
+                      <NoriPixelToken size={26} isGrace={gracePeriod > 0} />
                     </div>
                   )}
                 </div>

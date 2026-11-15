@@ -175,33 +175,71 @@ export function Ship3DView({
       const band = new THREE.Mesh(bandGeom, new THREE.MeshBasicMaterial({ color: 0xc4452d }));
       band.position.set(0, radialY, -0.65);
       shipGroup.add(band);
+
+      // RTG Radiator Cooling Fins (Cassini/Voyager style)
+      for (let f = 0; f < 4; f++) {
+        const finAngle = (f * Math.PI) / 2;
+        const finGeom = new THREE.BoxGeometry(0.02, 0.4, 0.12);
+        const fin = new THREE.Mesh(finGeom, darkMetal);
+        fin.position.set(
+          Math.sin(finAngle) * 0.22,
+          radialY,
+          -0.65 + Math.cos(finAngle) * 0.22
+        );
+        fin.rotation.y = finAngle;
+        shipGroup.add(fin);
+      }
     }
 
     // Mass Spectrometer (if equipped)
     if ((parts['spectrometer'] || 0) > 0) {
+      // Quadrupole body & ionization chamber
       const specGeom = new THREE.CylinderGeometry(0.1, 0.14, 0.35, 10);
       const spec = new THREE.Mesh(specGeom, amberAccent);
       spec.position.set(0.55, radialY - 0.2, 0.35);
       spec.rotation.z = -Math.PI / 6;
       shipGroup.add(spec);
+
+      // Spectrometer sampling horn
+      const hornGeom = new THREE.ConeGeometry(0.08, 0.15, 8, 1, true);
+      const horn = new THREE.Mesh(hornGeom, darkMetal);
+      horn.position.set(0.68, radialY - 0.36, 0.42);
+      horn.rotation.z = -Math.PI / 6;
+      shipGroup.add(horn);
     }
 
     // Sample Drill (if equipped)
     if ((parts['sample_drill'] || 0) > 0) {
-      const drillGeom = new THREE.CylinderGeometry(0.04, 0.08, 0.45, 8);
+      // Drill casing
+      const drillGeom = new THREE.CylinderGeometry(0.05, 0.09, 0.45, 8);
       const drill = new THREE.Mesh(drillGeom, darkMetal);
       drill.position.set(-0.55, radialY - 0.2, 0.35);
       drill.rotation.z = Math.PI / 6;
       shipGroup.add(drill);
+
+      // Core auger bit tip
+      const bitGeom = new THREE.CylinderGeometry(0.02, 0.05, 0.22, 6);
+      const bit = new THREE.Mesh(bitGeom, new THREE.MeshStandardMaterial({ color: 0x918574, metalness: 0.9, roughness: 0.2 }));
+      bit.position.set(-0.68, radialY - 0.42, 0.42);
+      bit.rotation.z = Math.PI / 6;
+      shipGroup.add(bit);
     }
 
     // Imager (if equipped)
     if ((parts['imager'] || 0) > 0) {
+      // Optical barrel
       const imagerGeom = new THREE.CylinderGeometry(0.08, 0.08, 0.25, 8);
       imagerGeom.rotateX(Math.PI / 2);
       const imager = new THREE.Mesh(imagerGeom, darkMetal);
       imager.position.set(0, radialY + 0.25, 0.55);
       shipGroup.add(imager);
+
+      // Aperture lens glint (antireflective coated glass)
+      const lensGeom = new THREE.CircleGeometry(0.07, 12);
+      const lensMat = new THREE.MeshBasicMaterial({ color: 0x5bc0be });
+      const lens = new THREE.Mesh(lensGeom, lensMat);
+      lens.position.set(0, radialY + 0.25, 0.68);
+      shipGroup.add(lens);
     }
 
     // Center ship vertically
