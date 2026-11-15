@@ -535,6 +535,21 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   </span>
                 </div>
 
+                {/* NASA JPL Concept Maturity Level (CML) Assessment */}
+                <div className="p-2.5 bg-[#100e0c] border border-[#e39b12]/40 rounded mt-1.5">
+                  <div className="flex justify-between items-center text-[11px]">
+                    <span className="text-[#e39b12] font-bold">NASA JPL Concept Maturity Level:</span>
+                    <span className="font-bold text-[#5bc0be]">
+                      {metrics.isLaunchLegal
+                        ? (hasSpectrometer && hasDrill ? 'CML 4: Flight Point Design' : 'CML 3: Subsystem Feasible')
+                        : 'CML 2: Concept Trade Study'}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-[#efe6d6]/70 mt-1 leading-snug font-sans">
+                    Aligned with NASA Systems Engineering 4 Segments: Launch, Space, Ground, and User.
+                  </div>
+                </div>
+
                 <div className="text-[11px] text-[#efe6d6]/60 italic pt-1">
                   Certification conforms to 2026 Space Apps Space Agency Partner Planetary Standards.
                 </div>

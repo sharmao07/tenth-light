@@ -89,6 +89,15 @@ archive's numbers. The aliens, the depot fight, and the droid are the story."
         </div>
 
         <div className="flex items-center gap-3">
+          <a
+            href="/presentation"
+            className="sensory-btn px-4 py-2 bg-[#1a1714] hover:bg-[#5bc0be]/20 border border-[#5bc0be] text-xs font-mono uppercase tracking-wider rounded text-[#5bc0be] flex items-center gap-1.5 font-bold"
+            title="View 7-Slide Space Apps Demonstration Deck"
+          >
+            <span>📊</span>
+            <span>7-Slide Demo Deck</span>
+          </a>
+
           <button
             onClick={handleCopyManifest}
             className="sensory-btn px-4 py-2 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-xs font-mono uppercase tracking-wider rounded text-[#efe6d6] flex items-center gap-1.5 font-bold"

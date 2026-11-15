@@ -15,12 +15,20 @@ export default function DataPage() {
               NASA Space Apps Challenge 2026: Space Mission Design Game
             </p>
           </div>
-          <Link
-            href="/"
-            className="px-5 py-2.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] text-xs md:text-sm font-mono uppercase tracking-wider rounded-lg transition-colors font-bold shadow"
-          >
-            ← Return to Game
-          </Link>
+          <div className="flex items-center gap-2.5">
+            <Link
+              href="/presentation"
+              className="px-4 py-2 bg-[#1a1714] hover:bg-[#5bc0be] hover:text-[#100e0c] border border-[#5bc0be] text-xs md:text-sm font-mono uppercase tracking-wider rounded-lg transition-colors font-bold shadow text-[#5bc0be]"
+            >
+              📊 7-Slide Demo Deck
+            </Link>
+            <Link
+              href="/"
+              className="px-4 py-2 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] text-xs md:text-sm font-mono uppercase tracking-wider rounded-lg transition-colors font-bold shadow"
+            >
+              ← Return to Game
+            </Link>
+          </div>
         </div>
 
         {/* The Honesty Line */}
@@ -210,6 +218,76 @@ export default function DataPage() {
             </div>
             <div className="text-xs text-[#efe6d6]/70 italic leading-relaxed">
               Note: If an imager (3c, 8kg, 5W) is bolted on, total draw at Uranus exceeds 100 W and the imager breaker must open.
+            </div>
+          </div>
+        </section>
+
+        {/* Challenge Resources & Systems Engineering Methodology */}
+        <section className="bg-[#1a1714] border border-[#efe6d6]/20 p-6 md:p-7 rounded-lg space-y-5 shadow-md font-sans">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-[#efe6d6]/10 pb-3">
+            <h2 className="font-serif text-2xl font-bold text-[#e39b12]">
+              Challenge Resources & Systems Engineering Architecture
+            </h2>
+            <span className="font-mono text-xs text-[#e39b12] bg-[#e39b12]/10 px-2.5 py-1 rounded border border-[#e39b12]/30 font-bold">
+              NASA Technical Standards
+            </span>
+          </div>
+
+          <p className="text-sm text-[#efe6d6]/85 leading-relaxed">
+            In direct alignment with the official Resources for the 2026 NASA Space Apps Challenge <em>“Space Mission Design Game”</em>, Tenth Light translates professional aerospace systems engineering frameworks into an interactive educational simulation:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm font-mono">
+            {/* Resource 1: Systems Engineering Segments */}
+            <div className="p-4 bg-[#100e0c] border border-[#5bc0be]/30 rounded-lg space-y-2">
+              <span className="text-[#5bc0be] font-bold text-base block font-serif">
+                1. Four Mission Segments (NASA Systems Engineering)
+              </span>
+              <p className="text-xs text-[#efe6d6]/80 font-sans leading-relaxed">
+                Derived from NASA’s <em>Design and Develop Science Missions</em>:
+              </p>
+              <ul className="text-xs text-[#efe6d6]/90 space-y-1">
+                <li>• <strong>Launch Segment:</strong> Kite vs Keel launcher selection, structural mass caps (400 vs 560 kg), and launch services cost.</li>
+                <li>• <strong>Space Segment:</strong> Spacecraft bus, propellant tanks, RTG nuclear power, and science instruments.</li>
+                <li>• <strong>Ground Segment:</strong> JPL Horizons lunar ephemeris lock and light-lag command buffering at Neptune.</li>
+                <li>• <strong>User Segment:</strong> Scientific certification review on Earth based on Water & Soil return proof.</li>
+              </ul>
+            </div>
+
+            {/* Resource 2: Concept Maturity Levels */}
+            <div className="p-4 bg-[#100e0c] border border-[#e39b12]/30 rounded-lg space-y-2">
+              <span className="text-[#e39b12] font-bold text-base block font-serif">
+                2. Concept Maturity Levels (CMLs 1–4, NASA JPL)
+              </span>
+              <p className="text-xs text-[#efe6d6]/80 font-sans leading-relaxed">
+                Applies NASA JPL’s pre-formulation maturity framework:
+              </p>
+              <ul className="text-xs text-[#efe6d6]/90 space-y-1">
+                <li>• <strong>CML 1 (Concept):</strong> Initial objective to sample TOI-700 e.</li>
+                <li>• <strong>CML 2 (Feasibility):</strong> Mass, budget, and delta-v trade space.</li>
+                <li>• <strong>CML 3 (Trade Studies):</strong> RTG vs Solar inverse-square falloff and instrument power balancing.</li>
+                <li>• <strong>CML 4 (Point Design):</strong> 420 kg / 132 Credit certifying stack verified in the Engineer’s Report.</li>
+              </ul>
+            </div>
+
+            {/* Resource 3: GMAT & Patched-Conic Trajectories */}
+            <div className="p-4 bg-[#100e0c] border border-[#e39b12]/30 rounded-lg space-y-2">
+              <span className="text-[#e39b12] font-bold text-base block font-serif">
+                3. GMAT & Astrodynamics Modeling
+              </span>
+              <p className="text-xs text-[#efe6d6]/80 font-sans leading-relaxed">
+                Grounded in the principles of NASA’s <em>General Mission Analysis Tool (GMAT)</em>. While enterprise mission design utilizes numerical integration, Tenth Light models transfers via an explicit patched-conic teaching table with strict delta-v accounting across 9 planetary legs.
+              </p>
+            </div>
+
+            {/* Resource 4: Mission Design Lab */}
+            <div className="p-4 bg-[#100e0c] border border-[#5bc0be]/30 rounded-lg space-y-2">
+              <span className="text-[#5bc0be] font-bold text-base block font-serif">
+                4. Mission Design Lab (NASA Goddard IDC)
+              </span>
+              <p className="text-xs text-[#efe6d6]/80 font-sans leading-relaxed">
+                Mirrors Goddard’s rapid collaborative design methodology, evaluating concurrent disciplines: power generation, propulsion delta-v, thermal bus stability, avionics mass, and science instrumentation returns under tight constraints.
+              </p>
             </div>
           </div>
         </section>
