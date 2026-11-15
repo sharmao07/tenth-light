@@ -97,26 +97,43 @@ a { color: var(--amber); }
 main { min-height: 0; }
 
 h1, h2, h3 { font-family: var(--font-serif), Georgia, serif; font-weight: 500; }
-h1 { font-size: clamp(3.4rem, 8vw, 6.4rem); line-height: 0.88; margin: 0.15rem 0 0.4rem; }
-h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin: 0.15rem 0 0.5rem; }
+h1 { font-size: clamp(3.2rem, 6.4vw, 5.4rem); line-height: 0.96; margin: 0; }
+h2 { font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.15; margin: 0 0 0.75rem; }
+p { line-height: 1.65; }
 
 .eyebrow {
   margin: 0;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--amber);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
-.caption, .who { margin: 0; color: var(--mute); font-size: 0.82rem; }
-.lede { font-size: 1.25rem; max-width: 34rem; margin: 0 0 0.4rem; }
+.caption, .who { margin: 0; color: var(--mute); font-size: 1rem; line-height: 1.65; }
+.lede { font-size: 1.5rem; line-height: 1.45; max-width: 28rem; margin: 0; }
 
 .title {
   display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) 1.1fr;
+  grid-template-columns: minmax(340px, 0.92fr) 1.08fr;
   min-height: calc(100vh - 6.5rem);
 }
-.title-copy { padding: 2.2rem 2rem 2rem; display: grid; align-content: center; }
+.title-copy {
+  padding: 3.25rem 3.25rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.85rem;
+  max-width: 46rem;
+}
+.title-copy .eyebrow,
+.title-copy h1,
+.title-copy .lede,
+.title-copy label,
+.title-copy .row,
+.title-copy .caption { margin: 0; }
+.title-copy .caption { max-width: 34rem; }
 .title-stage { position: relative; min-height: 420px; background: #0c0b09; }
 
 .title-stage canvas, .stage canvas, .maze-stage canvas, .transit canvas, .fight canvas, .return canvas {
@@ -128,7 +145,7 @@ h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin: 0.15rem 0 0.5rem; }
 
 .stage-loading { padding: 2rem; color: var(--mute); }
 
-label { display: grid; gap: 0.35rem; margin: 1.1rem 0; max-width: 16rem; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+label { display: grid; gap: 0.7rem; margin: 0; max-width: 18rem; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
 
 input:not([type="range"]) {
   background: transparent;
@@ -143,14 +160,15 @@ input:not([type="range"]) {
 
 input[type="range"] { width: 100%; accent-color: var(--amber); }
 
-.row, .vehicle-row, .choices, .pad { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+.row, .vehicle-row, .choices, .pad { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 
 button {
   background: transparent;
   border: 1px solid var(--line);
   color: var(--paper);
-  padding: 0.7rem 0.9rem;
+  padding: 0.95rem 1.2rem;
   text-align: left;
+  line-height: 1.35;
 }
 
 button.primary {
@@ -198,13 +216,13 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   background: var(--paper);
   color: var(--ink);
   border-top: 4px solid #1a1714;
-  padding: 1.15rem 1.35rem 1.25rem;
+  padding: 1.5rem 1.6rem 1.6rem;
 }
 
 .dialogue-dock .dialogue-copy {
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
-  line-height: 1.4;
-  margin: 0.35rem 0 0.8rem;
+  font-size: clamp(1.4rem, 2.5vw, 2.05rem);
+  line-height: 1.5;
+  margin: 0.5rem 0 0.9rem;
 }
 
 .dialogue-dock .who { color: #6d645b; }
@@ -220,17 +238,17 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 
 .hint {
-  width: min(520px, 100%);
+  width: min(560px, 100%);
   background: var(--paper);
   color: var(--ink);
   border: 4px solid #1a1714;
-  padding: 1.5rem 1.6rem 1.45rem;
+  padding: 1.85rem 2rem 1.7rem;
   display: grid;
-  gap: 1rem;
+  gap: 1.35rem;
 }
 
-.hint h2 { margin: 0; font-size: 2rem; }
-.hint p { margin: 0; font-size: 1.12rem; line-height: 1.55; }
+.hint h2 { margin: 0; font-size: 2.15rem; line-height: 1.15; }
+.hint p { margin: 0; font-size: 1.2rem; line-height: 1.65; }
 .hint .primary { justify-self: start; padding: 0.85rem 1.1rem; }
 
 .dialogue-stage {
@@ -270,7 +288,7 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   border: 1px solid #d5cbb8;
   padding: 1rem 1.05rem 1.1rem;
 }
-.card p { margin: 0.35rem 0 0; line-height: 1.5; }
+.card p { margin: 0.65rem 0 0; line-height: 1.65; }
 .card.fly { border-color: var(--ink); background: #f7f1e6; }
 .card h3 { margin: 0.15rem 0 0.35rem; }
 .dialogue .caption { color: #6d645b; }
@@ -286,14 +304,15 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 .ledger {
   grid-area: ledger;
-  padding: 1.1rem 1rem 1.4rem;
+  padding: 1.75rem 1.45rem 2rem;
   border-right: 1px solid var(--line);
   display: grid;
   align-content: start;
-  gap: 0.65rem;
+  gap: 1.15rem;
   overflow: auto;
   max-height: calc(100vh - 6.5rem);
 }
+.ledger p, .bad, .warn { line-height: 1.6; font-size: 1rem; }
 .hangar .stage { grid-area: stage; position: relative; min-height: 420px; background: #0c0b09; }
 .parts {
   grid-area: parts;
@@ -315,8 +334,8 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 .part-card p { margin: 0; color: var(--mute); font-size: 0.92rem; line-height: 1.45; }
 
-.meter { display: grid; gap: 0.25rem; }
-.meter-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--mute); letter-spacing: 0.06em; text-transform: uppercase; }
+.meter { display: grid; gap: 0.5rem; }
+.meter-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--mute); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4; }
 .meter-track { height: 6px; background: #2a261f; }
 .meter-fill { height: 100%; background: var(--amber); }
 .bad { margin: 0; color: #ffb4a8; font-size: 0.88rem; }
@@ -358,9 +377,10 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 .neo-card {
   background: #14120e;
   border: 1px solid var(--line);
-  padding: 0.9rem;
+  padding: 1.25rem 1.3rem;
 }
-.neo-name { font-family: var(--font-serif), Georgia, serif; font-size: 1.45rem; margin: 0.3rem 0; }
+.neo-card p { margin: 0.45rem 0 0; line-height: 1.55; }
+.neo-name { font-family: var(--font-serif), Georgia, serif; font-size: 1.6rem; line-height: 1.2; margin: 0.45rem 0 0; }
 
 .return-card {
   position: absolute;
@@ -387,7 +407,7 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   display: grid;
   gap: 1rem;
 }
-.puzzle p { margin: 0; line-height: 1.55; }
+.puzzle p { margin: 0; font-size: 1.08rem; line-height: 1.65; }
 .plate img, .window img { width: 100%; max-height: 320px; object-fit: cover; display: block; }
 .plate figcaption, .window figcaption { color: var(--mute); font-size: 0.78rem; margin-top: 0.35rem; }
 .diagram { width: min(100%, 440px); height: auto; border: 1px solid var(--line); }
@@ -411,8 +431,8 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   grid-template-columns: 280px minmax(0, 1fr);
   min-height: calc(100vh - 6.5rem);
 }
-.maze-copy { padding: 1.5rem 1.3rem; align-self: center; }
-.maze-copy p { max-width: 16rem; }
+.maze-copy { padding: 2rem 1.6rem; align-self: center; }
+.maze-copy p { max-width: 18rem; font-size: 1.08rem; line-height: 1.65; margin-top: 0.85rem; }
 .maze-stage { position: relative; min-height: 560px; background: #0c0b09; }
 .maze-wrap .pad, .maze-wrap .caption { margin: 0 1rem 1rem; }
 
@@ -441,12 +461,13 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 footer.bar {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
   align-items: center;
-  padding: 0.55rem 1rem;
+  padding: 0.95rem 1.35rem;
   border-top: 1px solid var(--line);
   color: var(--mute);
-  font-size: 0.78rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 footer.bar p { margin: 0; }
 footer.bar details { color: var(--paper); }
@@ -463,8 +484,10 @@ footer.bar ul { margin: 0.4rem 0 0; padding-left: 1rem; }
 @keyframes fall { to { transform: translateY(100vh) rotate(160deg); } }
 @media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
 
-.data-page { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
-.data-page li { margin: 0.45rem 0; }
+.data-page { max-width: 42rem; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
+.data-page p { margin: 1.1rem 0; line-height: 1.7; font-size: 1.05rem; }
+.data-page li { margin: 0.7rem 0; line-height: 1.6; }
+.data-page h2 { margin-top: 2.25rem; }
 
 @media (max-width: 980px) {
   .hud { grid-template-columns: 1fr auto; }
