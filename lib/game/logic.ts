@@ -46,6 +46,7 @@ export type Action =
   | { type: "begin" }
   | { type: "resume"; state: GameState }
   | { type: "next-line" }
+  | { type: "prev-line" }
   | { type: "briefing-done" }
   | { type: "vehicle"; id: VehicleId }
   | { type: "autobuild" }
@@ -55,6 +56,7 @@ export type Action =
   | { type: "dodge"; hit: boolean }
   | { type: "coast-home" }
   | { type: "talk-next" }
+  | { type: "talk-prev" }
   | { type: "talk-cta" }
   | { type: "puzzle-pass"; frozen?: PartId[] }
   | { type: "fight-hit" }
@@ -186,6 +188,10 @@ export function reduce(state: GameState, action: Action): GameState {
       if (state.phase.line >= last) return state;
       return { ...state, phase: { kind: "briefing", line: state.phase.line + 1 } };
     }
+    case "prev-line": {
+      if (state.phase.kind !== "briefing" || state.phase.line <= 0) return state;
+      return { ...state, phase: { kind: "briefing", line: state.phase.line - 1 } };
+    }
     case "briefing-done":
       return { ...state, phase: { kind: "hangar" }, log: [...state.log, "Hangar open."] };
     case "vehicle":
@@ -260,6 +266,10 @@ export function reduce(state: GameState, action: Action): GameState {
       const last = SCRIPTS[state.phase.script](state.callsign).length - 1;
       if (state.phase.line >= last) return state;
       return { ...state, phase: { ...state.phase, line: state.phase.line + 1 } };
+    }
+    case "talk-prev": {
+      if (state.phase.kind !== "talk" || state.phase.line <= 0) return state;
+      return { ...state, phase: { ...state.phase, line: state.phase.line - 1 } };
     }
     case "talk-cta": {
       if (state.phase.kind !== "talk") return state;

@@ -1,9 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useReducer, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useReducer, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { legBetween, STOPS } from "@/lib/game/catalog";
-import { briefingLines, SCRIPTS, TALK_CTA } from "@/lib/game/dialogue";
+import { briefingLines, SCRIPTS } from "@/lib/game/dialogue";
 import { endingKind } from "@/lib/game/ship";
 import { initialState, reduce, type Action } from "@/lib/game/logic";
 import { HONESTY, parsecsToLightYears, ARCHIVE_SNAPSHOT, type WorldCard } from "@/lib/game/snapshot";
@@ -95,7 +95,7 @@ export function Game() {
     else if (action.type === "maze-hit") blip("miss");
     else if (action.type === "fight-win" || action.type === "puzzle-pass" || action.type === "maze-done") blip("ok");
     else if (action.type === "launch" || action.type === "autobuild") blip("launch");
-    else if (action.type === "next-line" || action.type === "talk-next") blip("talk");
+    else if (action.type === "next-line" || action.type === "prev-line" || action.type === "talk-next" || action.type === "talk-prev") blip("talk");
     else blip("ui");
     dispatch(action);
   }
@@ -222,7 +222,10 @@ export function Game() {
             who={briefingLines(state.callsign || "Wren")[state.phase.line].who}
             name={briefingLines(state.callsign || "Wren")[state.phase.line].name}
             text={briefingLines(state.callsign || "Wren")[state.phase.line].text}
-            cta={state.phase.line === briefingLines(state.callsign || "Wren").length - 1 ? "Build the ship" : null}
+            line={state.phase.line}
+            last={state.phase.line === briefingLines(state.callsign || "Wren").length - 1}
+            paused={paused}
+            onPrev={() => send({ type: "prev-line" })}
             onNext={() => send({ type: "next-line" })}
             onCta={() => send({ type: "briefing-done" })}
           >
@@ -267,7 +270,10 @@ export function Game() {
             who={SCRIPTS[state.phase.script](state.callsign)[state.phase.line].who}
             name={SCRIPTS[state.phase.script](state.callsign)[state.phase.line].name}
             text={SCRIPTS[state.phase.script](state.callsign)[state.phase.line].text}
-            cta={state.phase.line === SCRIPTS[state.phase.script](state.callsign).length - 1 ? TALK_CTA[state.phase.script] : null}
+            line={state.phase.line}
+            last={state.phase.line === SCRIPTS[state.phase.script](state.callsign).length - 1}
+            paused={paused}
+            onPrev={() => send({ type: "talk-prev" })}
             onNext={() => send({ type: "talk-next" })}
             onCta={() => send({ type: "talk-cta" })}
           />
@@ -347,7 +353,10 @@ function Talk({
   who,
   name,
   text,
-  cta,
+  line,
+  last,
+  paused,
+  onPrev,
   onNext,
   onCta,
   children,
@@ -357,31 +366,58 @@ function Talk({
   who: Who;
   name: string;
   text: string;
-  cta: string | null;
+  line: number;
+  last: boolean;
+  paused: boolean;
+  onPrev: () => void;
   onNext: () => void;
   onCta: () => void;
   children?: ReactNode;
   parts: PartId[];
   showScene: boolean;
 }) {
+  const [auto, setAuto] = useState(false);
+  const nextRef = useRef(onNext);
+  const ctaRef = useRef(onCta);
+  useLayoutEffect(() => {
+    nextRef.current = onNext;
+    ctaRef.current = onCta;
+  });
+
+  useEffect(() => {
+    if (!auto || paused) return;
+    const timer = window.setInterval(() => {
+      if (last) ctaRef.current();
+      else nextRef.current();
+    }, 4000);
+    return () => window.clearInterval(timer);
+  }, [auto, paused, last, text]);
+
+  function advance() {
+    if (last) onCta();
+    else onNext();
+  }
+
   return (
     <section className="talk-stage">
       {showScene && <TransitScene parts={parts} approaching={false} />}
       {children && <div className="sky-cards">{children}</div>}
-      <div className="dialogue-dock" aria-live="polite">
-        <div key={who} className="line-in">
-          <Portrait who={who} />
+      <div className="dialogue-float">
+        <div className="dialogue-box" aria-live="polite">
+          <div key={who} className="line-in">
+            <Portrait who={who} />
+          </div>
+          <div key={text} className="line-in">
+            <p className="who">{name}</p>
+            <p className="dialogue-copy">{text}</p>
+          </div>
         </div>
-        <div key={text} className="line-in">
-          <p className="who">{name}</p>
-          <p className="dialogue-copy">{text}</p>
-        </div>
-        <div className="row">
-          {cta ? (
-            <button type="button" className="primary" data-testid="cta" onClick={onCta}>{cta}</button>
-          ) : (
-            <button type="button" className="primary" data-testid="continue" onClick={onNext}>Continue</button>
-          )}
+        <div className="dialogue-nav">
+          <button type="button" data-testid="prev" onClick={onPrev} disabled={line <= 0}>Previous</button>
+          <button type="button" data-testid="auto" className={auto ? "selected" : ""} aria-pressed={auto} onClick={() => setAuto((value) => !value)}>
+            Auto
+          </button>
+          <button type="button" className="primary" data-testid={last ? "cta" : "continue"} onClick={advance}>Next</button>
         </div>
       </div>
     </section>
