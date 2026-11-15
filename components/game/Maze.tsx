@@ -241,7 +241,14 @@ export function Maze({
                   key={`${row}-${col}`}
                   className={`tile tile-${kind}${gate ? " tile-gate" : ""}${gate && gateOpen ? " open" : ""}${exit ? " tile-exit" : ""}${exit && ready ? " ready" : ""}`}
                 >
-                  {showKey && <span className="token key" aria-label="Key" />}
+                  {showKey && (
+                    <svg viewBox="0 0 16 16" className="pawn-svg token-svg" aria-label="Key">
+                      <rect x="2" y="3" width="6" height="6" fill="#e39b12" />
+                      <rect x="4" y="5" width="2" height="2" fill="#1a1714" />
+                      <rect x="7" y="5" width="7" height="2" fill="#e39b12" />
+                      <rect x="11" y="7" width="2" height="3" fill="#e39b12" />
+                    </svg>
+                  )}
                   {showWater && <span className="token water" aria-label="Water sample" />}
                   {showSoil && <span className="token soil" aria-label="Soil sample" />}
                   {gate && !gateOpen && <span className="gate-bars" aria-hidden="true" />}
@@ -275,28 +282,30 @@ export function Maze({
 
 function DroidPawn() {
   return (
-    <svg viewBox="0 0 16 16" className="pawn-svg" aria-label="Nori">
-      <rect x="4" y="2" width="8" height="6" fill="#efe6d6" />
-      <rect x="6" y="4" width="4" height="2" fill="#e39b12" />
-      <rect x="7" y="4" width="2" height="2" fill="#1a1714" />
-      <rect x="5" y="8" width="6" height="4" fill="#9a9084" />
-      <rect x="3" y="9" width="2" height="3" fill="#e39b12" />
-      <rect x="11" y="9" width="2" height="3" fill="#e39b12" />
-      <rect x="6" y="12" width="1" height="2" fill="#1a1714" />
-      <rect x="9" y="12" width="1" height="2" fill="#1a1714" />
+    <svg viewBox="0 0 16 16" className="pawn-svg" aria-label="Nori" shapeRendering="crispEdges">
+      <rect x="4" y="1" width="8" height="2" fill="#1a1714" />
+      <rect x="3" y="3" width="10" height="5" fill="#efe6d6" />
+      <rect x="4" y="5" width="8" height="2" fill="#e39b12" />
+      <rect x="7" y="5" width="2" height="2" fill="#1a1714" />
+      <rect x="5" y="8" width="6" height="4" fill="#8a8175" />
+      <rect x="6" y="9" width="4" height="1" fill="#c4452d" />
+      <rect x="4" y="12" width="2" height="3" fill="#1a1714" />
+      <rect x="10" y="12" width="2" height="3" fill="#1a1714" />
     </svg>
   );
 }
 
 function AlienPawn() {
   return (
-    <svg viewBox="0 0 16 16" className="pawn-svg" aria-label="Alien">
-      <rect x="4" y="3" width="8" height="6" fill="#c4452d" />
-      <rect x="5" y="4" width="2" height="2" fill="#efe6d6" />
-      <rect x="9" y="4" width="2" height="2" fill="#efe6d6" />
-      <rect x="7" y="9" width="2" height="4" fill="#8a8175" />
-      <rect x="4" y="12" width="2" height="2" fill="#1a1714" />
-      <rect x="10" y="12" width="2" height="2" fill="#1a1714" />
+    <svg viewBox="0 0 16 16" className="pawn-svg" aria-label="Alien" shapeRendering="crispEdges">
+      <rect x="5" y="1" width="6" height="2" fill="#1a1714" />
+      <rect x="3" y="3" width="10" height="5" fill="#c4452d" />
+      <rect x="4" y="4" width="2" height="2" fill="#efe6d6" />
+      <rect x="10" y="4" width="2" height="2" fill="#efe6d6" />
+      <rect x="6" y="8" width="4" height="2" fill="#e39b12" />
+      <rect x="4" y="10" width="8" height="2" fill="#8a8175" />
+      <rect x="3" y="12" width="3" height="2" fill="#1a1714" />
+      <rect x="10" y="12" width="3" height="2" fill="#1a1714" />
     </svg>
   );
 }

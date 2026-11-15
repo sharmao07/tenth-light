@@ -273,14 +273,16 @@ function ufo(row: number) {
     new MeshStandardMaterial({ color: colors[row] ?? "#c4452d" }),
   );
   body.scale.set(1.45, 0.38, 1);
-  const dome = new Mesh(new SphereGeometry(0.2, 12, 8), new MeshStandardMaterial({ color: "#9fd7e8" }));
+  const dome = new Mesh(new SphereGeometry(0.2, 12, 8), new MeshStandardMaterial({ color: "#efe6d6" }));
   dome.position.y = 0.22;
+  const lamp = new Mesh(new SphereGeometry(0.07, 8, 8), new MeshStandardMaterial({ color: "#e39b12" }));
+  lamp.position.y = 0.34;
   const wingL = new Mesh(new SphereGeometry(0.16, 8, 6), new MeshStandardMaterial({ color: "#1a1714" }));
   wingL.position.set(-0.48, -0.02, 0);
   wingL.scale.set(1.2, 0.45, 0.4);
   const wingR = wingL.clone();
   wingR.position.x = 0.48;
-  mesh.add(body, dome, wingL, wingR);
+  mesh.add(body, dome, lamp, wingL, wingR);
   return mesh;
 }
 

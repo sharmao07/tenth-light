@@ -35,10 +35,16 @@ export function ShipMesh({ parts, spin = false }: { parts: PartId[]; spin?: bool
         <meshStandardMaterial color="#e39b12" />
       </mesh>
       {parts.includes("engine") && (
-        <mesh position={[0, engineY, 0]}>
-          <cylinderGeometry args={[0.28, 0.48, ENGINE_H, 20]} />
-          <meshStandardMaterial color="#c4452d" />
-        </mesh>
+        <group position={[0, engineY, 0]}>
+          <mesh>
+            <cylinderGeometry args={[0.28, 0.5, ENGINE_H, 20]} />
+            <meshStandardMaterial color="#c4452d" />
+          </mesh>
+          <mesh position={[0, -ENGINE_H * 0.28, 0]}>
+            <cylinderGeometry args={[0.12, 0.22, ENGINE_H * 0.42, 16]} />
+            <meshStandardMaterial color="#1a1714" />
+          </mesh>
+        </group>
       )}
       {tankYs.map((tankY, index) => (
         <group key={index} position={[0, tankY, 0]}>
@@ -53,10 +59,16 @@ export function ShipMesh({ parts, spin = false }: { parts: PartId[]; spin?: bool
         </group>
       ))}
       {parts.includes("command") && (
-        <mesh position={[0, podY, 0]}>
-          <capsuleGeometry args={[0.34, 0.28, 6, 16]} />
-          <meshStandardMaterial color="#efe6d6" />
-        </mesh>
+        <group position={[0, podY, 0]}>
+          <mesh>
+            <capsuleGeometry args={[0.34, 0.28, 6, 16]} />
+            <meshStandardMaterial color="#efe6d6" />
+          </mesh>
+          <mesh position={[0, 0.02, 0.28]}>
+            <boxGeometry args={[0.28, 0.12, 0.06]} />
+            <meshStandardMaterial color="#1a1714" />
+          </mesh>
+        </group>
       )}
       {parts.includes("antenna") && (
         <group position={[0, antennaY, 0]}>
@@ -83,28 +95,52 @@ export function ShipMesh({ parts, spin = false }: { parts: PartId[]; spin?: bool
         </group>
       )}
       {parts.includes("rtg") && (
-        <mesh position={[0.62, podY - 0.1, 0]}>
-          <boxGeometry args={[0.22, 0.36, 0.22]} />
-          <meshStandardMaterial color="#e39b12" />
-        </mesh>
+        <group position={[0.62, podY - 0.1, 0]}>
+          <mesh>
+            <boxGeometry args={[0.22, 0.36, 0.22]} />
+            <meshStandardMaterial color="#e39b12" />
+          </mesh>
+          <mesh position={[0.14, 0, 0]}>
+            <boxGeometry args={[0.04, 0.28, 0.16]} />
+            <meshStandardMaterial color="#1a1714" />
+          </mesh>
+        </group>
       )}
       {parts.includes("spectrometer") && (
-        <mesh position={[-0.58, podY, 0.1]}>
-          <boxGeometry args={[0.2, 0.2, 0.28]} />
-          <meshStandardMaterial color="#c4452d" />
-        </mesh>
+        <group position={[-0.58, podY, 0.1]}>
+          <mesh>
+            <boxGeometry args={[0.2, 0.2, 0.28]} />
+            <meshStandardMaterial color="#c4452d" />
+          </mesh>
+          <mesh position={[0, 0, 0.16]}>
+            <boxGeometry args={[0.08, 0.08, 0.04]} />
+            <meshStandardMaterial color="#efe6d6" />
+          </mesh>
+        </group>
       )}
       {parts.includes("drill") && (
-        <mesh position={[0.15, podY - 0.55, 0.42]} rotation={[Math.PI / 2.4, 0, 0]}>
-          <cylinderGeometry args={[0.05, 0.05, 0.55, 8]} />
-          <meshStandardMaterial color="#efe6d6" />
-        </mesh>
+        <group position={[0.15, podY - 0.55, 0.42]} rotation={[Math.PI / 2.4, 0, 0]}>
+          <mesh>
+            <cylinderGeometry args={[0.045, 0.045, 0.55, 8]} />
+            <meshStandardMaterial color="#efe6d6" />
+          </mesh>
+          <mesh position={[0, 0.18, 0]}>
+            <cylinderGeometry args={[0.09, 0.09, 0.1, 8]} />
+            <meshStandardMaterial color="#8a8175" />
+          </mesh>
+        </group>
       )}
       {parts.includes("imager") && (
-        <mesh position={[-0.2, podY + 0.15, 0.4]}>
-          <boxGeometry args={[0.14, 0.12, 0.16]} />
-          <meshStandardMaterial color="#d9d2c5" />
-        </mesh>
+        <group position={[-0.2, podY + 0.15, 0.4]}>
+          <mesh>
+            <boxGeometry args={[0.16, 0.12, 0.16]} />
+            <meshStandardMaterial color="#d9d2c5" />
+          </mesh>
+          <mesh position={[0, 0, 0.1]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.04, 0.04, 0.04, 10]} />
+            <meshStandardMaterial color="#1a1714" />
+          </mesh>
+        </group>
       )}
     </group>
   );
