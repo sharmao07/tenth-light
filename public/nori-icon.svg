@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="100%" height="100%" style="shape-rendering: crispEdges;">
+  <!-- Dark Silhouette Border -->
+  <rect x="5" y="0" width="6" height="1" fill="#0a0c10" />
+  <rect x="4" y="1" width="8" height="5" fill="#0a0c10" />
+  <rect x="3" y="2" width="10" height="4" fill="#0a0c10" />
+  <rect x="2" y="6" width="12" height="6" fill="#0a0c10" />
+  <rect x="2" y="12" width="5" height="3" fill="#0a0c10" />
+  <rect x="9" y="12" width="5" height="3" fill="#0a0c10" />
+  
+  <!-- Dome Crown -->
+  <rect x="5" y="1" width="6" height="1" fill="#e9e6dc" />
+  <rect x="4" y="2" width="8" height="4" fill="#e9e6dc" />
+  
+  <!-- Horizontal Visor Inset -->
+  <rect x="4" y="3" width="8" height="2" fill="#12151b" />
+  
+  <!-- Optical Sensor Eye (Signal focal point) -->
+  <rect x="6" y="3" width="3" height="2" fill="#f0562b" />
+  <rect x="6" y="3" width="1" height="1" fill="#e9e6dc" />
+  
+  <!-- Status Diode -->
+  <rect x="10" y="3" width="1" height="1" fill="#e9e6dc" />
+  
+  <!-- Chassis Body -->
+  <rect x="3" y="6" width="10" height="6" fill="#e9e6dc" />
+  <rect x="4" y="7" width="8" height="1" fill="#7d8591" />
+  <rect x="5" y="9" width="6" height="2" fill="#12151b" />
+  <rect x="6" y="9" width="4" height="1" fill="#f0562b" />
+  
+  <!-- Tripod Tread Foot Skids -->
+  <rect x="3" y="12" width="3" height="2" fill="#2a3039" />
+  <rect x="10" y="12" width="3" height="2" fill="#2a3039" />
+  <rect x="7" y="12" width="2" height="2" fill="#7d8591" />
+</svg>
