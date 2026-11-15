@@ -96,6 +96,10 @@ export function BriefingPhase({
               <div className="text-paper-muted pl-2 text-[11px] tabular-nums">
                 1.145 R&oplus; &middot; 1.580 M&oplus; &middot; 37.42 days &middot; 268.8 K &middot; Discovered 2020.
               </div>
+
+              <div className="border-t border-paper/10 pt-2 text-[10px] text-paper-muted font-mono leading-relaxed">
+                <span className="text-signal font-bold">SCIENCE NOTE:</span> Interstellar propulsion past the heliopause and planetary surface sampling are speculative pedagogical scenarios. Planetary atmosphere and surface environment of TOI-700 e are currently unconfirmed by astronomical instrumentation.
+              </div>
             </div>
           </div>
 

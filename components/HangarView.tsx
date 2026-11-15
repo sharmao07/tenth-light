@@ -307,9 +307,17 @@ export function HangarView({ design, onUpdateDesign, onLaunch, lives = 3 }: Hang
                       {part.mass}kg &middot; {part.cost}c
                     </span>
                   </div>
-                  <p className="text-xs text-paper-muted font-sans leading-relaxed mb-3">
+                  <p className="text-xs text-paper-muted font-sans leading-relaxed mb-2">
                     {part.description}
                   </p>
+                  {part.heritage && (
+                    <div className="font-mono text-[10px] text-paper/70 bg-surface p-2 border border-paper/10 mb-2 leading-relaxed">
+                      <span className="text-signal font-bold">NASA Heritage:</span> {part.heritage}
+                      {part.modelLabel && (
+                        <span className="block text-paper-muted mt-0.5">{part.modelLabel}</span>
+                      )}
+                    </div>
+                  )}
                   <div className="flex justify-between items-center pt-2 border-t border-paper/10">
                     <span className="font-mono text-xs text-paper-muted tabular-nums">
                       Equipped: {currentCount}/{max}

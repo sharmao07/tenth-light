@@ -6,8 +6,9 @@ export async function GET() {
   const timeoutId = setTimeout(() => controller.abort(), 2500);
 
   try {
-    const tapUrl =
-      "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_name,pl_rade,pl_bmasse,pl_orbper,pl_insol,pl_eqt,sy_dist,disc_year,discoverymethod+from+pscomppars+where+pl_name+like+'TOI-700%'&format=json";
+    const query =
+      "select pl_name,pl_rade,pl_bmasse,pl_orbper,pl_insol,pl_eqt,sy_dist,disc_year,discoverymethod from pscomppars where pl_name in ('TOI-700 b','TOI-700 c','TOI-700 d','TOI-700 e') order by pl_name";
+    const tapUrl = `https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=${encodeURIComponent(query)}&format=json`;
 
     const res = await fetch(tapUrl, {
       signal: controller.signal,

@@ -230,8 +230,8 @@ export function SleeveMaze({ isPaused, onVictory, onHit }: SleeveMazeProps) {
         <span className="text-[#f0562b] uppercase font-bold tracking-wider">
           Harbor Surface Sleeve • Top-Down Probe
         </span>
-        <span className="text-[#e9e6dc]/70 text-xs italic">
-          This place is a model, not a photograph of TOI-700 e.
+        <span className="text-[#e9e6dc]/80 text-xs italic">
+          Educational simulation: Speculative in-situ biosignature and regolith sampling (surface conditions unconfirmed by telescopes).
         </span>
       </div>
 

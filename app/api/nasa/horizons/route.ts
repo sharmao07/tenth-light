@@ -7,7 +7,7 @@ export async function GET() {
 
   try {
     const horizonsUrl =
-      "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='399'&CENTER='coord@301'&EP_TYPE='OBSERVER'&QUANTITIES='4'&STEP_SIZE='1d'&START_TIME='2026-11-15'&STOP_TIME='2026-11-16'";
+      "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27399%27&CENTER=%27coord@301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%270,-89,0%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&QUANTITIES=%274%27&STEP_SIZE=%271d%27&START_TIME=%272026-11-15%27&STOP_TIME=%272026-11-16%27";
 
     const res = await fetch(horizonsUrl, {
       signal: controller.signal,
@@ -20,32 +20,39 @@ export async function GET() {
       const data = await res.json();
       const textOutput = data.result || '';
       // Look for azimuth and elevation in $$SOE ... $$EOE
-      // Format usually: YYYY-Mon-DD HH:MM ... Azi Elev
+      // Format: YYYY-Mon-DD HH:MM [flags] Azi Elev ...
       const soeIdx = textOutput.indexOf('$$SOE');
       const eoeIdx = textOutput.indexOf('$$EOE');
       if (soeIdx !== -1 && eoeIdx !== -1) {
-        const line = textOutput.substring(soeIdx + 5, eoeIdx).trim();
-        const tokens = line.split(/\s+/).filter(Boolean);
-        // Usually tokens[3] is Azi, tokens[4] is Elev
-        const az = parseFloat(tokens[3]);
-        const el = parseFloat(tokens[4]);
-        if (!isNaN(az) && !isNaN(el)) {
-          return NextResponse.json({
-            source: 'live',
-            data: {
-              target: 'Earth (399)',
-              observer: 'South Polar Lunar Site (coord@301)',
-              azimuthDeg: Math.round(az * 10) / 10,
-              elevationDeg: Math.round(el * 10) / 10,
-              targetToleranceDeg: 14,
-              epoch: tokens[0] + ' ' + tokens[1],
-            },
-          });
+        const block = textOutput.substring(soeIdx + 5, eoeIdx).trim();
+        const lines = block.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
+        if (lines.length > 0) {
+          const firstLine = lines[0];
+          const epochMatch = firstLine.match(/\d{4}-[A-Za-z]{3}-\d{2}\s+\d{2}:\d{2}/);
+          // Match all float values (handles optional presence flags like '*' or 'm')
+          const numbers = firstLine.match(/-?\d+\.\d+/g);
+          if (numbers && numbers.length >= 2) {
+            const az = parseFloat(numbers[0]);
+            const el = parseFloat(numbers[1]);
+            if (!isNaN(az) && !isNaN(el)) {
+              return NextResponse.json({
+                source: 'live',
+                data: {
+                  target: 'Earth (399)',
+                  observer: 'South Polar Lunar Aitken Basin (coord@301 0,-89,0)',
+                  azimuthDeg: Math.round(az * 10) / 10,
+                  elevationDeg: Math.round(el * 10) / 10,
+                  targetToleranceDeg: 14,
+                  epoch: epochMatch ? epochMatch[0] : '2026-Nov-15 00:00',
+                },
+              });
+            }
+          }
         }
       }
     }
   } catch {
-    // Timeout or network error
+    // Timeout or network error - fall back to verified archive snapshot
   } finally {
     clearTimeout(timeoutId);
   }

@@ -1,9 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { NASA_IMAGE_PLATES, EXOPLANET_SNAPSHOT } from '@/lib/nasaSnapshots';
+import { CORE_PARTS, OPTIONAL_PARTS, LAUNCHERS } from '@/lib/gameTypes';
 
 export default function DataPage() {
   const plates = Object.values(NASA_IMAGE_PLATES).sort((a, b) => a.stopIndex - b.stopIndex);
+  const allParts = [...CORE_PARTS, ...OPTIONAL_PARTS];
 
   return (
     <main className="min-h-screen bg-void text-paper p-6 sm:p-10 md:p-16 font-sans selection:bg-signal selection:text-void">
@@ -41,7 +43,7 @@ export default function DataPage() {
         </div>
 
         {/* 1. The Honesty Statement (Prominent Dossier Callout) */}
-        <section aria-labelledby="honesty-heading" className="border-l-2 border-signal pl-6 md:pl-8 py-2 space-y-3 bg-void">
+        <section aria-labelledby="honesty-heading" className="border-l-2 border-signal pl-6 md:pl-8 py-2 space-y-4 bg-void">
           <span id="honesty-heading" className="label text-signal">
             The Honesty Line &middot; Mission Disclosure
           </span>
@@ -53,6 +55,26 @@ export default function DataPage() {
           <p className="font-mono text-xs text-paper-muted">
             All orbital distances, planetary parameters, ephemeris data, and photographic reconnaissance plates are sourced directly from NASA and JPL archives.
           </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="border border-paper/15 p-4 bg-surface space-y-1.5 font-mono text-xs">
+              <span className="label text-signal block">
+                Speculative Propulsion Disclosure &middot; TRL 1&ndash;2
+              </span>
+              <p className="text-paper-muted leading-relaxed text-[11px]">
+                Stops 1 through 9 depict active and historical Solar System exploration governed by established Newtonian and relativistic astrodynamics. Transit past the heliopause to TOI-700 e at ~0.1c (tenth of light speed, ~30,000 km/s) is a pedagogical thought experiment / speculative hard-SF extrapolation. Such propulsion (antimatter catalysis, pulsed fusion, or relativistic beamed laser sails) is currently CML 1 / TRL 1&ndash;2 and not currently feasible space mission design.
+              </p>
+            </div>
+
+            <div className="border border-paper/15 p-4 bg-surface space-y-1.5 font-mono text-xs">
+              <span className="label text-signal block">
+                TOI-700 e Surface Environment Disclosure
+              </span>
+              <p className="text-paper-muted leading-relaxed text-[11px]">
+                While NASA TESS transit photometry empirically confirms TOI-700 e&rsquo;s 27.8-day orbit, 0.919 R&oplus; radius, and optimistic habitable zone placement, current astronomical instrumentation has not confirmed whether the planet possesses an atmosphere, surface liquid oceans, or regolith soil. In Act 10, the in-situ collection nodes represent candidate biosignature simulants within an educational mission simulation, not confirmed empirical conditions.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* 2. Official NASA APIs & Datasets Directory */}
@@ -105,10 +127,10 @@ export default function DataPage() {
 
             {/* JPL Small-Body Database */}
             <div className="border border-paper/15 p-6 bg-void space-y-3">
-              <span className="label text-signal">Asteroid Dynamics &middot; Belt Waypoint</span>
+              <span className="label text-signal">Asteroid Dynamics &middot; Live Verification Check</span>
               <h3 className="font-serif text-lg font-bold text-paper">NASA JPL Small-Body Database (SBDB)</h3>
               <p className="font-mono text-xs text-paper-muted leading-relaxed">
-                Physical and orbital parameters for 1 Ceres (939.4 km diameter dwarf planet), 4 Vesta (525.4 km), and 2 Pallas (512.0 km) visited by NASA Dawn spacecraft. Used in Stop 3.
+                Live verification check against <code className="text-paper">ssd-api.jpl.nasa.gov/sbdb.api</code> confirming endpoint connectivity. Serves curated NASA Dawn spacecraft comparative mission benchmark measurements for 1 Ceres (939.4 km diameter dwarf planet), 4 Vesta (525.4 km), and 2 Pallas (512.0 km). Used in Stop 3.
               </p>
               <div className="pt-2 border-t border-paper/10">
                 <a
@@ -344,7 +366,78 @@ export default function DataPage() {
           </div>
         </section>
 
-        {/* 5. Patched-Conic Delta-v Budget & Space Systems Engineering Architecture */}
+        {/* 5. Spacecraft Subsystem Specifications & Flight Heritage */}
+        <section aria-labelledby="subsystems-heading" className="space-y-6">
+          <div className="flex items-baseline justify-between border-b border-paper/15 pb-3">
+            <h2 id="subsystems-heading" className="font-serif font-extralight text-2xl md:text-3xl text-paper">
+              Spacecraft Subsystems <span className="font-extrabold text-paper">&amp; NASA Flight Heritage</span>
+            </h2>
+            <span className="label text-paper-muted font-mono">SIMULATION SCALING &middot; CML 4</span>
+          </div>
+
+          <p className="font-serif text-sm text-paper-muted leading-relaxed">
+            All spacecraft components available in the Vehicle Assembly Building (VAB) are modeled upon historical and active deep-space flight hardware. Component masses, costs, and power budgets are scaled for systems engineering trade studies:
+          </p>
+
+          <div className="overflow-x-auto border border-paper/15">
+            <table className="w-full text-xs text-left border-collapse font-mono">
+              <thead className="bg-void border-b border-paper/15 text-signal uppercase text-[11px]">
+                <tr>
+                  <th className="p-3.5 border-r border-paper/10">Subsystem</th>
+                  <th className="p-3.5 border-r border-paper/10">Category</th>
+                  <th className="p-3.5 border-r border-paper/10">Mass / Cost</th>
+                  <th className="p-3.5 border-r border-paper/10">Power (W)</th>
+                  <th className="p-3.5 border-r border-paper/10">NASA Flight Precedent &amp; Heritage</th>
+                  <th className="p-3.5">Simulation Model Notes</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-paper/10 leading-relaxed tabular-nums">
+                {allParts.map((part) => (
+                  <tr key={part.id} className="hover:bg-paper/[0.02] transition-colors">
+                    <td className="p-3.5 border-r border-paper/10 font-bold text-paper">
+                      {part.name}
+                      {part.isCore && <span className="ml-2 text-signal text-[10px] uppercase font-bold">[Core]</span>}
+                    </td>
+                    <td className="p-3.5 border-r border-paper/10 uppercase text-paper-muted text-[11px]">
+                      {part.category}
+                    </td>
+                    <td className="p-3.5 border-r border-paper/10 text-paper font-semibold">
+                      {part.mass} kg &middot; {part.cost} c
+                    </td>
+                    <td className="p-3.5 border-r border-paper/10 text-paper-muted">
+                      {part.powerGen ? `+${part.powerGen} W (Gen)` : `-${part.powerDraw} W (Draw)`}
+                    </td>
+                    <td className="p-3.5 border-r border-paper/10 text-paper text-[11px]">
+                      {part.heritage || 'NASA Deep-Space Flight Standard'}
+                    </td>
+                    <td className="p-3.5 text-paper-muted text-[11px]">
+                      {part.modelLabel || part.description}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {Object.values(LAUNCHERS).map((l) => (
+              <div key={l.id} className="border border-paper/15 p-4 bg-void space-y-1.5 font-mono text-xs">
+                <div className="flex justify-between items-baseline border-b border-paper/10 pb-1.5">
+                  <span className="font-bold text-paper text-sm">Launcher {l.name}</span>
+                  <span className="text-signal font-bold">{l.cost} c &middot; {l.massCap} kg limit</span>
+                </div>
+                <div className="text-paper-muted text-[11px] pt-1">
+                  <span className="text-paper font-semibold">Precedent:</span> {l.heritage}
+                </div>
+                <div className="text-paper-muted text-[11px]">
+                  <span className="text-paper font-semibold">Model:</span> {l.modelLabel}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 6. Patched-Conic Delta-v Budget & Space Systems Engineering Architecture */}
         <section aria-labelledby="systems-heading" className="space-y-6">
           <div className="flex items-baseline justify-between border-b border-paper/15 pb-3">
             <h2 id="systems-heading" className="font-serif font-extralight text-2xl md:text-3xl text-paper">

@@ -467,6 +467,11 @@ export default function TenthLightGame() {
         onToggleReducedMotion={handleToggleReducedMotion}
         soundCaptions={gameState.soundCaptions !== false}
         onToggleSoundCaptions={handleToggleSoundCaptions}
+        gameState={gameState}
+        onImportState={(newState) => {
+          setGameState(newState);
+          sound.setMuted(newState.isMuted);
+        }}
       />
 
       <SoundCaptionsHUD enabled={gameState.soundCaptions !== false} />

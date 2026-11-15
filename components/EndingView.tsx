@@ -161,6 +161,10 @@ export function EndingView({
                 </dd>
               </div>
             </dl>
+
+            <div className="mt-4 pt-3 border-t border-paper/10 font-mono text-[10px] text-paper-muted leading-relaxed">
+              <span className="text-signal font-bold">SCIENCE NOTE:</span> In accordance with NASA Exoplanet Archive parameters, TOI-700 e surface conditions remain unconfirmed by direct transmission spectroscopy. In-situ sampling is evaluated as an educational mission scenario.
+            </div>
           </div>
 
           {/* Verdict Narrative */}

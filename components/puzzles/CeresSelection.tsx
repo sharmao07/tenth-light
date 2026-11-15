@@ -9,7 +9,7 @@ interface CeresSelectionProps {
 
 export function CeresSelection({ onSuccess }: CeresSelectionProps) {
   const [bodies, setBodies] = useState<SmallBodyData[]>(SMALL_BODIES_SNAPSHOT);
-  const [isSnapshot, setIsSnapshot] = useState(true);
+  const [sourceType, setSourceType] = useState<'snapshot' | 'live-verification' | 'live'>('snapshot');
   const [selectedBody, setSelectedBody] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -23,7 +23,7 @@ export function CeresSelection({ onSuccess }: CeresSelectionProps) {
         if (!active) return;
         if (data.data) {
           setBodies(data.data);
-          setIsSnapshot(data.source === 'snapshot');
+          setSourceType(data.source === 'live-verification' ? 'live-verification' : data.source === 'live' ? 'live' : 'snapshot');
         }
       })
       .catch(() => {});
@@ -73,13 +73,17 @@ export function CeresSelection({ onSuccess }: CeresSelectionProps) {
         <div className="space-y-5 font-sans">
           <div className="flex justify-between items-center border-b border-[#e9e6dc]/15 pb-2">
             <span className="text-xs md:text-sm text-[#f0562b] font-bold">JPL Small-Body Database</span>
-            {isSnapshot ? (
-              <span className="text-xs text-[#f0562b] bg-[#f0562b]/20 px-3 py-0.5 rounded">
-                15 Nov 2026 Snapshot
+            {sourceType === 'live-verification' ? (
+              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/20 px-3 py-0.5 rounded" title="Verified against live JPL Small-Body Database API">
+                Live Verification Check
+              </span>
+            ) : sourceType === 'live' ? (
+              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/20 px-3 py-0.5 rounded">
+                Live Data Ingestion
               </span>
             ) : (
-              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/20 px-3 py-0.5 rounded">
-                Live Query
+              <span className="text-xs text-[#f0562b] bg-[#f0562b]/20 px-3 py-0.5 rounded">
+                15 Nov 2026 Archive Snapshot
               </span>
             )}
           </div>

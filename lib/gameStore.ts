@@ -73,6 +73,40 @@ export function clearSave(): void {
   }
 }
 
+export function exportSaveString(state: GameSaveState): string {
+  const exportPayload = {
+    ...state,
+    exportedAt: new Date().toISOString(),
+    format: 'tenth-light-telemetry-manifest-v1',
+  };
+  return JSON.stringify(exportPayload, null, 2);
+}
+
+export function importSaveString(raw: string): { success: boolean; state?: GameSaveState; error?: string } {
+  try {
+    const trimmed = raw.trim();
+    if (!trimmed) {
+      return { success: false, error: 'Empty telemetry manifest string.' };
+    }
+    const parsed = JSON.parse(trimmed);
+    if (!parsed || parsed.version !== 'tenth-light-v1') {
+      return { success: false, error: 'Incompatible save format. Expected version tenth-light-v1.' };
+    }
+    if (typeof parsed.currentStop !== 'number' || parsed.currentStop < 0 || parsed.currentStop > 10) {
+      return { success: false, error: 'Invalid stop index in telemetry manifest.' };
+    }
+    const validatedState: GameSaveState = {
+      ...DEFAULT_SAVE_STATE,
+      ...parsed,
+      lastUpdated: new Date().toISOString(),
+    };
+    saveState(validatedState);
+    return { success: true, state: validatedState };
+  } catch (err) {
+    return { success: false, error: (err as Error).message || 'Invalid JSON manifest.' };
+  }
+}
+
 export interface ShipMetrics {
   totalMass: number;
   massCap: number;

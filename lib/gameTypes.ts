@@ -14,6 +14,8 @@ export interface ShipPart {
   deltaV?: number; // m/s per tank
   maxCount?: number;
   description: string;
+  heritage?: string;
+  modelLabel?: string;
   isCore?: boolean;
 }
 
@@ -23,6 +25,8 @@ export interface Launcher {
   cost: number;
   massCap: number; // kg
   tagline: string;
+  heritage?: string;
+  modelLabel?: string;
 }
 
 export const LAUNCHERS: Record<string, Launcher> = {
@@ -32,6 +36,8 @@ export const LAUNCHERS: Record<string, Launcher> = {
     cost: 18,
     massCap: 400,
     tagline: 'Leaves money. Leaves little mass.',
+    heritage: 'Medium-lift orbital vehicle (Electron / Pegasus class scale)',
+    modelLabel: 'Simulation Metric: 400 kg maximum payload capacity (18c)',
   },
   keel: {
     id: 'keel',
@@ -39,6 +45,8 @@ export const LAUNCHERS: Record<string, Launcher> = {
     cost: 36,
     massCap: 560,
     tagline: 'Eats the budget. Carries a full science ship.',
+    heritage: 'Heavy deep-space vehicle (Atlas V 551 / Falcon Heavy scale)',
+    modelLabel: 'Simulation Metric: 560 kg maximum payload capacity (36c)',
   },
 };
 
@@ -52,6 +60,8 @@ export const CORE_PARTS: ShipPart[] = [
     cost: 12,
     powerDraw: 20,
     description: 'Pressurized avionics bus and navigation brain.',
+    heritage: 'New Horizons & Voyager Computer Command Subsystem (CCS)',
+    modelLabel: 'Simulation Metric: Scaled deep-space avionics bus (90 kg / 20 W)',
     isCore: true,
   },
   {
@@ -62,6 +72,8 @@ export const CORE_PARTS: ShipPart[] = [
     cost: 10,
     powerDraw: 5,
     description: 'High-thrust bipropellant main thruster.',
+    heritage: 'Aerojet Rocketdyne MR-106 / Star-48 kick stage',
+    modelLabel: 'Simulation Metric: Bipropellant thruster (60 kg / 5 W)',
     isCore: true,
   },
   {
@@ -72,6 +84,8 @@ export const CORE_PARTS: ShipPart[] = [
     cost: 8,
     powerDraw: 15,
     description: 'Deep-space parabolic dish for Earth telemetry.',
+    heritage: 'New Horizons 2.1 m high-gain Cassegrain reflector (X-band)',
+    modelLabel: 'Simulation Metric: Deep-space parabolic link (25 kg / 15 W)',
     isCore: true,
   },
 ];
@@ -88,6 +102,8 @@ export const OPTIONAL_PARTS: ShipPart[] = [
     deltaV: 2400,
     maxCount: 4,
     description: '2400 m/s flat delta-v. Stack up to 4.',
+    heritage: 'Cassini & New Horizons hydrazine titanium diaphragm tanks',
+    modelLabel: 'Simulation Metric: Scaled Tsiolkovsky mass fraction (40 kg dry -> 2400 m/s Δv)',
   },
   {
     id: 'solar_array',
@@ -99,6 +115,8 @@ export const OPTIONAL_PARTS: ShipPart[] = [
     powerGen: 160, // at 1 AU; scales 1/r^2
     maxCount: 2,
     description: '160 W at 1 AU. Drops as 1/r². Near 0 at Uranus.',
+    heritage: 'Dawn spacecraft UltraFlex triple-junction GaAs solar arrays',
+    modelLabel: 'Simulation Metric: 160 W at 1 AU, follows inverse-square law (1/r²)',
   },
   {
     id: 'rtg',
@@ -110,6 +128,8 @@ export const OPTIONAL_PARTS: ShipPart[] = [
     powerGen: 100, // flat
     maxCount: 1,
     description: '100 W flat output. Does not fall off in deep space.',
+    heritage: 'NASA MMRTG / GPHS-RTG (Curiosity, Perseverance, Cassini Pu-238)',
+    modelLabel: 'Simulation Metric: 100 W constant thermal-to-electric output',
   },
   {
     id: 'spectrometer',
@@ -120,6 +140,8 @@ export const OPTIONAL_PARTS: ShipPart[] = [
     powerDraw: 20,
     maxCount: 1,
     description: 'The only thing that certifies water.',
+    heritage: 'Cassini INMS & Europa Clipper MASPEX mass spectrometers',
+    modelLabel: 'Simulation Metric: In-situ volatile detection (35 kg / 20 W)',
   },
   {
     id: 'sample_drill',
@@ -130,6 +152,8 @@ export const OPTIONAL_PARTS: ShipPart[] = [
     powerDraw: 25,
     maxCount: 1,
     description: 'Certifies soil only.',
+    heritage: 'Curiosity PADS & Perseverance rotary percussive coring drill',
+    modelLabel: 'Simulation Metric: Robotic surface regolith acquisition (40 kg / 25 W)',
   },
   {
     id: 'imager',
@@ -140,6 +164,8 @@ export const OPTIONAL_PARTS: ShipPart[] = [
     powerDraw: 5,
     maxCount: 1,
     description: 'Science camera. First thing to switch off.',
+    heritage: 'New Horizons LORRI (Long-Range Reconnaissance Imager)',
+    modelLabel: 'Simulation Metric: Narrow-angle panchromatic telescope (8 kg / 5 W)',
   },
 ];
 

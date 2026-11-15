@@ -61,8 +61,8 @@ export interface HorizonsMoonData {
 export const HORIZONS_MOON_SNAPSHOT: HorizonsMoonData = {
   target: "Earth (399)",
   observer: "South Polar Lunar Site (coord@301)",
-  azimuthDeg: 124,
-  elevationDeg: 18,
+  azimuthDeg: 357.4,
+  elevationDeg: -2.6,
   targetToleranceDeg: 14,
   epoch: "2026-Nov-15 00:00:00 UT",
 };
