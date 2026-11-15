@@ -355,29 +355,29 @@ export default function TenthLightGame() {
       <main className="flex-1 w-full relative flex flex-col items-center justify-center min-h-0">
         {/* ================= 1. TITLE SCREEN ================= */}
         {gameState.phase === 'title' && (
-          <div className="w-full max-w-3xl mx-auto p-6 text-center space-y-6 select-none my-auto">
+          <div className="w-full max-w-4xl mx-auto p-6 md:p-8 text-center space-y-6 md:space-y-8 select-none my-auto">
             {/* The persistent honesty statement */}
-            <div className="p-3 bg-[#1a1714] border border-[#efe6d6]/20 rounded text-xs font-sans text-[#efe6d6]/80 leading-relaxed">
+            <div className="p-4 md:p-5 bg-[#1a1714] border border-[#efe6d6]/20 rounded-lg text-sm md:text-base font-sans text-[#efe6d6]/90 leading-relaxed shadow-lg">
               “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive.
               The voyage past the heliopause is a mission simulation that uses the archive’s numbers.
               The aliens, the depot fight, and the droid are the story.”
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-wider text-[#efe6d6]">
                 TENTH LIGHT
               </h1>
-              <p className="font-serif text-lg md:text-xl text-[#e39b12] italic">
+              <p className="font-serif text-xl md:text-2xl text-[#e39b12] italic">
                 “Design the ship. Stay in the seat. Send the droid.”
               </p>
-              <div className="text-xs font-mono text-[#efe6d6]/60">
+              <div className="text-sm font-mono text-[#efe6d6]/70">
                 NASA Space Apps 2026: Space Mission Design Game
               </div>
             </div>
 
             {/* Callsign Input */}
-            <div className="max-w-xs mx-auto bg-[#1a1714] border border-[#efe6d6]/20 p-4 rounded space-y-2 text-left font-mono">
-              <label className="text-xs uppercase tracking-wider text-[#e39b12] block">
+            <div className="max-w-sm mx-auto bg-[#1a1714] border border-[#efe6d6]/20 p-5 rounded-lg space-y-3 text-left font-mono shadow-md">
+              <label className="text-sm uppercase tracking-wider text-[#e39b12] font-bold block">
                 Specialist Callsign (Max 16 chars):
               </label>
               <input
@@ -385,19 +385,19 @@ export default function TenthLightGame() {
                 maxLength={16}
                 value={gameState.callsign}
                 onChange={(e) => updateGameState({ callsign: e.target.value.trim() || 'Wren' })}
-                className="w-full px-3 py-1.5 bg-[#100e0c] border border-[#efe6d6]/30 text-[#efe6d6] rounded font-mono text-sm focus:border-[#e39b12] focus:outline-none"
+                className="w-full px-3.5 py-2 bg-[#100e0c] border border-[#efe6d6]/30 text-[#efe6d6] rounded font-mono text-base focus:border-[#e39b12] focus:outline-none"
                 placeholder="Wren"
               />
-              <div className="text-[10px] text-[#efe6d6]/50">
+              <div className="text-xs text-[#efe6d6]/70 leading-relaxed">
                 The specialist never leaves the ship and appears only in dialogue.
               </div>
             </div>
 
             {/* Menu Actions */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
               <button
                 onClick={handleStartBriefing}
-                className="px-8 py-3 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-sm uppercase tracking-wider rounded transition-colors shadow-lg"
+                className="px-8 py-3.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-sm md:text-base uppercase tracking-wider rounded transition-colors shadow-lg"
               >
                 Begin Mission (Earth Briefing)
               </button>
@@ -405,7 +405,7 @@ export default function TenthLightGame() {
               {gameState.currentStop > 0 && (
                 <button
                   onClick={handleResumeGame}
-                  className="px-6 py-3 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] font-mono text-sm uppercase tracking-wider rounded transition-colors"
+                  className="px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] font-mono text-sm md:text-base uppercase tracking-wider rounded transition-colors"
                 >
                   Resume Corridor (Stop {gameState.currentStop})
                 </button>
@@ -413,7 +413,7 @@ export default function TenthLightGame() {
 
               <Link
                 href="/data"
-                className="px-6 py-3 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs uppercase tracking-wider rounded transition-colors"
+                className="px-6 py-3.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm uppercase tracking-wider rounded transition-colors"
               >
                 Scientific Data (/data)
               </Link>
@@ -425,31 +425,31 @@ export default function TenthLightGame() {
         {gameState.phase === 'briefing' && (
           <div className="w-full h-full flex flex-col justify-between relative">
             {/* 3D Ship in Hangar Stage */}
-            <div className="w-full h-[calc(100vh-220px)] relative">
+            <div className="w-full h-[calc(100vh-230px)] relative">
               <Ship3DView design={gameState.shipDesign} interactive={true} />
 
               {/* Sky Planet Card for TOI-700 e & d */}
               {dialogueIndex >= 3 && (
-                <div className="absolute top-4 right-4 z-20 w-72 bg-[#1a1714]/90 border border-[#e39b12] p-3 rounded text-xs font-mono shadow-2xl backdrop-blur-none animate-fadeIn">
-                  <div className="font-serif font-bold text-sm text-[#e39b12] border-b border-[#efe6d6]/20 pb-1 mb-2">
+                <div className="absolute top-4 right-4 z-20 w-80 bg-[#1a1714]/95 border-2 border-[#e39b12] p-4 rounded text-xs font-mono shadow-2xl backdrop-blur-none animate-fadeIn">
+                  <div className="font-serif font-bold text-base text-[#e39b12] border-b border-[#efe6d6]/20 pb-1 mb-2">
                     NASA Exoplanet Archive
                   </div>
-                  <div className="text-[10px] text-[#efe6d6]/60 mb-2">
+                  <div className="text-xs text-[#efe6d6]/70 mb-3 leading-relaxed">
                     Snapshot 15 Nov 2026. Equilibrium temp is not weather.
                   </div>
 
-                  <div className="space-y-1.5 text-[11px]">
-                    <div className="text-[#5bc0be] font-bold">
+                  <div className="space-y-2 text-xs leading-relaxed">
+                    <div className="text-[#5bc0be] font-bold text-sm">
                       ✓ Target: TOI-700 e (Harbor)
                     </div>
-                    <div className="text-[#efe6d6]/80 pl-2">
+                    <div className="text-[#efe6d6]/90 pl-2">
                       0.919 R⊕ • 0.718 M⊕ • 27.81d • 272.9 K • 101.5 ly
                     </div>
 
-                    <div className="text-[#efe6d6]/50 font-bold pt-1">
+                    <div className="text-[#efe6d6]/50 font-bold text-sm pt-1">
                       ✕ Twin You Do Not Fly: TOI-700 d
                     </div>
-                    <div className="text-[#efe6d6]/50 pl-2">
+                    <div className="text-[#efe6d6]/60 pl-2">
                       1.145 R⊕ • 1.580 M⊕ • 37.42d • 268.8 K
                     </div>
                   </div>
@@ -457,11 +457,12 @@ export default function TenthLightGame() {
               )}
             </div>
 
-            {/* Bottom Fixed 120px Dialogue Bar */}
+            {/* Bottom Fixed 120-130px Dialogue Bar with Previous, Auto, Next */}
             <DialogueBar
               lines={activeDialogueLines}
               currentIndex={dialogueIndex}
               onAdvance={() => setDialogueIndex((i) => i + 1)}
+              onPrevious={() => setDialogueIndex((i) => Math.max(0, i - 1))}
               onComplete={handleBriefingComplete}
             />
           </div>
@@ -483,12 +484,12 @@ export default function TenthLightGame() {
             <Ship3DView design={gameState.shipDesign} cruiseMode={true} interactive={true} />
 
             {/* In-Transit Telemetry HUD */}
-            <div className="absolute top-3 left-3 bg-[#1a1714]/85 border border-[#efe6d6]/20 p-2 rounded text-xs font-mono z-20">
-              <div className="text-[#e39b12] font-bold">
+            <div className="absolute top-4 left-4 bg-[#1a1714]/90 border border-[#efe6d6]/30 p-3 rounded text-sm font-mono z-20 shadow-lg">
+              <div className="text-[#e39b12] font-bold text-base">
                 Burning to Stop {gameState.currentStop}: {stopNames[gameState.currentStop]}
               </div>
-              <div className="text-[#efe6d6]/70 mt-0.5">
-                Remaining Delta-v: {gameState.currentDeltaV} m/s
+              <div className="text-[#efe6d6]/90 mt-1">
+                Remaining Delta-v: <span className="font-bold text-[#e39b12]">{gameState.currentDeltaV} m/s</span>
               </div>
             </div>
 
@@ -557,12 +558,13 @@ export default function TenthLightGame() {
               </div>
             </div>
 
-            {/* Bottom Fixed 120px Dialogue Bar (when keeper speaks) */}
+            {/* Bottom Fixed 120-130px Dialogue Bar with Previous, Auto, Next */}
             {dialoguePhase && (
               <DialogueBar
                 lines={activeDialogueLines}
                 currentIndex={dialogueIndex}
                 onAdvance={() => setDialogueIndex((i) => i + 1)}
+                onPrevious={() => setDialogueIndex((i) => Math.max(0, i - 1))}
                 onComplete={() => {
                   if (dialoguePhase === 'before') {
                     handleGateBeforeComplete();

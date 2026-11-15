@@ -213,37 +213,37 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
   const allSamplesCollected = waterCollected >= 2 && soilCollected >= 2;
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 select-none">
+    <div className="flex flex-col items-center justify-center p-3 select-none">
       {/* Header Info */}
-      <div className="w-full max-w-[560px] flex flex-wrap justify-between items-center mb-1 text-xs font-mono">
+      <div className="w-full max-w-[580px] flex flex-wrap justify-between items-center mb-1.5 text-xs md:text-sm font-mono">
         <span className="text-[#e39b12] uppercase font-bold tracking-wider">
           Harbor Surface Sleeve • Top-Down Probe
         </span>
-        <span className="text-[#efe6d6]/60 text-[10px] italic">
+        <span className="text-[#efe6d6]/70 text-xs italic">
           This place is a model, not a photograph of TOI-700 e.
         </span>
       </div>
 
       {/* Status Bar */}
-      <div className="w-full max-w-[560px] bg-[#1a1714] border border-[#efe6d6]/20 p-2 rounded flex flex-wrap justify-between items-center text-xs font-mono mb-2">
-        <div className="flex items-center gap-3">
-          <span className={hasAmberKey ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/40'}>
-            🔑 Amber Key: {hasAmberKey ? 'ACQUIRED' : 'MISSING'}
+      <div className="w-full max-w-[580px] bg-[#1a1714] border border-[#efe6d6]/25 p-3 rounded-lg flex flex-wrap justify-between items-center text-xs md:text-sm font-mono mb-2.5 shadow-md">
+        <div className="flex items-center gap-3.5">
+          <span className={hasAmberKey ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/50'}>
+            🔑 Key: {hasAmberKey ? 'ACQUIRED' : 'MISSING'}
           </span>
           <span className="text-[#efe6d6]/30">|</span>
-          <span className={waterCollected >= 2 ? 'text-[#5bc0be] font-bold' : 'text-[#efe6d6]/60'}>
+          <span className={waterCollected >= 2 ? 'text-[#5bc0be] font-bold' : 'text-[#efe6d6]/70'}>
             💧 Water: {waterCollected}/2
           </span>
           <span className="text-[#efe6d6]/30">|</span>
-          <span className={soilCollected >= 2 ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/60'}>
+          <span className={soilCollected >= 2 ? 'text-[#e39b12] font-bold' : 'text-[#efe6d6]/70'}>
             🌱 Soil: {soilCollected}/2
           </span>
         </div>
-        <div className="text-[11px]">
+        <div>
           {allSamplesCollected ? (
             <span className="text-[#5bc0be] animate-pulse font-bold">EXIT IS UNLOCKED!</span>
           ) : (
-            <span className="text-[#efe6d6]/50">Exit locked until samples gathered</span>
+            <span className="text-[#efe6d6]/60">Exit locked until 4 nodes collected</span>
           )}
         </div>
       </div>
@@ -350,34 +350,34 @@ export function SleeveMaze({ isPaused, onVictory, onHit, lives }: SleeveMazeProp
       </div>
 
       {/* On-screen Directional Controls (North/West/East/South) */}
-      <div className="flex flex-wrap items-center justify-between w-full max-w-[560px] mt-2 gap-2">
-        <div className="text-[11px] font-mono text-[#efe6d6]/70">
-          Controls: <kbd className="px-1 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded">WASD</kbd> or <kbd className="px-1 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded">Arrow Keys</kbd>
+      <div className="flex flex-wrap items-center justify-between w-full max-w-[580px] mt-3 gap-2.5">
+        <div className="text-xs md:text-sm font-mono text-[#efe6d6]/80">
+          Controls: <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded">WASD</kbd> or <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded">Arrow Keys</kbd>
         </div>
 
         {/* Directional Pad */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => tryMove(0, -1)}
-            className="px-2.5 py-1 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/30 text-xs font-mono rounded"
+            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             ↑ N
           </button>
           <button
             onClick={() => tryMove(-1, 0)}
-            className="px-2.5 py-1 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/30 text-xs font-mono rounded"
+            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             ← W
           </button>
           <button
             onClick={() => tryMove(0, 1)}
-            className="px-2.5 py-1 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/30 text-xs font-mono rounded"
+            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             ↓ S
           </button>
           <button
             onClick={() => tryMove(1, 0)}
-            className="px-2.5 py-1 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/30 text-xs font-mono rounded"
+            className="px-3.5 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#efe6d6]/40 text-xs md:text-sm font-mono font-bold rounded"
           >
             → E
           </button>

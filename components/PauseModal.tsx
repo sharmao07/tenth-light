@@ -24,33 +24,33 @@ export function PauseModal({ isOpen, onResume, onReturnToMenu }: PauseModalProps
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#100e0c]/85 backdrop-blur-none p-4 select-none">
-      <div className="w-full max-w-md bg-[#1a1714] border-2 border-[#e39b12] p-6 text-[#efe6d6] shadow-2xl">
-        <div className="text-center mb-6">
-          <h2 className="font-serif text-2xl font-bold text-[#e39b12] tracking-wider mb-1">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#100e0c]/90 backdrop-blur-none p-5 select-none">
+      <div className="w-full max-w-lg bg-[#1a1714] border-2 border-[#e39b12] p-7 text-[#efe6d6] shadow-2xl rounded-lg space-y-5">
+        <div className="text-center space-y-1.5">
+          <h2 className="font-serif text-3xl font-bold text-[#e39b12] tracking-wider">
             SIMULATION PAUSED
           </h2>
-          <p className="text-xs font-mono text-[#efe6d6]/60">
-            Internal telemetry clocks and physical timers frozen.
+          <p className="text-sm font-mono text-[#efe6d6]/70 leading-relaxed">
+            Internal telemetry clocks, combat logic, and delay timers are frozen.
           </p>
         </div>
 
-        <div className="space-y-3 mb-6 text-sm font-sans text-[#efe6d6]/80 leading-relaxed border-t border-b border-[#efe6d6]/10 py-4">
+        <div className="space-y-3.5 text-sm md:text-base font-sans text-[#efe6d6]/90 leading-relaxed border-t border-b border-[#efe6d6]/15 py-5">
           <p>
             • All active dodge sweeps, depot combat, sleeve patrols, and signal delays are suspended.
           </p>
           <p>
-            • Your progress is checkpointed at the start of the current stop under <code className="text-[#e39b12] font-mono">tenth-light-v1</code>.
+            • Your progress is checkpointed at the start of the current stop under <code className="text-[#e39b12] font-mono font-bold bg-[#100e0c] px-1.5 py-0.5 rounded">tenth-light-v1</code>.
           </p>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3.5 pt-1">
           <button
             onClick={() => {
               onResume();
               sound.playUiClick();
             }}
-            className="w-full py-2.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold tracking-wider uppercase text-sm rounded transition-colors"
+            className="w-full py-3 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold tracking-wider uppercase text-sm md:text-base rounded-md transition-colors shadow-lg"
           >
             Resume Simulation (Esc)
           </button>
@@ -60,7 +60,7 @@ export function PauseModal({ isOpen, onResume, onReturnToMenu }: PauseModalProps
               onReturnToMenu();
               sound.playUiClick();
             }}
-            className="w-full py-2 bg-[#100e0c] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs tracking-wider uppercase rounded transition-colors"
+            className="w-full py-2.5 bg-[#100e0c] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 text-[#efe6d6] font-mono text-xs md:text-sm tracking-wider uppercase rounded-md transition-colors"
           >
             Return to Title (Keep Save)
           </button>

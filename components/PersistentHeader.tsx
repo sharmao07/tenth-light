@@ -25,36 +25,36 @@ export function PersistentHeader({
 }: PersistentHeaderProps) {
   return (
     <header className="w-full bg-[#100e0c] border-b border-[#efe6d6]/20 text-[#efe6d6] z-50 select-none">
-      {/* Top Banner: The Sentence That Stays Visible */}
+      {/* Top Banner: The Sentence That Stays Visible (Comfortable, relaxed reading) */}
       {showSentence && (
-        <div className="bg-[#1a1714] text-[#efe6d6]/80 text-[11px] md:text-xs py-1 px-3 text-center border-b border-[#efe6d6]/10 font-sans tracking-tight">
+        <div className="bg-[#1a1714] text-[#efe6d6]/90 text-xs md:text-sm py-2 px-4 text-center border-b border-[#efe6d6]/10 font-serif leading-relaxed tracking-normal">
           “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive’s numbers. The aliens, the depot fight, and the droid are the story.”
         </div>
       )}
 
       {/* Main Bar */}
-      <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
+      <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
         {/* Left: Stop status & Lives */}
         <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="font-serif font-bold text-sm md:text-base text-[#e39b12] tracking-wider">
+          <div className="flex items-center gap-3">
+            <span className="font-serif font-bold text-base md:text-lg text-[#e39b12] tracking-wider">
               TENTH LIGHT
             </span>
             {currentStopName && (
-              <span className="text-xs font-mono text-[#efe6d6]/70 border-l border-[#efe6d6]/30 pl-2">
-                Stop {currentStopIndex}: {currentStopName}
+              <span className="text-xs md:text-sm font-mono text-[#efe6d6]/80 border-l border-[#efe6d6]/30 pl-3">
+                Stop {currentStopIndex}: <span className="font-bold text-[#efe6d6]">{currentStopName}</span>
               </span>
             )}
           </div>
 
           {/* Lives (3 Hearts, filled blood-red when remaining) */}
-          <div className="flex items-center gap-1.5 bg-[#1a1714] px-2.5 py-1 rounded border border-[#efe6d6]/20">
-            <span className="text-[10px] uppercase font-mono text-[#efe6d6]/60 mr-1">Hull</span>
+          <div className="flex items-center gap-2 bg-[#1a1714] px-3 py-1.5 rounded border border-[#efe6d6]/30 shadow-sm">
+            <span className="text-xs uppercase font-mono text-[#efe6d6]/80 mr-0.5 font-bold">Hull</span>
             {[0, 1, 2].map((i) => (
               <svg
                 key={i}
                 viewBox="0 0 24 24"
-                className={`w-4 h-4 transition-all duration-300 ${
+                className={`w-4 h-4 md:w-5 md:h-5 transition-all duration-300 ${
                   i < lives ? 'text-[#c4452d] fill-[#c4452d] scale-100' : 'text-[#efe6d6]/30 fill-transparent scale-90'
                 }`}
                 stroke="currentColor"
@@ -67,14 +67,14 @@ export function PersistentHeader({
         </div>
 
         {/* Right: Controls (Pause, Menu, Mute) */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {/* Mute Button */}
           <button
             onClick={() => {
               onToggleMute();
               sound.playUiClick();
             }}
-            className="p-1.5 px-2 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 rounded text-xs font-mono text-[#efe6d6] transition-colors"
+            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#efe6d6] transition-colors"
             title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
           >
             {isMuted ? '🔇 Muted' : '🔊 Audio'}
@@ -86,10 +86,10 @@ export function PersistentHeader({
               onPause();
               sound.playUiClick();
             }}
-            className="px-2.5 py-1 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/30 rounded text-xs font-mono text-[#efe6d6] transition-colors"
+            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#efe6d6]/40 rounded text-xs md:text-sm font-mono text-[#efe6d6] transition-colors"
             title="Pause game (Escape)"
           >
-            ⏸ Pause <span className="opacity-50 text-[10px]">(Esc)</span>
+            ⏸ Pause <span className="opacity-50 text-xs">(Esc)</span>
           </button>
 
           {/* Menu Button */}
@@ -98,7 +98,7 @@ export function PersistentHeader({
               onMenu();
               sound.playUiClick();
             }}
-            className="px-2.5 py-1 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] rounded text-xs font-mono text-[#e39b12] transition-colors font-semibold"
+            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#e39b12] hover:text-[#100e0c] border border-[#e39b12] rounded text-xs md:text-sm font-mono text-[#e39b12] transition-colors font-bold"
             title="Return to Title (keeps save)"
           >
             Title / Save

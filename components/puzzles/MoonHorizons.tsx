@@ -39,9 +39,7 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
           setIsSnapshot(data.source === 'snapshot');
         }
       })
-      .catch(() => {
-        // Already using snapshot
-      });
+      .catch(() => {});
 
     return () => {
       active = false;
@@ -71,7 +69,6 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
       })
       .catch(() => {
         if (!active) return;
-        // Do not say it failed until the request has actually failed
         setImageState({
           status: 'failed',
           url: 'https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg',
@@ -92,7 +89,7 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
 
     if (diff <= tolerance || 360 - diff <= tolerance) {
       sound.playSuccess();
-      setStatusMsg(`Telemetry locked! Offset is ${diff.toFixed(1)}° (within ±${tolerance}° tolerance).`);
+      setStatusMsg(`✓ Telemetry locked! Offset is ${diff.toFixed(1)}° (within ±${tolerance}° tolerance). Passage granted.`);
       setTimeout(onSuccess, 800);
     } else {
       sound.playMiss();
@@ -103,18 +100,18 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
   };
 
   return (
-    <div className="bg-[#1a1714]/95 border-2 border-[#e39b12] p-4 rounded max-w-xl mx-auto text-[#efe6d6] shadow-2xl select-none">
+    <div className="bg-[#1a1714]/95 border-2 border-[#e39b12] p-5 rounded-lg max-w-2xl mx-auto text-[#efe6d6] shadow-2xl select-none">
       {/* One-line how-to */}
-      <div className="bg-[#100e0c] px-3 py-1.5 rounded border border-[#e39b12]/50 text-xs font-mono text-[#e39b12] mb-3 text-center">
+      <div className="bg-[#100e0c] px-4 py-2.5 rounded border border-[#e39b12]/50 text-sm font-mono text-[#e39b12] mb-4 text-center leading-relaxed">
         HOW-TO: Adjust the high-gain dish azimuth to match Earth’s position within 14 degrees.
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center">
         {/* NASA Image Plate */}
-        <div className="bg-[#100e0c] p-2 border border-[#efe6d6]/20 rounded flex flex-col items-center">
-          <div className="w-full h-36 relative overflow-hidden rounded bg-[#1a1714] flex items-center justify-center">
+        <div className="bg-[#100e0c] p-2.5 border border-[#efe6d6]/20 rounded-lg flex flex-col items-center">
+          <div className="w-full h-40 relative overflow-hidden rounded bg-[#1a1714] flex items-center justify-center">
             {imageState.status === 'loading' ? (
-              <div className="text-xs font-mono text-[#efe6d6]/60 animate-pulse">
+              <div className="text-sm font-mono text-[#efe6d6]/60 animate-pulse">
                 Loading NASA Moon plate...
               </div>
             ) : (
@@ -133,38 +130,38 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
               />
             )}
           </div>
-          <div className="w-full mt-1.5 text-[10px] font-mono text-[#efe6d6]/60 text-left">
-            <span className="text-[#e39b12] font-semibold">{imageState.credit}</span>
+          <div className="w-full mt-2 text-xs font-mono text-[#efe6d6]/80 text-left leading-relaxed">
+            <span className="text-[#e39b12] font-bold block">{imageState.credit}</span>
             <div className="truncate">{imageState.caption}</div>
           </div>
         </div>
 
         {/* Horizons Telemetry & Controls */}
-        <div className="space-y-3 font-sans">
-          <div className="border-b border-[#efe6d6]/10 pb-1.5">
-            <div className="flex justify-between items-center text-xs font-mono text-[#e39b12]">
+        <div className="space-y-3.5 font-sans">
+          <div className="border-b border-[#efe6d6]/15 pb-2">
+            <div className="flex justify-between items-center text-xs md:text-sm font-mono text-[#e39b12] font-bold">
               <span>JPL Horizons Ephemeris</span>
               {isSnapshot ? (
-                <span className="text-[9px] bg-[#e39b12]/20 px-1 rounded text-[#e39b12]">
+                <span className="text-xs bg-[#e39b12]/20 px-2 py-0.5 rounded text-[#e39b12]">
                   15 Nov 2026 Snapshot
                 </span>
               ) : (
-                <span className="text-[9px] bg-[#5bc0be]/20 px-1 rounded text-[#5bc0be]">
+                <span className="text-xs bg-[#5bc0be]/20 px-2 py-0.5 rounded text-[#5bc0be]">
                   Live Query
                 </span>
               )}
             </div>
-            <div className="text-[11px] text-[#efe6d6]/70 mt-1 font-mono">
+            <div className="text-xs text-[#efe6d6]/80 mt-1.5 font-mono leading-relaxed">
               COMMAND: 399 (Earth) | CENTER: coord@301
             </div>
-            <div className="text-xs text-[#efe6d6] font-mono mt-1">
+            <div className="text-sm text-[#efe6d6] font-mono mt-1 leading-relaxed">
               Earth Azimuth: <span className="font-bold text-[#e39b12]">{horizonsData.azimuthDeg}°</span> |
               Elevation: <span className="font-bold text-[#e39b12]">{horizonsData.elevationDeg}°</span>
             </div>
           </div>
 
           <div>
-            <div className="flex justify-between text-xs font-mono mb-1">
+            <div className="flex justify-between text-xs md:text-sm font-mono mb-1.5">
               <span>Dish Aim Azimuth:</span>
               <span className="font-bold text-[#efe6d6]">{userAzimuth}°</span>
             </div>
@@ -176,7 +173,7 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
               onChange={(e) => setUserAzimuth(parseInt(e.target.value))}
               className="w-full accent-[#e39b12] cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-[#efe6d6]/40 mt-0.5">
+            <div className="flex justify-between text-xs font-mono text-[#efe6d6]/50 mt-1">
               <span>0° (N)</span>
               <span>90° (E)</span>
               <span>180° (S)</span>
@@ -186,13 +183,13 @@ export function MoonHorizons({ onSuccess }: MoonHorizonsProps) {
 
           <button
             onClick={handleLockDish}
-            className="w-full py-2 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-xs uppercase tracking-wider rounded transition-colors"
+            className="w-full py-2.5 bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] font-mono font-bold text-xs md:text-sm uppercase tracking-wider rounded transition-colors shadow"
           >
             Transmit Telemetry Ping (Lock Dish)
           </button>
 
           {statusMsg && (
-            <div className="text-xs font-mono p-1.5 rounded bg-[#100e0c] border border-[#efe6d6]/20">
+            <div className="text-xs md:text-sm font-mono p-2 rounded bg-[#100e0c] border border-[#efe6d6]/20 leading-relaxed">
               {statusMsg}
             </div>
           )}

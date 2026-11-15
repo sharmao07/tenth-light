@@ -65,8 +65,6 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
   };
 
   // Auto-build: builds the certifying stack
-  // Keel, command, engine, antenna, 3 tanks, RTG, spectrometer, drill
-  // 420/560 kg, 132/140 cost, 85 W draw at Earth vs 100 W from RTG, 100 W at Uranus
   const handleAutoBuild = () => {
     sound.playSuccess();
     onUpdateDesign({
@@ -97,14 +95,14 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-2 md:p-3 bg-[#100e0c] text-[#efe6d6] select-none overflow-hidden max-h-[calc(100vh-160px)]">
+    <div className="w-full h-full flex flex-col justify-between p-3 md:p-4 bg-[#100e0c] text-[#efe6d6] select-none overflow-hidden max-h-[calc(100vh-160px)]">
       {/* Top Header Row: Launcher Selector & Auto-build */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#efe6d6]/20 pb-2">
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#e39b12]">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#efe6d6]/20 pb-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xs md:text-sm font-mono uppercase tracking-widest text-[#e39b12] font-bold">
             1. Select Launcher:
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-2.5">
             {(['kite', 'keel'] as const).map((id) => {
               const l = LAUNCHERS[id];
               const isSelected = design.launcherId === id;
@@ -112,32 +110,32 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 <button
                   key={id}
                   onClick={() => setLauncher(id)}
-                  className={`px-3 py-1 text-xs font-mono border rounded transition-all text-left ${
+                  className={`px-3.5 py-1.5 text-xs md:text-sm font-mono border rounded transition-all text-left ${
                     isSelected
                       ? 'bg-[#e39b12] text-[#100e0c] border-[#e39b12] font-bold shadow'
                       : 'bg-[#1a1714] text-[#efe6d6] border-[#efe6d6]/30 hover:border-[#e39b12]'
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span>{l.name}</span>
-                    <span className="opacity-80 text-[10px]">
+                    <span className="font-bold">{l.name}</span>
+                    <span className="opacity-90 text-xs">
                       (Cost {l.cost} | Cap {l.massCap} kg)
                     </span>
                   </div>
-                  <div className="text-[10px] italic opacity-90 truncate max-w-[200px]">{l.tagline}</div>
+                  <div className="text-xs opacity-90 truncate max-w-[220px] font-sans">{l.tagline}</div>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] text-[#efe6d6]/60 font-sans hidden sm:inline">
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-[#efe6d6]/70 font-sans hidden lg:inline">
             Teaching budget: 140. Not an official NASA price.
           </span>
           <button
             onClick={handleAutoBuild}
-            className="px-3 py-1.5 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] rounded text-xs font-mono uppercase tracking-wider transition-colors font-bold"
+            className="px-4 py-2 bg-[#1a1714] hover:bg-[#efe6d6]/10 border border-[#e39b12] text-[#e39b12] rounded text-xs md:text-sm font-mono uppercase tracking-wider transition-colors font-bold shadow"
             title="Equips the Keel certifying stack: 3 tanks, RTG, spectrometer, drill"
           >
             ⚡ Auto-Build Certifying Stack
@@ -145,8 +143,8 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
         </div>
       </div>
 
-      {/* Main Workspace Grid: 3D Stage + Meters */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3 my-2 min-h-0">
+      {/* Main Workspace Grid: 3D Stage + Telemetry Meters */}
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-4 my-2.5 min-h-0">
         {/* Left/Center: 3D Stage (Kerbal-like side view with Orbit) */}
         <div
           onDragOver={(e) => {
@@ -155,25 +153,25 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
           }}
           onDragLeave={() => setIsDragOverStage(false)}
           onDrop={handleDropOnStage}
-          className={`md:col-span-8 bg-[#1a1714]/60 border-2 rounded relative flex flex-col items-center justify-center overflow-hidden transition-all ${
+          className={`md:col-span-7 lg:col-span-8 bg-[#1a1714]/70 border-2 rounded-lg relative flex flex-col items-center justify-center overflow-hidden transition-all ${
             isDragOverStage ? 'border-[#e39b12] bg-[#e39b12]/10' : 'border-[#efe6d6]/20'
           }`}
         >
           {/* Overlay info */}
-          <div className="absolute top-2 left-3 z-10 text-[11px] font-mono text-[#efe6d6]/60 pointer-events-none">
+          <div className="absolute top-2.5 left-3.5 z-10 text-xs font-mono text-[#efe6d6]/70 pointer-events-none">
             VERTICAL STACK • DRAG PARTS HERE OR CLICK CARDS BELOW • ORBIT CAM WITH MOUSE
           </div>
 
-          <div className="w-full h-full min-h-[220px]">
+          <div className="w-full h-full min-h-[240px]">
             <Ship3DView design={design} interactive={true} />
           </div>
 
           {/* Active Stack Part Pills */}
-          <div className="absolute bottom-2 left-2 right-2 z-10 flex flex-wrap gap-1 pointer-events-auto">
+          <div className="absolute bottom-2.5 left-2.5 right-2.5 z-10 flex flex-wrap gap-1.5 pointer-events-auto">
             {CORE_PARTS.map((cp) => (
               <span
                 key={cp.id}
-                className="text-[10px] font-mono px-2 py-0.5 bg-[#100e0c]/80 border border-[#efe6d6]/30 text-[#efe6d6]/70 rounded"
+                className="text-xs font-mono px-2.5 py-1 bg-[#100e0c]/85 border border-[#efe6d6]/30 text-[#efe6d6]/80 rounded"
               >
                 {cp.name} (Core)
               </span>
@@ -185,7 +183,7 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 <button
                   key={p.id}
                   onClick={() => removePart(p.id)}
-                  className="text-[10px] font-mono px-2 py-0.5 bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] rounded hover:bg-[#c4452d]/30 hover:border-[#c4452d] hover:text-[#c4452d] transition-colors"
+                  className="text-xs font-mono px-2.5 py-1 bg-[#e39b12]/20 border border-[#e39b12] text-[#e39b12] rounded hover:bg-[#c4452d]/30 hover:border-[#c4452d] hover:text-[#c4452d] transition-colors"
                   title="Click to remove"
                 >
                   {p.name} {count > 1 ? `×${count}` : ''} ✕
@@ -196,21 +194,21 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
         </div>
 
         {/* Right: 4 Meters + Uranus Check + Launch Button */}
-        <div className="md:col-span-4 bg-[#1a1714] border border-[#efe6d6]/20 p-2.5 rounded flex flex-col justify-between overflow-y-auto">
+        <div className="md:col-span-5 lg:col-span-4 bg-[#1a1714] border border-[#efe6d6]/20 p-3.5 rounded-lg flex flex-col justify-between overflow-y-auto space-y-3">
           <div>
-            <div className="text-xs font-serif font-bold text-[#e39b12] uppercase tracking-wider mb-2 border-b border-[#efe6d6]/10 pb-1">
+            <div className="text-sm font-serif font-bold text-[#e39b12] uppercase tracking-wider mb-2.5 border-b border-[#efe6d6]/10 pb-1.5">
               Flight Certification Telemetry
             </div>
 
             {/* Meter 1: Mass */}
-            <div className="mb-2">
-              <div className="flex justify-between text-[11px] font-mono mb-0.5">
+            <div className="mb-2.5">
+              <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
                 <span>Mass:</span>
                 <span className={metrics.isMassLegal ? 'text-[#efe6d6]' : 'text-[#c4452d] font-bold'}>
                   {metrics.totalMass} / {metrics.massCap} kg
                 </span>
               </div>
-              <div className="w-full h-2 bg-[#100e0c] rounded overflow-hidden">
+              <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
                 <div
                   className={`h-full transition-all ${
                     metrics.isMassLegal ? 'bg-[#e39b12]' : 'bg-[#c4452d]'
@@ -221,14 +219,14 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
             </div>
 
             {/* Meter 2: Cost */}
-            <div className="mb-2">
-              <div className="flex justify-between text-[11px] font-mono mb-0.5">
+            <div className="mb-2.5">
+              <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
                 <span>Teaching Cost:</span>
                 <span className={metrics.isCostLegal ? 'text-[#efe6d6]' : 'text-[#c4452d] font-bold'}>
                   {metrics.totalCost} / {MAX_TEACHING_BUDGET}
                 </span>
               </div>
-              <div className="w-full h-2 bg-[#100e0c] rounded overflow-hidden">
+              <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
                 <div
                   className={`h-full transition-all ${
                     metrics.isCostLegal ? 'bg-[#e39b12]' : 'bg-[#c4452d]'
@@ -239,14 +237,14 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
             </div>
 
             {/* Meter 3: Watts at Earth */}
-            <div className="mb-2">
-              <div className="flex justify-between text-[11px] font-mono mb-0.5">
+            <div className="mb-2.5">
+              <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
                 <span>Power @ 1 AU:</span>
                 <span className="text-[#efe6d6]">
                   Draw {metrics.powerDrawEarth} W | Gen {Math.round(metrics.powerGenEarth)} W
                 </span>
               </div>
-              <div className="w-full h-2 bg-[#100e0c] rounded overflow-hidden">
+              <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
                 <div
                   className={`h-full transition-all ${
                     metrics.powerGenEarth >= metrics.powerDrawEarth ? 'bg-[#5bc0be]' : 'bg-[#c4452d]'
@@ -264,14 +262,14 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
             </div>
 
             {/* Meter 4: Delta-v */}
-            <div className="mb-2">
-              <div className="flex justify-between text-[11px] font-mono mb-0.5">
+            <div className="mb-2.5">
+              <div className="flex justify-between text-xs md:text-sm font-mono mb-1">
                 <span>Delta-v (Patched-Conic):</span>
                 <span className={metrics.canReachJupiter ? 'text-[#efe6d6]' : 'text-[#c4452d] font-bold'}>
                   {metrics.totalDeltaV} m/s
                 </span>
               </div>
-              <div className="w-full h-2 bg-[#100e0c] rounded overflow-hidden">
+              <div className="w-full h-2.5 bg-[#100e0c] rounded overflow-hidden">
                 <div
                   className={`h-full transition-all ${
                     metrics.canReachJupiter ? 'bg-[#e39b12]' : 'bg-[#c4452d]'
@@ -279,15 +277,15 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   style={{ width: `${Math.min(100, (metrics.totalDeltaV / 7200) * 100)}%` }}
                 />
               </div>
-              <div className="text-[10px] text-[#efe6d6]/60 font-mono mt-0.5">
-                Req: 6700 to Jupiter, 7100 outer rim. 3 tanks (7200 m/s) required.
+              <div className="text-xs text-[#efe6d6]/70 font-mono mt-1 leading-relaxed">
+                Requires: 6,700 m/s to Jupiter, 7,100 m/s outer rim. 3 tanks (7,200 m/s) minimum.
               </div>
             </div>
 
             {/* Uranus Check: 55 W Heater Bus Requirement */}
-            <div className="p-1.5 bg-[#100e0c] border border-[#efe6d6]/20 rounded mb-2 text-[11px] font-mono">
+            <div className="p-2.5 bg-[#100e0c] border border-[#efe6d6]/20 rounded mb-2.5 text-xs font-mono space-y-1">
               <div className="flex justify-between items-center mb-1">
-                <span className="text-[#efe6d6]/80">Uranus 19.2 AU Bus:</span>
+                <span className="text-[#efe6d6]/90 font-bold">Uranus 19.2 AU Bus:</span>
                 <span
                   className={`font-bold ${
                     metrics.uranusSurvives ? 'text-[#5bc0be]' : 'text-[#c4452d]'
@@ -296,26 +294,26 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                   {Math.round(metrics.uranusSupplyWatts)} W / 55 W
                 </span>
               </div>
-              <div className="text-[10px] text-[#efe6d6]/60">
+              <div className="text-xs text-[#efe6d6]/70 leading-relaxed font-sans">
                 Command (20W) + Antenna (15W) + Heater (20W) = 55 W. Solar gives ~0.4 W (1/r²). RTG gives flat 100 W.
               </div>
             </div>
 
             {/* Warnings and Hard Errors */}
             {metrics.hardErrors.length > 0 && (
-              <div className="p-1.5 bg-[#c4452d]/20 border border-[#c4452d] rounded text-[10px] font-mono text-[#c4452d] mb-1">
+              <div className="p-2 bg-[#c4452d]/20 border border-[#c4452d] rounded text-xs font-mono text-[#c4452d] mb-1.5 leading-relaxed">
                 ❌ {metrics.hardErrors[0]}
               </div>
             )}
             {metrics.hardErrors.length === 0 && metrics.warnings.length > 0 && (
-              <div className="p-1.5 bg-[#e39b12]/15 border border-[#e39b12]/40 rounded text-[10px] font-mono text-[#e39b12] mb-1">
+              <div className="p-2 bg-[#e39b12]/15 border border-[#e39b12]/40 rounded text-xs font-mono text-[#e39b12] mb-1.5 leading-relaxed">
                 ⚠️ {metrics.warnings[0]}
               </div>
             )}
           </div>
 
           {/* Launch Button */}
-          <div className="mt-2">
+          <div className="pt-2">
             <button
               onClick={() => {
                 if (metrics.isLaunchLegal) {
@@ -324,7 +322,7 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 }
               }}
               disabled={!metrics.isLaunchLegal}
-              className={`w-full py-2.5 rounded font-mono font-bold uppercase tracking-wider text-sm transition-all shadow-md ${
+              className={`w-full py-3 rounded font-mono font-bold uppercase tracking-wider text-sm md:text-base transition-all shadow-md ${
                 metrics.isLaunchLegal
                   ? 'bg-[#e39b12] hover:bg-[#c9820a] text-[#100e0c] cursor-pointer'
                   : 'bg-[#100e0c] text-[#efe6d6]/30 border border-[#efe6d6]/20 cursor-not-allowed'
@@ -336,18 +334,18 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
         </div>
       </div>
 
-      {/* Bottom Row: Optional Parts Palette (All 6 parts visible at once, text fully visible, no scroll) */}
-      <div className="border-t border-[#efe6d6]/20 pt-1.5">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-[11px] font-mono uppercase tracking-widest text-[#e39b12]">
+      {/* Bottom Row: Optional Parts Palette (Relaxed, comfortable typography) */}
+      <div className="border-t border-[#efe6d6]/20 pt-2.5">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="text-xs md:text-sm font-mono uppercase tracking-widest text-[#e39b12] font-bold">
             2. Optional Modular Parts (Click or drag to equip):
           </span>
-          <span className="text-[10px] font-mono text-[#efe6d6]/50">
+          <span className="text-xs font-mono text-[#efe6d6]/60">
             Patched-conic teaching table, not a GMAT run.
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
           {OPTIONAL_PARTS.map((part) => {
             const currentCount = design.parts[part.id] || 0;
             const max = part.maxCount || 1;
@@ -359,34 +357,34 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                 draggable={!isMaxed}
                 onDragStart={(e) => handleDragStart(e, part.id)}
                 onClick={() => addPart(part.id)}
-                className={`bg-[#1a1714] border p-2 rounded cursor-pointer transition-all flex flex-col justify-between hover:border-[#e39b12] ${
-                  currentCount > 0 ? 'border-[#e39b12]/70 bg-[#1a1714]' : 'border-[#efe6d6]/20'
+                className={`bg-[#1a1714] border p-2.5 rounded cursor-pointer transition-all flex flex-col justify-between hover:border-[#e39b12] ${
+                  currentCount > 0 ? 'border-[#e39b12]/80 bg-[#1a1714]' : 'border-[#efe6d6]/25'
                 }`}
                 title={`Click or drag onto ship to add ${part.name}`}
               >
                 <div>
-                  <div className="flex justify-between items-start mb-0.5">
-                    <span className="font-serif font-bold text-xs text-[#efe6d6] leading-tight">
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="font-serif font-bold text-xs md:text-sm text-[#efe6d6] leading-snug">
                       {part.name}
                     </span>
                     <span
-                      className={`text-[10px] font-mono px-1 rounded ${
+                      className={`text-xs font-mono px-1.5 py-0.5 rounded ${
                         currentCount > 0 ? 'bg-[#e39b12] text-[#100e0c] font-bold' : 'text-[#efe6d6]/50'
                       }`}
                     >
                       {currentCount}/{max}
                     </span>
                   </div>
-                  <div className="text-[10px] font-mono text-[#e39b12] mb-1">
+                  <div className="text-xs font-mono text-[#e39b12] mb-1.5">
                     {part.mass}kg • {part.cost}c {part.powerDraw > 0 ? `• ${part.powerDraw}W` : ''}
                   </div>
-                  <p className="text-[10px] font-sans text-[#efe6d6]/70 leading-tight">
+                  <p className="text-xs font-sans text-[#efe6d6]/80 leading-relaxed">
                     {part.description}
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center mt-1.5 pt-1 border-t border-[#efe6d6]/10">
-                  <span className="text-[9px] font-mono text-[#efe6d6]/40">
+                <div className="flex justify-between items-center mt-2 pt-1.5 border-t border-[#efe6d6]/10">
+                  <span className="text-xs font-mono text-[#efe6d6]/50">
                     {isMaxed ? 'Max Cap' : '+ Add'}
                   </span>
                   {currentCount > 0 && (
@@ -395,7 +393,7 @@ export function HangarView({ design, onUpdateDesign, onLaunch }: HangarViewProps
                         e.stopPropagation();
                         removePart(part.id);
                       }}
-                      className="text-[10px] font-mono text-[#c4452d] hover:underline"
+                      className="text-xs font-mono text-[#c4452d] hover:underline font-bold"
                     >
                       Remove
                     </button>

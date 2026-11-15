@@ -353,31 +353,31 @@ export function FormationShooter({ isPaused, onVictory, onHit }: FormationShoote
   }, [isPaused, initWave, onVictory, onHit]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 select-none">
-      <div className="flex justify-between items-center w-full max-w-[420px] mb-2 px-1">
-        <span className="font-mono text-xs uppercase tracking-wider text-[#e39b12]">
+    <div className="flex flex-col items-center justify-center p-3 select-none">
+      <div className="flex justify-between items-center w-full max-w-[440px] mb-2.5 px-1.5">
+        <span className="font-mono text-sm uppercase tracking-wider text-[#e39b12] font-bold">
           Jupiter Depot Defense • Wave {wave}/3
         </span>
-        <span className="font-mono text-xs text-[#efe6d6]/70">
-          Saucers Left: {saucersLeft}
+        <span className="font-mono text-xs md:text-sm text-[#efe6d6]/80 font-bold">
+          Saucers Remaining: {saucersLeft}
         </span>
       </div>
 
-      <div className="relative border-2 border-[#e39b12] rounded bg-[#100e0c] shadow-2xl">
+      <div className="relative border-2 border-[#e39b12] rounded-lg bg-[#100e0c] shadow-2xl">
         <canvas
           ref={canvasRef}
-          width={400}
+          width={420}
           height={380}
           className="block"
         />
 
         {/* Controls Overlay Footer */}
-        <div className="flex justify-between items-center bg-[#1a1714] px-3 py-1.5 border-t border-[#efe6d6]/20 text-[11px] font-mono text-[#efe6d6]/80">
+        <div className="flex justify-between items-center bg-[#1a1714] px-4 py-2 border-t border-[#efe6d6]/20 text-xs md:text-sm font-mono text-[#efe6d6]/90">
           <div>
-            Move: <kbd className="px-1 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">A</kbd>/<kbd className="px-1 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">D</kbd> or <kbd className="px-1 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">←</kbd>/<kbd className="px-1 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">→</kbd>
+            Move: <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">A</kbd>/<kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">D</kbd> or <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">←</kbd>/<kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">→</kbd>
           </div>
           <div>
-            Fire: <kbd className="px-1 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">Space</kbd> / <kbd className="px-1 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">W</kbd>
+            Fire: <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">Space</kbd> / <kbd className="px-1.5 py-0.5 bg-[#100e0c] border border-[#efe6d6]/30 rounded">W</kbd>
           </div>
         </div>
       </div>

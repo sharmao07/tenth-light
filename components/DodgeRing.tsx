@@ -193,47 +193,47 @@ export function DodgeRing({
           </div>
 
           {/* The label sits UNDER the ring, not on it */}
-          <div className="text-center mt-2">
-            <div className="text-xs font-mono font-bold text-[#e39b12] uppercase tracking-wider">
+          <div className="text-center mt-3">
+            <div className="text-sm font-mono font-bold text-[#e39b12] uppercase tracking-wider">
               Collision Avoidance Lock
             </div>
-            <div className="text-[11px] font-mono text-[#efe6d6]/70 mt-0.5">
-              Click or press <kbd className="px-1 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded text-[#efe6d6]">Space</kbd> / <kbd className="px-1 py-0.5 bg-[#1a1714] border border-[#efe6d6]/30 rounded text-[#efe6d6]">Enter</kbd>
+            <div className="text-xs font-mono text-[#efe6d6]/80 mt-1">
+              Click or press <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/40 rounded text-[#efe6d6] font-bold">Space</kbd> / <kbd className="px-1.5 py-0.5 bg-[#1a1714] border border-[#efe6d6]/40 rounded text-[#efe6d6] font-bold">Enter</kbd>
             </div>
           </div>
         </div>
 
         {/* Real Near-Earth Object Card from NASA NeoWs */}
-        <div className="w-64 bg-[#1a1714] border border-[#efe6d6]/20 p-3 rounded text-left font-sans">
-          <div className="flex justify-between items-center border-b border-[#efe6d6]/10 pb-1 mb-2">
-            <span className="text-[10px] font-mono uppercase text-[#e39b12] tracking-widest">
+        <div className="w-72 md:w-80 bg-[#1a1714] border border-[#efe6d6]/30 p-4 rounded-lg text-left font-sans shadow-lg">
+          <div className="flex justify-between items-center border-b border-[#efe6d6]/15 pb-2 mb-2.5">
+            <span className="text-xs font-mono uppercase text-[#e39b12] font-bold tracking-wider">
               Radar Return [{dodgeIndex + 1}/{totalDodges}]
             </span>
             {isSnapshot ? (
-              <span className="text-[9px] font-mono text-[#e39b12] bg-[#e39b12]/10 px-1 py-0.2 rounded border border-[#e39b12]/30">
+              <span className="text-xs font-mono text-[#e39b12] bg-[#e39b12]/15 px-2 py-0.5 rounded border border-[#e39b12]/30">
                 15 Nov 2026 Snapshot
               </span>
             ) : (
-              <span className="text-[9px] font-mono text-[#5bc0be] bg-[#5bc0be]/10 px-1 py-0.2 rounded">
+              <span className="text-xs font-mono text-[#5bc0be] bg-[#5bc0be]/15 px-2 py-0.5 rounded border border-[#5bc0be]/30">
                 NASA NeoWs Live
               </span>
             )}
           </div>
 
           {neoData ? (
-            <div className="space-y-1.5 text-xs">
-              <div className="font-serif font-bold text-sm text-[#efe6d6] truncate">
+            <div className="space-y-2 text-xs md:text-sm">
+              <div className="font-serif font-bold text-base md:text-lg text-[#efe6d6] truncate">
                 {neoData.name}
               </div>
-              <div className="flex justify-between text-[#efe6d6]/80 text-[11px] font-mono">
+              <div className="flex justify-between text-[#efe6d6]/90 font-mono py-0.5">
                 <span>Est. Diameter:</span>
                 <span className="font-bold text-[#efe6d6]">{neoData.estimatedDiameterMeters} m</span>
               </div>
-              <div className="flex justify-between text-[#efe6d6]/80 text-[11px] font-mono">
+              <div className="flex justify-between text-[#efe6d6]/90 font-mono py-0.5">
                 <span>Velocity:</span>
                 <span className="font-bold text-[#efe6d6]">{neoData.relativeVelocityKps} km/s</span>
               </div>
-              <div className="flex justify-between text-[#efe6d6]/80 text-[11px] font-mono">
+              <div className="flex justify-between text-[#efe6d6]/90 font-mono py-0.5">
                 <span>Hazard Flag:</span>
                 <span
                   className={`font-bold uppercase ${
@@ -245,13 +245,13 @@ export function DodgeRing({
               </div>
             </div>
           ) : (
-            <div className="text-xs text-[#efe6d6]/50 py-3 text-center font-mono">
+            <div className="text-xs md:text-sm text-[#efe6d6]/60 py-4 text-center font-mono">
               Interpreting radar echoes...
             </div>
           )}
 
-          <div className="mt-2 pt-2 border-t border-[#efe6d6]/10 text-[10px] text-[#efe6d6]/50 italic">
-            A missed dodge spends 1 hull heart.
+          <div className="mt-3 pt-2 border-t border-[#efe6d6]/15 text-xs text-[#efe6d6]/70 italic leading-relaxed">
+            A missed dodge spends 1 hull heart. Retries on stop gates are free.
           </div>
         </div>
       </div>
