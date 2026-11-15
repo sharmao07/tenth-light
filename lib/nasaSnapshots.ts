@@ -210,21 +210,21 @@ export const NASA_IMAGE_PLATES: Record<number, NASAImagePlate> = {
   3: {
     stopIndex: 3,
     locationName: "Ceres",
-    url: "https://images-assets.nasa.gov/image/PIA19547/PIA19547~medium.jpg",
+    url: "https://images-assets.nasa.gov/image/PIA21079/PIA21079~orig.jpg",
     caption: "Dawn spacecraft full view of dwarf planet Ceres and Occator bright spots.",
     credit: "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA. Unaltered.",
   },
   4: {
     stopIndex: 4,
     locationName: "Jupiter",
-    url: "https://images-assets.nasa.gov/image/PIA02873/PIA02873~medium.jpg",
+    url: "https://images-assets.nasa.gov/image/PIA02873/PIA02873~orig.jpg",
     caption: "Cassini spacecraft true-color cylindrical map view of Jupiter.",
     credit: "NASA/JPL/Space Science Institute. Unaltered.",
   },
   5: {
     stopIndex: 5,
     locationName: "Enceladus",
-    url: "https://images-assets.nasa.gov/image/PIA07758/PIA07758~medium.jpg",
+    url: "https://images-assets.nasa.gov/image/PIA07758/PIA07758~orig.jpg",
     caption: "Cassini spacecraft backlit view of South Polar cryovolcanic water vapor jets.",
     credit: "NASA/JPL/Space Science Institute. Unaltered.",
   },
@@ -259,8 +259,8 @@ export const NASA_IMAGE_PLATES: Record<number, NASAImagePlate> = {
   10: {
     stopIndex: 10,
     locationName: "Earth",
-    url: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001140/GSFC_20171208_Archive_e001140~medium.jpg",
-    caption: "Earth observed from deep space. Home sweet home.",
-    credit: "NASA/Goddard Space Flight Center. Unaltered.",
+    url: "https://images-assets.nasa.gov/image/as17-148-22727/as17-148-22727~large.jpg",
+    caption: "The Blue Marble (Apollo 17) - Earth viewed from deep space.",
+    credit: "NASA. Unaltered.",
   },
 };

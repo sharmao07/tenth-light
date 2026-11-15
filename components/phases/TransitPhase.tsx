@@ -50,7 +50,7 @@ export function TransitPhase({
       <div className="mb-6">
         <p className="label">Interplanetary Burn &middot; Hazard Avoidance</p>
         <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-6xl tracking-tight text-paper mt-1">
-          Cruising to <span className="font-extrabold text-paper">{stopName.split(' ')[0]}</span>
+          Cruising to <span className="font-extrabold text-paper">{stopName.replace(/\s*\([^)]*\)/g, '').trim()}</span>
         </h1>
       </div>
 
@@ -81,6 +81,7 @@ export function TransitPhase({
           <div className="border border-paper/15 h-[420px] relative bg-void">
             <Ship3DView design={shipDesign} cruiseMode={true} interactive={true} />
             <DodgeRing
+              key={`dodge-${currentDodgeIndex}`}
               isPaused={isPaused}
               dodgeIndex={currentDodgeIndex}
               totalDodges={totalDodgesOnLeg}

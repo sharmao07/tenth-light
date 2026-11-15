@@ -10,6 +10,20 @@ interface MissionLogbookModalProps {
   callsign: string;
 }
 
+const CHAPTER_DESTINATIONS: Record<number, string> = {
+  0: 'Earth Departure',
+  1: 'The Moon',
+  2: 'Mars',
+  3: 'Ceres',
+  4: 'Jupiter Depot',
+  5: 'Enceladus',
+  6: 'Uranus',
+  7: 'Neptune',
+  8: 'Pluto',
+  9: 'The Heliopause',
+  10: 'Harbor (TOI-700 e)',
+};
+
 export function MissionLogbookModal({
   isOpen,
   onClose,
@@ -148,7 +162,7 @@ export function MissionLogbookModal({
                   >
                     <div className="truncate pr-1.5">
                       <span className="tabular-nums">Stop {stopIdx}: </span>
-                      <span>{item.locationName.split(' ')[0]}</span>
+                      <span>{CHAPTER_DESTINATIONS[stopIdx] || item.locationName.replace(/\s*\([^)]*\)/g, '').trim()}</span>
                     </div>
                     <span className="text-xs">
                       {isUnlocked ? (isSelected ? '●' : '✓') : ''}

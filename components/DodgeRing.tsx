@@ -26,6 +26,16 @@ export function DodgeRing({
   const angleRef = useRef(0);
   const animFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number | null>(null);
+  const actionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (actionTimerRef.current) {
+        clearTimeout(actionTimerRef.current);
+      }
+    };
+  }, []);
 
   // Fetch NeoWs object
   useEffect(() => {
@@ -55,15 +65,28 @@ export function DodgeRing({
 
   const handleAction = useCallback(() => {
     if (isPaused || resolved !== null) return;
+    if (actionTimerRef.current) {
+      clearTimeout(actionTimerRef.current);
+      actionTimerRef.current = null;
+    }
+
     const angle = angleRef.current;
     if (angle >= ARC_START && angle <= ARC_END) {
       setResolved('success');
       sound.playSuccess();
-      setTimeout(onSuccess, 450);
+      actionTimerRef.current = setTimeout(() => {
+        onSuccess();
+      }, 450);
     } else {
       setResolved('miss');
       sound.playMiss();
-      setTimeout(onMiss, 450);
+      actionTimerRef.current = setTimeout(() => {
+        onMiss();
+        setResolved(null);
+        angleRef.current = 0;
+        setCurrentAngle(0);
+        lastTimeRef.current = null;
+      }, 650);
     }
   }, [isPaused, resolved, onSuccess, onMiss]);
 

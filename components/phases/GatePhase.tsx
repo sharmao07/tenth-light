@@ -93,7 +93,7 @@ export function GatePhase({
           <div>
             <p className="label">Planetary Gate Challenge &middot; Clearance Required</p>
             <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-7xl tracking-tight text-paper mt-1">
-              {stopName.split(' ')[0]} <span className="font-extrabold text-paper">Station</span>
+              {stopName.replace(/\s*\([^)]*\)/g, '').trim()} <span className="font-extrabold text-paper">Station</span>
             </h1>
           </div>
 

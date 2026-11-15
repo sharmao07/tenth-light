@@ -115,6 +115,12 @@ export default function TenthLightGame() {
     const timer = setTimeout(() => {
       const saved = loadSave();
       setGameState(saved);
+      if (saved.phase === 'transit') {
+        const leg = FLIGHT_LEGS.find((l) => l.toStop === saved.currentStop);
+        if (leg) {
+          setTotalDodgesOnLeg(leg.dodges);
+        }
+      }
       sound.setMuted(saved.isMuted);
       if (typeof document !== 'undefined' && saved.reducedMotion) {
         document.documentElement.setAttribute('data-reduced-motion', 'true');
@@ -195,6 +201,7 @@ export default function TenthLightGame() {
           currentStop: gameState.checkpointStop,
           phase: gameState.checkpointStop === 0 ? 'hangar' : 'gate',
         });
+        setCurrentDodgeIndex(0);
         if (gameState.checkpointStop > 0) {
           const scripts = STOP_DIALOGUES[gameState.checkpointStop];
           if (scripts) {
@@ -223,6 +230,7 @@ export default function TenthLightGame() {
         collectedWater: false,
         collectedSoil: false,
       });
+      setCurrentDodgeIndex(0);
     }, 0);
   };
 
@@ -417,7 +425,7 @@ export default function TenthLightGame() {
               TRANSIT PROTOCOL &middot; ORBITAL INSERTION
             </span>
             <h2 className="font-serif font-extralight text-5xl md:text-7xl text-paper tracking-tight">
-              Stop <span className="tabular-nums">{transitionState.stopIdx}</span> <span className="font-extrabold text-paper block md:inline">&middot; {transitionState.stopName.split(' ')[0]}</span>
+              Stop <span className="tabular-nums">{transitionState.stopIdx}</span> <span className="font-extrabold text-paper block md:inline">&middot; {transitionState.stopName.replace(/\s*\([^)]*\)/g, '').trim()}</span>
             </h2>
             <div className="h-[1px] w-24 bg-signal mx-auto" />
             <p className="label text-paper-muted">
