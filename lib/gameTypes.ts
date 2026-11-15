@@ -191,6 +191,8 @@ export interface GameSaveState {
   collectedWater: boolean; // Harbor maze
   collectedSoil: boolean; // Harbor maze
   isMuted: boolean;
+  reducedMotion?: boolean;
+  soundCaptions?: boolean;
   lastUpdated: string;
 }
 

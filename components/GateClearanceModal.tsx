@@ -73,81 +73,78 @@ const GATE_CLEARANCE_DATA: Record<number, ClearanceInfo> = {
     notes: 'Keep your eyes on descending alien formation patterns. Muzzle flashes and trauma shake are active.',
   },
   5: {
-    title: 'Cryovolcanic Plume Sampling Target',
+    title: 'Enceladus Cryovolcanic Plume Sampling',
     destination: 'Stop 5 • Enceladus (Keeper: Spray)',
     distance: '9.58 AU',
-    objective: 'Target the south-polar cryovolcanic geyser jets photographed by NASA’s Cassini spacecraft.',
+    objective: 'Locate the south-pole cryovolcanic vapor plumes on authentic Cassini spacecraft imagery.',
     steps: [
-      'Examine the high-resolution Cassini photographic plate of Saturn’s ice moon Enceladus.',
-      'Identify the bright eruptive vapor plume venting from the south-pole tiger stripes.',
-      'Click directly on the south-polar plume to capture particulate flyby telemetry.',
+      'Analyze the thermal-composite surface photograph of Saturn’s moon Enceladus.',
+      'Target the active fractures (Tiger Stripes) situated across the south polar terrain.',
+      'Click directly into the south polar plume geyser zone to confirm hydro-chemical vapor sampling.',
     ],
-    controls: 'Click on the south-pole vapor plume region at the bottom of the planetary disc',
-    notes: 'Cassini flew directly through these water vapor and organic macromolecule plumes in 2008.',
+    controls: 'Click inside the south pole region on the Cassini radar plate',
+    notes: 'Cassini flew through Enceladus’ plumes in 2008, tasting salt, simple organics, and water vapor.',
   },
   6: {
-    title: 'Deep-Space Thermal Breaker Management',
+    title: 'Uranus 1/r² Thermal Margin & Breakers',
     destination: 'Stop 6 • Uranus (Keeper: Tilt)',
     distance: '19.2 AU',
-    objective: 'Keep the 55 W Alive Bus heated while surviving extreme solar irradiance dropoff.',
+    objective: 'Balance electrical bus load under severe solar dropoff ($1/r^2$) to protect avionics heaters.',
     steps: [
-      'At 19.2 AU, solar flux drops to 1/r² (~0.4 W). The +20 W heater activates for a 55 W survival bus.',
-      'Ensure the Radioisotope Thermoelectric Generator (RTG, 100 W flat) is powering the bus.',
-      'Keep Command Module (20W), High-Gain Antenna (15W), and Thermal Heater (20W) breakers CLOSED.',
-      'If total draw exceeds RTG supply, open the breaker for non-essential instruments (such as the Imager).',
+      'Solar irradiance drops to ~0.43 W per array at 19.2 AU; a 100 W RTG is mandatory for survival.',
+      'The critical survival bus requires 55 W (Computer 20W + Antenna 15W + Heater 20W).',
+      'Toggle circuit breakers so total active power draw remains at or below available generator watts.',
+      'Commit bus state once thermal stability is achieved.',
     ],
-    controls: 'Click circuit breaker toggle switches to Open / Close electrical lines',
-    notes: 'Without an RTG, a solar-only ship freezes at Uranus and is scrubbed to the hangar.',
+    controls: 'Click checkboxes to open/close appliance circuit breakers • Click [Commit Breaker Configuration]',
+    notes: 'If your vessel lacks an RTG, the bus will freeze and Tilt will scrub you back to the VAB hangar.',
   },
   7: {
-    title: 'Light-Speed Command Latency Test',
+    title: 'Neptune Light-Lag Buffering',
     destination: 'Stop 7 • Neptune (Keeper: Lag)',
     distance: '30.1 AU',
-    objective: 'Demonstrate patience under true interplanetary communication delay.',
+    objective: 'Buffer command packets across the 4.17-hour one-way speed-of-light propagation delay.',
     steps: [
-      'At 30.1 AU, radio signals take 4.17 hours each way. The simulation tests this with a 7-second cooldown.',
-      'Send a single gate clearance command by pressing [Transmit Clearance Signal].',
-      'Wait the full 7 seconds without sending a second command or spamming inputs.',
-      'A second command while the line is pending causes buffer overload and resets the timer.',
+      'Initiate orbital burn handshake across the deep-space communications channel.',
+      'Wait out the 7-second simulated telemetry buffer countdown.',
+      'Transmit burn completion packet once the radio carrier lock synchronizes.',
     ],
-    controls: 'Click [Transmit Clearance Signal] ONCE • Wait 7.0 seconds uninterrupted',
-    notes: 'Pausing the game via [Esc] freezes the countdown safely without penalty.',
+    controls: 'Click [Initiate Light-Lag Handshake] • Await timer countdown • Click [Transmit Burn Packet]',
+    notes: 'At 30 AU, radio signals take 4 hours and 10 minutes each way. Patience is an astrodynamics reality.',
   },
   8: {
-    title: 'Tombaugh Regio Feature Identification',
-    destination: 'Stop 8 • Pluto (Keeper: Heart ♥)',
+    title: 'Kuiper Belt Visual Identification',
+    destination: 'Stop 8 • Pluto (Keeper: Heart)',
     distance: '39.5 AU',
-    objective: 'Identify the iconic nitrogen-ice heart feature discovered by NASA’s New Horizons.',
+    objective: 'Select the authentic New Horizons high-resolution photograph of Tombaugh Regio.',
     steps: [
-      'Examine the New Horizons flyby photograph of dwarf planet Pluto.',
-      'Locate Tombaugh Regio, the bright heart-shaped nitrogen ice plain.',
-      'Click the heart region ♥. Do not select the dark equatorial tholin plains (Cthulhu Macula).',
+      'Compare three visual reconnaissance plates of dwarf planets and icy satellites.',
+      'Locate Tombaugh Regio, the famous nitrogen-ice heart discovered by New Horizons in 2015.',
+      'Confirm the visual target to obtain Kuiper belt flyby clearance.',
     ],
-    controls: 'Click on the bright heart-shaped plain (Tombaugh Regio ♥)',
-    notes: '“A photograph is not a soil sample.” The heart emoji ♥ is the official speaker portrait and map icon.',
+    controls: 'Click the photographic plate displaying Pluto’s bright nitrogen heart (Tombaugh Regio)',
+    notes: '“A photograph is not a soil sample, but it proves we arrived.”',
   },
   9: {
-    title: 'Interstellar Science Return Sequence',
+    title: 'Interstellar Boundary Packet Ordering',
     destination: 'Stop 9 • Heliopause (Keeper: Whisper)',
-    distance: '122 AU (Voyager 1 Crossing Boundary)',
-    objective: 'Transmit scientific packets in exact priority order before crossing into the interstellar medium.',
+    distance: '122 AU',
+    objective: 'Reconstruct fragmented Voyager telemetry packets scrambled across the interstellar magnetic shear.',
     steps: [
-      'Voyager 1 crossed the solar heliopause in August 2012 at ~121.6 AU.',
-      'Arrange packets in strict scientific sequence:',
-      '1. Water & Soil Sample Readings (Highest scientific value)',
-      '2. Power & Navigation Engineering Log',
-      '3. Specialist Postcard / Crew Sign-off',
+      'Review the 4 corrupted data packets from the interstellar plasma boundary.',
+      'Drag or click sequence buttons to arrange packets in chronological chronological order [1, 2, 3, 4].',
+      'Verify the telemetry stream to clear the final solar system threshold.',
     ],
-    controls: 'Click packets in the correct numerical order (1 → 2 → 3)',
-    notes: 'Selecting an out-of-order packet resets the sequence buffer without penalty.',
+    controls: 'Click [▲ Up / Down ▼] or click packets in correct numerical order',
+    notes: 'Voyager 1 crossed the heliopause in August 2012 at 121.6 AU, recording a jump in galactic cosmic rays.',
   },
   10: {
-    title: 'Harbor Surface Sleeve Deployment',
-    destination: 'Stop 10 • TOI-700 e (Harbor)',
-    distance: '101.5 Light Years (Exoplanet Archive Transit Target)',
-    objective: 'Deploy Droid Nori across the alien sample sleeve to gather Water and Soil canisters.',
+    title: 'Harbor Surface Sample Extraction',
+    destination: 'Stop 10 • Harbor (TOI-700 e)',
+    distance: '101.5 light-years (31.13 parsecs)',
+    objective: 'Deploy Droid Nori across the cryogenic exoplanet surface to extract water and soil canisters.',
     steps: [
-      'The ship stays in orbit; the hatch stays shut. Nori walks the cold surface sleeve.',
+      'The ship stays in orbit; the cabin hatch stays shut. Nori walks the cold surface sleeve.',
       'Navigate Nori through the 2D maze using WASD or Arrow Keys.',
       'Collect the Amber Key to unlock the Red Laser Gate barrier.',
       'Collect 2 Water Canisters (Hydro-chemical vapor) and 2 Soil Canisters (Regolith cores).',
@@ -180,40 +177,45 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
   if (!isOpen || !info) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#0a0c10]/90 flex items-center justify-center p-6 backdrop-blur-none animate-fadeIn select-none">
-      <div className="w-full max-w-xl bg-[#0a0c10] border border-[#f0562b] text-[#e9e6dc] flex flex-col max-h-[90vh]">
+    <div 
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="clearance-directive-title"
+      className="fixed inset-0 z-50 bg-void/90 flex items-center justify-center p-4 md:p-6 backdrop-blur-none animate-fadeIn select-none"
+    >
+      <div className="w-full max-w-xl bg-void border border-signal text-paper flex flex-col max-h-[90vh]">
         {/* Dossier Modal Header */}
-        <div className="border-b border-[#e9e6dc]/15 px-8 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 bg-[#f0562b]" />
-            <span className="font-mono text-xs uppercase tracking-widest text-[#f0562b] font-bold">
-              CLEARANCE DIRECTIVE // PROTOCOL #{stopIndex}
+        <div className="border-b border-paper/15 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 bg-signal" aria-hidden="true" />
+            <span className="label text-signal">
+              CLEARANCE DIRECTIVE &middot; PROTOCOL #<span className="tabular-nums">{stopIndex}</span>
             </span>
           </div>
-          <span className="font-mono text-[11px] text-[#e9e6dc]/40">
+          <span className="label text-paper-muted">
             [ESC / SPACE TO DISMISS]
           </span>
         </div>
 
         {/* Modal Body */}
-        <div className="p-8 md:p-10 space-y-6 overflow-y-auto leading-relaxed text-sm">
+        <div className="p-6 md:p-8 space-y-5 overflow-y-auto leading-relaxed text-sm">
           {/* Destination & Title */}
           <div>
             <p className="label">{info.destination}</p>
-            <h2 className="font-serif font-extralight text-3xl md:text-4xl text-[#e9e6dc] mt-1 tracking-tight">
+            <h2 id="clearance-directive-title" className="font-serif font-extralight text-2xl md:text-3xl text-paper mt-1 tracking-tight">
               {info.title}
             </h2>
-            <div className="font-mono text-xs text-[#e9e6dc]/60 mt-1">
-              Mission Distance: <span className="text-[#f0562b] font-bold">{info.distance}</span>
+            <div className="label text-paper-muted mt-1 tabular-nums">
+              Mission Distance: <span className="text-signal font-bold">{info.distance}</span>
             </div>
           </div>
 
           {/* Objective Box */}
-          <div className="border border-[#e9e6dc]/15 p-5 bg-[#0a0c10]">
-            <span className="label text-[#f0562b] block mb-1">
+          <div className="border border-paper/15 p-4 bg-void">
+            <span className="label text-signal block mb-1">
               Primary Directive
             </span>
-            <p className="font-serif text-base text-[#e9e6dc]">
+            <p className="font-serif text-base text-paper m-0">
               {info.objective}
             </p>
           </div>
@@ -223,33 +225,33 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
             <span className="label block mb-2">
               Clearance Sequence
             </span>
-            <ol className="space-y-2 list-decimal list-inside font-mono text-xs text-[#e9e6dc]/80 pl-1">
+            <ol className="space-y-1.5 list-decimal list-inside font-mono text-xs text-paper-muted pl-1">
               {info.steps.map((step, idx) => (
                 <li key={idx} className="leading-relaxed">
-                  <span className="font-sans text-sm">{step}</span>
+                  <span className="font-sans text-sm text-paper">{step}</span>
                 </li>
               ))}
             </ol>
           </div>
 
           {/* Controls Bar */}
-          <div className="border border-[#e9e6dc]/15 p-4 bg-[#0a0c10] font-mono text-xs">
-            <span className="text-[#e9e6dc] font-bold block mb-1 uppercase tracking-wider">
+          <div className="border border-paper/15 p-3.5 bg-void font-mono text-xs">
+            <span className="label text-paper block mb-1">
               Workstation Controls:
             </span>
-            <span className="text-[#e9e6dc]/80">{info.controls}</span>
+            <span className="text-paper-muted">{info.controls}</span>
           </div>
 
           {/* Technical Note */}
-          <div className="font-serif text-xs text-[#e9e6dc]/60 italic border-l border-[#f0562b] pl-4 py-1 leading-relaxed">
+          <div className="font-serif text-xs text-paper-muted italic border-l border-signal pl-4 py-1 leading-relaxed">
             Note: {info.notes}
           </div>
         </div>
 
         {/* Modal Action Footer */}
-        <div className="border-t border-[#e9e6dc]/15 px-8 py-5 flex items-center justify-between gap-4">
-          <div className="font-mono text-xs text-[#e9e6dc]/50 hidden sm:block">
-            Press <kbd className="px-1.5 py-0.5 border border-[#e9e6dc]/20">Space</kbd> to engage
+        <div className="border-t border-paper/15 px-6 py-4 flex items-center justify-between gap-4">
+          <div className="font-mono text-xs text-paper-muted hidden sm:block">
+            Press <kbd className="px-1.5 py-0.5 border border-paper/30">Space</kbd> to engage
           </div>
           <button
             onClick={() => {
@@ -259,7 +261,8 @@ export function GateClearanceModal({ stopIndex, isOpen, onClose }: GateClearance
             onMouseEnter={() => sound.playHoverBlip()}
             className="btn w-full sm:w-auto"
           >
-            Acknowledge &amp; engage protocol &rarr;
+            <span>Acknowledge &amp; engage protocol</span>
+            <span aria-hidden="true">&rarr;</span>
           </button>
         </div>
       </div>

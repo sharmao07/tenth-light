@@ -78,119 +78,117 @@ archive's numbers. The aliens, the depot fight, and the droid are the story."
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-6">
+    <section aria-labelledby="certificate-heading" className="w-full max-w-4xl mx-auto my-8">
       {/* Interactive Controls Bar (Hidden during print) */}
-      <div className="no-print flex flex-wrap items-center justify-between gap-6 p-6 bg-[#0f1217] border border-[#f0562b]/40 rounded-t-lg">
+      <div className="no-print flex flex-wrap items-center justify-between gap-6 p-6 bg-surface-raised border border-signal/40">
         <div className="flex items-center gap-3">
-          <span className="text-lg"></span>
-          <span className="text-xs md:text-sm text-[#f0562b] font-bold uppercase tracking-wider">
-            Official Mission Flight Manifest & Printable Certificate (pdfcn / snapcn)
+          <span className="label text-signal">
+            Official Mission Flight Manifest & Printable Certificate
           </span>
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4">
           <a
             href="/presentation"
-            className="sensory-btn px-6 py-3 bg-[#12151b] hover:bg-[#e9e6dc]/20 border border-[#e9e6dc] text-xs tracking-wide rounded text-[#e9e6dc] flex items-center gap-2"
+            className="sensory-btn px-5 py-2.5 bg-void hover:bg-paper/20 border border-paper text-xs uppercase font-mono tracking-wider text-paper flex items-center gap-2"
             title="View 7-Slide Space Apps Demonstration Deck"
           >
-            <span>7-Slide Demo Deck</span>
+            <span>7-Slide Demo</span>
           </a>
 
           <button
             onClick={handleCopyManifest}
-            className="sensory-btn px-6 py-3 bg-[#12151b] hover:bg-[#e9e6dc]/10 border border-[#e9e6dc]/30 text-xs tracking-wide rounded text-[#e9e6dc] flex items-center gap-2"
+            className="sensory-btn px-5 py-2.5 bg-void hover:bg-paper/10 border border-paper/30 text-xs uppercase font-mono tracking-wider text-paper flex items-center gap-2"
             title="Copy plain-text manifest to clipboard"
           >
-            <span>{copiedToast ? 'Copied to Clipboard!' : 'Copy Manifest'}</span>
+            <span className="tabular-nums">{copiedToast ? 'Copied to Clipboard' : 'Copy Manifest'}</span>
           </button>
 
           <button
             onClick={handlePrint}
-            className="sensory-btn px-8 py-3 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] text-xs tracking-wide rounded flex items-center gap-2 shadow-md"
+            className="sensory-btn px-6 py-2.5 bg-signal hover:bg-signal-hover text-void text-xs uppercase font-mono font-bold tracking-wider flex items-center gap-2"
             title="Open browser print dialog to save as PDF"
           >
-            <span>Print / Save PDF</span>
+            <span>Print / Save PDF &rarr;</span>
           </button>
         </div>
       </div>
 
-      {/* The Printable Certificate Sheet */}
-      <div className="printable-document p-12 md:p-12 bg-[#e9e6dc] text-[#12151b] border border-[#f0562b] rounded-b-lg font-serif shadow-2xl relative select-text">
-        {/* Subtle Watermark or Corner Framing */}
-        <div className="border-4 border-double border-[#12151b]/40 p-10 md:p-12 space-y-10">
+      {/* The Printable Certificate Sheet (Optimized for Screen & Print) */}
+      <div className="printable-document p-8 md:p-12 bg-paper text-void border border-paper font-sans relative select-text">
+        <div className="certificate-inner border-2 border-void/30 p-8 md:p-10 space-y-8">
           {/* Header */}
-          <div className="text-center space-y-3 border-b-2 border-[#12151b]/20 pb-8">
-            <div className="text-xs uppercase tracking-widest text-[#12151b]/70 font-bold">
-              PLANETARY EXPLORATION DIRECTORATE • MISSION RECONNAISSANCE OFFICE
-            </div>
-            <h2 className="text-2xl md:text-4xl font-bold tracking-wider text-[#12151b]">
-              CERTIFICATE OF MISSION COMPLETION
+          <div className="text-center space-y-2 border-b border-void/20 pb-6">
+            <span className="label text-void/80 font-bold">
+              Planetary Exploration Directorate &middot; Mission Reconnaissance Office
+            </span>
+            <h2 id="certificate-heading" className="text-3xl md:text-5xl font-serif font-extrabold tracking-tight text-void">
+              Certificate of Mission Completion
             </h2>
-            <div className="text-sm italic text-[#12151b]/80">
-              Deep Space Exploration Vessel: <span className="font-bold">Tenth Light</span> (TL-2026-TOI700E)
+            <div className="text-sm font-sans italic text-void/80 pt-1">
+              Deep Space Exploration Vessel: <span className="font-bold text-void">Tenth Light</span> (<span className="font-mono tabular-nums">TL-2026-TOI700E</span>)
             </div>
           </div>
 
           {/* Verdict Banner */}
-          <div className={`p-6 text-center rounded border font-bold text-sm md:text-base ${
+          <div className={`p-4 text-center border font-mono font-bold text-xs md:text-sm tracking-wider uppercase ${
             isFullyCertified
-              ? 'bg-[#f0562b]/20 border-[#f0562b] text-[#12151b]'
+              ? 'bg-signal/15 border-signal text-void'
               : isPartiallyCertified
-              ? 'bg-[#12151b]/10 border-[#12151b]/40 text-[#12151b]'
-              : 'bg-[#f0562b]/15 border-[#f0562b] text-[#f0562b]'
+              ? 'bg-void/10 border-void/40 text-void'
+              : 'bg-signal/20 border-signal text-signal'
           }`}>
-            VERDICT: {statusLabel}
+            Verdict: {statusLabel}
           </div>
 
           {/* Personnel & Mission Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-xs md:text-sm pt-3">
-            <div className="p-6 bg-[#12151b]/5 rounded border border-[#12151b]/20 space-y-3">
-              <div className="font-bold uppercase tracking-wider border-b border-[#12151b]/20 pb-1.5 text-[#12151b]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs md:text-sm pt-2">
+            <div className="p-5 bg-void/5 border border-void/15 space-y-2.5">
+              <h3 className="label text-void border-b border-void/20 pb-1.5">
                 Flight Personnel
-              </div>
-              <div>• Command Specialist: <span className="font-bold">{callsign}</span> (Never Left Seat)</div>
-              <div>• Sample Recovery Droid: <span className="font-bold">Nori</span> (Astromech Sleeve Probe)</div>
-              <div>• Target Exoplanet: <span className="font-bold">TOI-700 e</span> (Nicknamed Harbor)</div>
-              <div>• Real Distance: <span className="font-bold">31.13 parsecs (101.5 light-years)</span></div>
+              </h3>
+              <div className="text-void/90">&bull; Command Specialist: <span className="font-bold text-void">{callsign}</span> (Never Left Seat)</div>
+              <div className="text-void/90">&bull; Sample Recovery Droid: <span className="font-bold text-void">Nori</span> (Astromech Sleeve Probe)</div>
+              <div className="text-void/90">&bull; Target Exoplanet: <span className="font-bold text-void">TOI-700 e</span> (Nicknamed Harbor)</div>
+              <div className="text-void/90">&bull; Real Astrometric Distance: <span className="font-bold font-mono tabular-nums text-void">31.13 parsecs (101.5 ly)</span></div>
             </div>
 
-            <div className="p-6 bg-[#12151b]/5 rounded border border-[#12151b]/20 space-y-3">
-              <div className="font-bold uppercase tracking-wider border-b border-[#12151b]/20 pb-1.5 text-[#12151b]">
+            <div className="p-5 bg-void/5 border border-void/15 space-y-2.5">
+              <h3 className="label text-void border-b border-void/20 pb-1.5">
                 Vessel Engineering Specs
-              </div>
-              <div>• Launcher Stack: <span className="font-bold">{design.launcherId.toUpperCase()}</span> (Cap: {metrics.massCap} kg)</div>
-              <div>• Total Vessel Dry Mass: <span className="font-bold">{metrics.totalMass} kg</span></div>
-              <div>• Patched-Conic Delta-v: <span className="font-bold">{metrics.totalDeltaV} m/s</span></div>
-              <div>• Uranus Thermal Supply (19.2 AU): <span className="font-bold">{metrics.uranusSupplyWatts.toFixed(1)} W</span> (Req: 55 W)</div>
+              </h3>
+              <div className="text-void/90">&bull; Launcher Architecture: <span className="font-bold font-mono text-void">{design.launcherId.toUpperCase()}</span> (Cap: <span className="font-mono tabular-nums">{metrics.massCap} kg</span>)</div>
+              <div className="text-void/90">&bull; Total Vessel Dry Mass: <span className="font-bold font-mono tabular-nums text-void">{metrics.totalMass} kg</span></div>
+              <div className="text-void/90">&bull; Patched-Conic Delta-v: <span className="font-bold font-mono tabular-nums text-void">{metrics.totalDeltaV} m/s</span></div>
+              <div className="text-void/90">&bull; Uranus Thermal Supply (19.2 AU): <span className="font-bold font-mono tabular-nums text-void">{metrics.uranusSupplyWatts.toFixed(1)} W</span> (Req: 55 W)</div>
             </div>
           </div>
 
           {/* Scientific Sample Verification */}
-          <div className="p-6 bg-[#12151b]/5 rounded border border-[#12151b]/20 space-y-5 text-xs md:text-sm">
-            <div className="font-bold uppercase tracking-wider border-b border-[#12151b]/20 pb-1.5 text-[#12151b]">
+          <div className="p-5 bg-void/5 border border-void/15 space-y-4 text-xs md:text-sm">
+            <h3 className="label text-void border-b border-void/20 pb-1.5">
               Physical Science Payload Verification
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-center justify-between p-4 bg-white/60 rounded border border-[#12151b]/15">
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center justify-between p-3.5 bg-paper/60 border border-void/15">
                 <div>
-                  <div className="font-bold text-[#12151b]">Hydro-Chemical (Mass Spectrometer)</div>
-                  <div className="text-xs text-[#12151b]/70">Water vapor/ice certification node</div>
+                  <div className="font-bold text-void">Hydro-Chemical (Mass Spectrometer)</div>
+                  <div className="text-xs text-void/75">Water vapor/ice certification node</div>
                 </div>
-                <span className={`px-3 py-1.5 rounded text-xs font-bold ${
-                  hasWaterCert ? 'bg-[#e9e6dc]/30 text-[#12151b] border border-[#e9e6dc]' : 'bg-[#f0562b]/20 text-[#f0562b]'
+                <span className={`px-2.5 py-1 font-mono text-xs font-bold ${
+                  hasWaterCert ? 'bg-void text-paper' : 'bg-signal/20 text-signal border border-signal'
                 }`}>
                   {hasWaterCert ? '✓ CERTIFIED' : '✕ UNCONFIRMED'}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-white/60 rounded border border-[#12151b]/15">
+              <div className="flex items-center justify-between p-3.5 bg-paper/60 border border-void/15">
                 <div>
-                  <div className="font-bold text-[#12151b]">Litho-Core (Regolith Drill)</div>
-                  <div className="text-xs text-[#12151b]/70">Physical surface regolith canister</div>
+                  <div className="font-bold text-void">Litho-Core (Regolith Drill)</div>
+                  <div className="text-xs text-void/75">Physical surface regolith canister</div>
                 </div>
-                <span className={`px-3 py-1.5 rounded text-xs font-bold ${
-                  hasSoilCert ? 'bg-[#f0562b]/30 text-[#12151b] border border-[#f0562b]' : 'bg-[#f0562b]/20 text-[#f0562b]'
+                <span className={`px-2.5 py-1 font-mono text-xs font-bold ${
+                  hasSoilCert ? 'bg-void text-paper' : 'bg-signal/20 text-signal border border-signal'
                 }`}>
                   {hasSoilCert ? '✓ CERTIFIED' : '✕ UNCONFIRMED'}
                 </span>
@@ -199,25 +197,25 @@ archive's numbers. The aliens, the depot fight, and the droid are the story."
           </div>
 
           {/* The Required Honesty Statement */}
-          <div className="text-center text-xs font-serif italic text-[#12151b]/80 p-5 bg-white/40 rounded border border-[#12151b]/10 leading-relaxed">
-            “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive’s numbers. The aliens, the depot fight, and the droid are the story.”
-          </div>
+          <blockquote className="text-center text-xs font-serif italic text-void/85 p-4 bg-void/5 border border-void/10 leading-relaxed m-0">
+            &ldquo;Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive&rsquo;s numbers. The aliens, the depot fight, and the droid are the story.&rdquo;
+          </blockquote>
 
           {/* Signatures & Seal */}
-          <div className="pt-6 border-t-2 border-[#12151b]/20 flex justify-between items-end text-xs">
+          <div className="pt-4 border-t border-void/20 flex justify-between items-end text-xs">
             <div>
-              <div className="border-b border-[#12151b] w-48 mb-1" />
-              <div className="font-bold">Directorate Field Seal</div>
-              <div className="text-xs text-[#12151b]/60">NASA Space Apps 2026</div>
+              <div className="border-b border-void w-44 mb-1" />
+              <div className="font-bold text-void">Directorate Field Seal</div>
+              <div className="label text-void/70 font-mono">NASA Space Apps 2026</div>
             </div>
             <div className="text-right">
-              <div className="border-b border-[#12151b] w-48 mb-1" />
-              <div className="font-bold">Specialist {callsign}</div>
-              <div className="text-xs text-[#12151b]/60">Flight Specialist In Command</div>
+              <div className="border-b border-void w-44 mb-1" />
+              <div className="font-bold text-void">Specialist {callsign}</div>
+              <div className="label text-void/70 font-mono">Flight Specialist In Command</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

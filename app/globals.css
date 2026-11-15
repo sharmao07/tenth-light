@@ -2,6 +2,12 @@
 
 /* Tenth Light: see DESIGN.md. One dominant colour (void), one accent (signal). Everything else is paper at varying opacity. */
 @theme {
+  --color-void: var(--void);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-signal: var(--signal);
+  --color-signal-hover: var(--signal-hover);
+  --color-paper: var(--paper);
   --font-serif: var(--font-display), Georgia, serif;
   --font-sans: var(--font-body), "Helvetica Neue", sans-serif;
   --font-mono: var(--font-data), ui-monospace, Menlo, monospace;
@@ -9,8 +15,17 @@
 
 :root {
   --void: #0a0c10;
+  --surface: #0e1116;
+  --surface-raised: #12151b;
   --signal: #f0562b;
+  --signal-hover: #cf4520;
+  --signal-dim: rgba(240, 86, 43, 0.22);
   --paper: #e9e6dc;
+  --paper-high: #ffffff;
+  --paper-body: rgba(233, 230, 220, 0.90);
+  --paper-muted: rgba(233, 230, 220, 0.72);
+  --paper-dim: rgba(233, 230, 220, 0.60);
+  --paper-faint: rgba(233, 230, 220, 0.16);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   /* legacy aliases */
   --bg-dark: var(--void); --ink: var(--void); --amber: var(--signal); --blood: var(--signal);
@@ -26,10 +41,15 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-h1, h2, h3, .font-serif { font-family: var(--font-serif); font-weight: 300; letter-spacing: -0.02em; line-height: 1.05; font-optical-sizing: auto; }
+h1, h2, h3, h4, .font-serif { font-family: var(--font-serif); font-weight: 300; letter-spacing: -0.02em; line-height: 1.05; font-optical-sizing: auto; }
 p { text-wrap: pretty; }
 ::selection { background: var(--signal); color: var(--void); }
-:focus-visible { outline: 1px solid var(--paper); outline-offset: 4px; }
+
+/* High-contrast, razor-sharp focus ring for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--signal) !important;
+  outline-offset: 3px !important;
+}
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--void); }
@@ -41,6 +61,12 @@ p { text-wrap: pretty; }
 .text-sm { font-size: 0.9375rem !important; line-height: 1.75 !important; }
 .leading-relaxed { line-height: 1.85 !important; }
 .uppercase { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em !important; font-weight: 400; }
+
+/* Tabular figures for numbers, counters, timestamps, coordinates */
+.tabular-nums, [data-metric], table, th, td, .stat-value, .telemetry-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
 
 /* Flat and square; no shadows or glows. */
 .rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-r, .rounded-t, .rounded-b { border-radius: 0 !important; }
@@ -54,8 +80,18 @@ button, a, input, .sensory-btn { transition: color 0.4s var(--ease), background-
 .sensory-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 [class*="border-[#e9e6dc]/20"], [class*="border-[#e9e6dc]/30"], [class*="border-[#e9e6dc]/40"] { border-color: rgba(233, 230, 220, 0.16) !important; }
 
-/* Type roles */
-.label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(233, 230, 220, 0.55); display: block; }
+/* Type roles & consistent small-caps labels */
+.label, .small-caps {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variant-caps: all-small-caps;
+  font-feature-settings: "c2sc" 1, "smcp" 1;
+  color: var(--paper-muted);
+  display: inline-block;
+}
+
 .display-xl { font-size: clamp(5rem, 15vw, 15rem); line-height: 0.86; letter-spacing: -0.04em; font-variation-settings: "opsz" 144; }
 .field { width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(233, 230, 220, 0.3); padding: 0.75rem 0; font-family: var(--font-serif); font-size: 2rem; font-weight: 300; color: var(--paper); border-radius: 0; }
 .field:focus { outline: none; border-color: var(--signal); }
@@ -66,11 +102,38 @@ button, a, input, .sensory-btn { transition: color 0.4s var(--ease), background-
 .index-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(233, 230, 220, 0.16); }
 .index-list li { border-bottom: 1px solid rgba(233, 230, 220, 0.16); }
 .index-list a, .index-list button { display: flex; width: 100%; align-items: baseline; justify-content: space-between; padding: 1.1rem 0; background: none; border: 0; color: var(--paper); font-size: 1.05rem; text-align: left; cursor: pointer; text-decoration: none; }
-.index-list em { font-style: normal; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(233, 230, 220, 0.45); }
+.index-list em { font-style: normal; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--paper-muted); }
 .index-list a:hover, .index-list button:hover { color: var(--signal); padding-left: 0.5rem; }
 
 /* Panels: one hairline, generous inner space. */
-.tui-frame { border: 1px solid rgba(233, 230, 220, 0.16); background: #0e1116; }
+.tui-frame { border: 1px solid rgba(233, 230, 220, 0.16); background: var(--surface); }
+
+/* Universal CSS Variable Fallbacks for Hard-Coded Hexes: One edit in :root changes everything */
+[class*="bg-[#0a0c10]"] { background-color: var(--void) !important; }
+[class*="bg-[#0e1116]"] { background-color: var(--surface) !important; }
+[class*="bg-[#12151b]"] { background-color: var(--surface-raised) !important; }
+[class*="bg-[#0f1217]"] { background-color: var(--surface-raised) !important; }
+[class*="bg-[#f0562b]"] { background-color: var(--signal) !important; }
+[class*="bg-[#cf4520]"] { background-color: var(--signal-hover) !important; }
+[class*="bg-[#e9e6dc]"] { background-color: var(--paper) !important; }
+
+[class*="text-[#0a0c10]"] { color: var(--void) !important; }
+[class*="text-[#12151b]"] { color: var(--void) !important; }
+[class*="text-[#f0562b]"] { color: var(--signal) !important; }
+[class*="text-[#cf4520]"] { color: var(--signal-hover) !important; }
+[class*="text-[#e9e6dc]"] { color: var(--paper) !important; }
+
+[class*="border-[#0a0c10]"] { border-color: var(--void) !important; }
+[class*="border-[#12151b]"] { border-color: rgba(233, 230, 220, 0.2) !important; }
+[class*="border-[#f0562b]"] { border-color: var(--signal) !important; }
+[class*="border-[#e9e6dc]"] { border-color: var(--paper) !important; }
+
+/* Elevated contrast for secondary and dim text to guarantee WCAG AA (>4.5:1 on void) */
+.text-paper\/40, .text-paper\/45, .text-paper\/50, .text-paper\/55,
+[class*="text-[#e9e6dc]/40"], [class*="text-[#e9e6dc]/45"], [class*="text-[#e9e6dc]/50"], [class*="text-[#e9e6dc]/55"],
+[class*="text-[#e9e6dc]/60"] {
+  color: var(--paper-muted) !important;
+}
 
 @keyframes screenShake { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-3px,1px)} 50%{transform:translate(3px,-1px)} 75%{transform:translate(-2px,0)} }
 .animate-shake { animation: screenShake 0.22s ease-in-out; }
@@ -78,13 +141,36 @@ button, a, input, .sensory-btn { transition: color 0.4s var(--ease), background-
 .animate-warp { animation: warpFlash 0.6s var(--ease); }
 @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
 .animate-fadeIn { animation: fadeIn 0.9s var(--ease) both; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 
-/* Print Stylesheet for pdfcn-inspired Flight Certificate Export */
+/* Reduced Motion: System query OR in-game data-reduced-motion attribute */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Print Stylesheet for Flight Certificate Export in the same Fraunces/Martian Mono type system */
 @media print {
+  @page {
+    size: landscape;
+    margin: 12mm;
+  }
+
   body {
     background: #ffffff !important;
-    color: #1a1714 !important;
+    color: #100e0c !important;
+    font-family: var(--font-sans) !important;
   }
   
   header, footer, nav, button, .no-print {
@@ -96,15 +182,26 @@ button, a, input, .sensory-btn { transition: color 0.4s var(--ease), background-
   }
 
   .printable-document {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: static !important;
     width: 100% !important;
+    max-width: 100% !important;
     margin: 0 !important;
-    padding: 2.5cm 2cm !important;
+    padding: 0 !important;
     background: #ffffff !important;
     color: #100e0c !important;
     border: none !important;
     box-shadow: none !important;
+  }
+
+  .certificate-frame {
+    border: 2px solid #100e0c !important;
+    padding: 10mm !important;
+    background: #ffffff !important;
+    color: #100e0c !important;
+  }
+
+  .certificate-inner {
+    border: 1px solid rgba(16, 14, 12, 0.3) !important;
+    padding: 8mm !important;
   }
 }

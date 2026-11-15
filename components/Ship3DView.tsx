@@ -390,30 +390,40 @@ export function Ship3DView({
       const delta = clock.getDelta();
       const elapsed = clock.getElapsedTime();
 
-      // Calm camera drift: meditative, slow cosmic orbit around the vessel
-      const driftTime = elapsed * 0.08;
-      const baseRadius = cruiseMode ? 7.2 : 6.4;
-      const driftCamX = Math.sin(driftTime) * (baseRadius * 0.35) + 3.2;
-      const driftCamY = (cruiseMode ? 2.2 : 1.8) + Math.sin(driftTime * 0.7) * 0.25;
-      const driftCamZ = Math.cos(driftTime) * (baseRadius * 0.35) + 5.6;
+      const isReducedMotion =
+        typeof document !== 'undefined' &&
+        (document.documentElement.getAttribute('data-reduced-motion') === 'true' ||
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-      if (!isDragging) {
-        camera.position.set(driftCamX, driftCamY, driftCamZ);
+      if (!isReducedMotion) {
+        // Calm camera drift: meditative, slow cosmic orbit around the vessel
+        const driftTime = elapsed * 0.08;
+        const baseRadius = cruiseMode ? 7.2 : 6.4;
+        const driftCamX = Math.sin(driftTime) * (baseRadius * 0.35) + 3.2;
+        const driftCamY = (cruiseMode ? 2.2 : 1.8) + Math.sin(driftTime * 0.7) * 0.25;
+        const driftCamZ = Math.cos(driftTime) * (baseRadius * 0.35) + 5.6;
+
+        if (!isDragging) {
+          camera.position.set(driftCamX, driftCamY, driftCamZ);
+          camera.lookAt(0, 0.35, 0);
+
+          // Very gentle attitude stabilization drift on ship
+          targetRotationY = Math.sin(driftTime * 0.5) * 0.12 + (cruiseMode ? -0.2 : 0.4);
+          targetRotationX = Math.cos(driftTime * 0.4) * 0.04;
+        }
+      } else if (!isDragging) {
+        camera.position.set(cruiseMode ? 4 : 3.5, cruiseMode ? 2.5 : 2, cruiseMode ? 7 : 6.5);
         camera.lookAt(0, 0.35, 0);
-
-        // Very gentle attitude stabilization drift on ship
-        targetRotationY = Math.sin(driftTime * 0.5) * 0.12 + (cruiseMode ? -0.2 : 0.4);
-        targetRotationX = Math.cos(driftTime * 0.4) * 0.04;
       }
 
       shipGroup.rotation.y += (targetRotationY - shipGroup.rotation.y) * 0.05;
       shipGroup.rotation.x += (targetRotationX - shipGroup.rotation.x) * 0.05;
 
       if (plumeMesh) {
-        plumeMesh.scale.y = 1 + Math.sin(elapsed * 25) * 0.15;
+        plumeMesh.scale.y = isReducedMotion ? 1 : 1 + Math.sin(elapsed * 25) * 0.15;
       }
 
-      if (stars && starPositions) {
+      if (stars && starPositions && !isReducedMotion) {
         const positions = stars.geometry.attributes.position.array as Float32Array;
         for (let i = 2; i < positions.length; i += 3) {
           positions[i] += delta * 15;

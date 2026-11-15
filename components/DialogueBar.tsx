@@ -89,8 +89,9 @@ export function DialogueBar({
   if (!currentLine) return null;
 
   return (
-    <div
-      className={`fixed bottom-0 left-0 right-0 min-h-[130px] bg-[#12151b] border-t-2 border-[#f0562b] text-[#e9e6dc] px-6 py-5 select-none z-40 shadow-2xl transition-all ${className}`}
+    <section
+      aria-label="Mission Dialogue Comms"
+      className={`fixed bottom-0 left-0 right-0 min-h-[130px] bg-surface-raised border-t-2 border-signal text-paper px-6 py-5 select-none z-40 transition-all ${className}`}
     >
       <div className="flex flex-col md:flex-row items-center gap-6 max-w-6xl mx-auto w-full">
         {/* Pixel Portrait */}
@@ -100,32 +101,32 @@ export function DialogueBar({
 
         {/* Content: Relaxed, clear, non-compact typography */}
         <div className="flex-1 min-w-0 w-full py-0.5">
-          <div className="flex items-center gap-5 mb-1.5">
-            <span className="font-serif text-base md:text-lg text-[#f0562b] tracking-wide">
+          <div className="flex items-center gap-4 mb-1.5 flex-wrap">
+            <span className="font-serif text-base md:text-lg text-signal tracking-wide">
               {currentLine.speakerName}
             </span>
-            <span className="text-xs text-[#e9e6dc]/60 uppercase tracking-widest ">
-              [Line {currentIndex + 1} of {lines.length}]
+            <span className="label text-paper-muted">
+              [Line <span className="tabular-nums">{currentIndex + 1}</span> of <span className="tabular-nums">{lines.length}</span>]
             </span>
             {currentLine.speaker === 'nori' && (
-              <span className="hidden sm:inline-block text-xs text-[#e9e6dc] bg-[#e9e6dc]/10 px-3 py-0.5 rounded border border-[#e9e6dc]/30">
-                [AUTONOMY: RUNNING // SLEEVE: ARMED]
+              <span className="hidden sm:inline-block label text-paper bg-paper/10 px-2.5 py-0.5 border border-paper/30">
+                [Autonomy: Running &middot; Sleeve: Armed]
               </span>
             )}
             {currentLine.speaker === 'wren' && (
-              <span className="hidden sm:inline-block text-xs text-[#f0562b] bg-[#f0562b]/10 px-3 py-0.5 rounded border border-[#f0562b]/30">
-                [CABIN: PRESSURIZED // IN SEAT]
+              <span className="hidden sm:inline-block label text-signal bg-signal/10 px-2.5 py-0.5 border border-signal/30">
+                [Cabin: Pressurized &middot; In Seat]
               </span>
             )}
             {isAuto && (
-              <span className="text-xs text-[#e9e6dc] bg-[#e9e6dc]/15 px-3 py-0.5 rounded border border-[#e9e6dc]/40 flex items-center gap-1.5 animate-pulse">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#e9e6dc]"></span>
+              <span className="label text-paper bg-paper/15 px-2.5 py-0.5 border border-paper/40 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-signal" aria-hidden="true" />
                 Auto Playing (3s)
               </span>
             )}
           </div>
 
-          <p className="text-base md:text-lg leading-relaxed text-[#e9e6dc] font-serif">
+          <p className="text-base md:text-lg leading-relaxed text-paper font-serif">
             {currentLine.text}
           </p>
         </div>
@@ -137,29 +138,30 @@ export function DialogueBar({
             onClick={handlePrevious}
             onMouseEnter={() => !isFirst && sound.playHoverBlip()}
             disabled={isFirst}
-            className={`sensory-btn px-5 py-3 text-xs md:text-sm tracking-wide rounded border transition-colors flex items-center gap-2 ${
+            aria-disabled={isFirst}
+            className={`sensory-btn px-4 py-2.5 text-xs uppercase font-mono tracking-wider border transition-colors flex items-center gap-2 ${
               isFirst
-                ? 'bg-[#0a0c10]/50 text-[#e9e6dc]/30 border-[#e9e6dc]/10 cursor-not-allowed'
-                : 'bg-[#0a0c10] hover:bg-[#f0562b] hover:text-[#0a0c10] text-[#e9e6dc] border-[#e9e6dc]/40 cursor-pointer'
+                ? 'bg-void/60 text-paper/40 border-paper/15 cursor-not-allowed'
+                : 'bg-void hover:bg-signal hover:text-void text-paper border-paper/30 cursor-pointer'
             }`}
             title="Go to previous dialogue line"
           >
-            <span>◀</span>
-            <span>Previous</span>
+            <span aria-hidden="true">&larr;</span>
+            <span>Prev</span>
           </button>
 
           {/* 2. Auto Button (3 seconds) */}
           <button
             onClick={toggleAuto}
             onMouseEnter={() => sound.playHoverBlip()}
-            className={`sensory-btn px-5 py-3 text-xs md:text-sm tracking-wide rounded border transition-colors flex items-center gap-2 ${
+            className={`sensory-btn px-4 py-2.5 text-xs uppercase font-mono tracking-wider border transition-colors flex items-center gap-2 ${
               isAuto
-                ? 'bg-[#f0562b] text-[#0a0c10] border-[#f0562b] font-bold shadow'
-                : 'bg-[#0a0c10] hover:bg-[#e9e6dc]/10 text-[#e9e6dc] border-[#e9e6dc]/40'
+                ? 'bg-signal text-void border-signal font-bold'
+                : 'bg-void hover:bg-paper/15 text-paper border-paper/30'
             }`}
             title="Automatically advance dialogue every 3 seconds"
           >
-            <span>{isAuto ? '⏸' : '▶'}</span>
+            <span aria-hidden="true">{isAuto ? '||' : '>'}</span>
             <span>Auto (3s)</span>
           </button>
 
@@ -167,14 +169,14 @@ export function DialogueBar({
           <button
             onClick={handleNext}
             onMouseEnter={() => sound.playHoverBlip()}
-            className="sensory-btn px-6 py-3 bg-[#f0562b] hover:bg-[#cf4520] text-[#0a0c10] border border-[#f0562b] text-xs md:text-sm tracking-wide rounded transition-colors flex items-center gap-2 shadow"
+            className="sensory-btn px-5 py-2.5 bg-signal hover:bg-signal-hover text-void border border-signal text-xs uppercase font-mono font-bold tracking-wider transition-colors flex items-center gap-2 cursor-pointer"
             title="Go to next dialogue line (or press Space)"
           >
             <span>{isLast ? 'Proceed' : 'Next'}</span>
-            <span className="animate-pulse">▶</span>
+            <span aria-hidden="true">&rarr;</span>
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

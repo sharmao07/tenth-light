@@ -16,6 +16,7 @@ import { PauseModal } from '@/components/PauseModal';
 import { MissionLogbookModal } from '@/components/MissionLogbookModal';
 import { PinnedTelemetryPill } from '@/components/PinnedTelemetryPill';
 import { DialogueBar } from '@/components/DialogueBar';
+import { SoundCaptionsHUD } from '@/components/SoundCaptionsHUD';
 import { HangarView } from '@/components/HangarView';
 import { DodgeRing } from '@/components/DodgeRing';
 import { FormationShooter } from '@/components/FormationShooter';
@@ -95,12 +96,37 @@ export default function TenthLightGame() {
     });
   }, []);
 
+  const handleToggleReducedMotion = useCallback(() => {
+    setGameState((prev) => {
+      const next = !prev.reducedMotion;
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-reduced-motion', next ? 'true' : 'false');
+      }
+      return {
+        ...prev,
+        reducedMotion: next,
+        lastUpdated: new Date().toISOString(),
+      };
+    });
+  }, []);
+
+  const handleToggleSoundCaptions = useCallback(() => {
+    setGameState((prev) => ({
+      ...prev,
+      soundCaptions: prev.soundCaptions === false ? true : false,
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
   // Load save on mount
   useEffect(() => {
     const timer = setTimeout(() => {
       const saved = loadSave();
       setGameState(saved);
       sound.setMuted(saved.isMuted);
+      if (typeof document !== 'undefined' && saved.reducedMotion) {
+        document.documentElement.setAttribute('data-reduced-motion', 'true');
+      }
       setIsLoaded(true);
     }, 0);
     return () => clearTimeout(timer);
@@ -371,30 +397,32 @@ export default function TenthLightGame() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-[#0a0c10] text-[#e9e6dc] flex items-center justify-center font-mono text-xs">
+      <div className="min-h-screen bg-void text-paper flex items-center justify-center font-mono text-xs">
         Loading Tenth Light telemetry...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#0a0c10] text-[#e9e6dc] flex flex-col justify-between overflow-x-hidden selection:bg-[#f0562b] selection:text-[#0a0c10] relative">
+    <div className="min-h-screen w-full bg-void text-paper flex flex-col justify-between overflow-x-hidden selection:bg-signal selection:text-void relative">
       {/* Slow Page Transition Overlay with Stop Name */}
       {transitionState.visible && (
         <div
-          className={`fixed inset-0 z-[100] bg-[#0a0c10] flex flex-col justify-center items-center px-8 text-center transition-opacity duration-500 select-none ${
+          role="status"
+          aria-live="assertive"
+          className={`fixed inset-0 z-[100] bg-void flex flex-col justify-center items-center px-8 text-center transition-opacity duration-500 select-none ${
             transitionState.fadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
           <div className="max-w-xl space-y-6 animate-fadeIn">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#f0562b] font-bold">
-              TRANSIT PROTOCOL // ORBITAL INSERTION
+            <span className="label text-signal">
+              TRANSIT PROTOCOL &middot; ORBITAL INSERTION
             </span>
-            <h2 className="font-serif font-extralight text-5xl md:text-7xl text-[#e9e6dc] tracking-tight">
-              Stop {transitionState.stopIdx} <span className="font-extrabold text-[#e9e6dc] block md:inline">&middot; {transitionState.stopName.split(' ')[0]}</span>
+            <h2 className="font-serif font-extralight text-5xl md:text-7xl text-paper tracking-tight">
+              Stop <span className="tabular-nums">{transitionState.stopIdx}</span> <span className="font-extrabold text-paper block md:inline">&middot; {transitionState.stopName.split(' ')[0]}</span>
             </h2>
-            <div className="h-[1px] w-24 bg-[#f0562b] mx-auto" />
-            <p className="font-mono text-xs text-[#e9e6dc]/60 uppercase tracking-widest">
+            <div className="h-[1px] w-24 bg-signal mx-auto" />
+            <p className="label text-paper-muted">
               {transitionState.sector}
             </p>
           </div>
@@ -421,7 +449,7 @@ export default function TenthLightGame() {
         />
       )}
 
-      {/* Modals */}
+      {/* Modals & Sensory Accessibility */}
       <PauseModal
         isOpen={isPaused}
         onResume={() => setIsPaused(false)}
@@ -429,7 +457,13 @@ export default function TenthLightGame() {
           setIsPaused(false);
           triggerSceneFade(() => updateGameState({ phase: 'title' }), 0);
         }}
+        reducedMotion={gameState.reducedMotion}
+        onToggleReducedMotion={handleToggleReducedMotion}
+        soundCaptions={gameState.soundCaptions !== false}
+        onToggleSoundCaptions={handleToggleSoundCaptions}
       />
+
+      <SoundCaptionsHUD enabled={gameState.soundCaptions !== false} />
 
       <MissionLogbookModal
         isOpen={isLogbookOpen}
@@ -467,13 +501,13 @@ export default function TenthLightGame() {
                 <span className="block font-extralight">Tenth</span>
                 <span className="block font-extrabold -mt-[0.08em]">Light</span>
               </h1>
-              <p className="font-serif italic text-2xl md:text-3xl text-[#e9e6dc]/80 max-w-xl leading-snug">
+              <h2 className="font-serif italic text-2xl md:text-3xl text-paper max-w-xl leading-snug">
                 Design the ship. Stay in the seat. Send the droid.
-              </p>
-              <blockquote className="max-w-xl border-l border-[#f0562b] pl-6 text-[15px] leading-[1.8] text-[#e9e6dc]/65">
-                “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive.
-                The voyage past the heliopause is a mission simulation that uses the archive’s numbers.
-                The aliens, the depot fight, and the droid are the story.”
+              </h2>
+              <blockquote className="max-w-xl border-l border-signal pl-6 text-[15px] leading-[1.8] text-paper-muted">
+                &ldquo;Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive.
+                The voyage past the heliopause is a mission simulation that uses the archive&rsquo;s numbers.
+                The aliens, the depot fight, and the droid are the story.&rdquo;
               </blockquote>
             </div>
 
@@ -489,7 +523,7 @@ export default function TenthLightGame() {
                   className="field"
                   placeholder="Wren"
                 />
-                <p className="text-sm text-[#e9e6dc]/50 leading-relaxed">
+                <p className="text-sm text-paper-muted leading-relaxed">
                   The specialist never leaves the ship and appears only in dialogue.
                 </p>
               </div>
@@ -500,15 +534,15 @@ export default function TenthLightGame() {
                   onMouseEnter={() => sound.playHoverBlip()}
                   className="btn"
                 >
-                  Begin mission
-                  <span aria-hidden>&rarr;</span>
+                  <span>Begin mission</span>
+                  <span aria-hidden="true">&rarr;</span>
                 </button>
 
                 <ul className="index-list">
                   {gameState.currentStop > 0 && (
                     <li>
                       <button onClick={handleResumeGame} onMouseEnter={() => sound.playHoverBlip()}>
-                        <span>Resume corridor</span><em>Stop {gameState.currentStop}</em>
+                        <span>Resume corridor</span><em className="tabular-nums">Stop {gameState.currentStop}</em>
                       </button>
                     </li>
                   )}
@@ -520,12 +554,12 @@ export default function TenthLightGame() {
                       }}
                       onMouseEnter={() => sound.playHoverBlip()}
                     >
-                      <span>Mission logbook</span><em>11 acts</em>
+                      <span>Mission logbook</span><em className="tabular-nums">11 acts</em>
                     </button>
                   </li>
                   <li>
                     <Link href="/presentation" onMouseEnter={() => sound.playHoverBlip()}>
-                      <span>Demo deck</span><em>7 slides</em>
+                      <span>Demo deck</span><em className="tabular-nums">7 slides</em>
                     </Link>
                   </li>
                   <li>
@@ -544,17 +578,17 @@ export default function TenthLightGame() {
           <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
             <div>
               {/* Dossier Header */}
-              <div className="flex items-baseline justify-between border-b border-[#e9e6dc]/15 pb-4 mb-8">
+              <div className="flex items-baseline justify-between border-b border-paper/15 pb-4 mb-8">
                 <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#f0562b] font-bold">
-                    DOSSIER // EXPEDITION ORDER 00
+                  <span className="label text-signal">
+                    DOSSIER &middot; EXPEDITION ORDER 00
                   </span>
-                  <span className="text-[#e9e6dc]/40 text-xs font-mono">/</span>
-                  <span className="font-mono text-xs uppercase tracking-wider text-[#e9e6dc]/70">
+                  <span className="text-paper/40 text-xs font-mono">/</span>
+                  <span className="label text-paper-muted">
                     DEPARTURE CLEARANCE PROTOCOL
                   </span>
                 </div>
-                <div className="font-mono text-xs text-[#e9e6dc]/40">
+                <div className="label text-paper-muted font-mono">
                   REF: NASA-EXOPLANET-ARCHIVE-2026
                 </div>
               </div>
@@ -562,10 +596,10 @@ export default function TenthLightGame() {
               {/* Monumental Headline */}
               <div className="mb-8">
                 <p className="label">Mission Directive &middot; Ground Station Uplink</p>
-                <h1 className="font-serif font-extralight text-5xl sm:text-6xl md:text-7xl tracking-tight text-[#e9e6dc] mt-2">
-                  Flight Directive: <span className="font-extrabold text-[#e9e6dc]">TOI-700 e</span>
+                <h1 className="font-serif font-extralight text-5xl sm:text-6xl md:text-7xl tracking-tight text-paper mt-2">
+                  Flight Directive: <span className="font-extrabold text-paper">TOI-700 e</span>
                 </h1>
-                <p className="font-serif italic text-lg text-[#e9e6dc]/70 mt-2 max-w-xl">
+                <p className="font-serif italic text-lg text-paper-muted mt-2 max-w-xl">
                   Specialist {gameState.callsign} &middot; Sealed cabin flight &middot; Astromech Droid Nori deployed for surface sampling
                 </p>
               </div>
@@ -574,68 +608,69 @@ export default function TenthLightGame() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
                 {/* Left Column: Large Uncropped NASA Photo of Earth + Exoplanet Archive Stats */}
                 <div className="lg:col-span-6 space-y-6">
-                  <figure className="w-full border border-[#e9e6dc]/15 bg-[#0a0c10] p-3">
+                  <figure className="w-full border border-paper/15 bg-void p-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={NASA_IMAGE_PLATES[10].url}
                       alt={NASA_IMAGE_PLATES[10].caption}
-                      className="w-full max-h-[360px] object-contain bg-[#0a0c10]"
+                      className="w-full max-h-[360px] object-contain bg-void"
                     />
-                    <figcaption className="mt-3 font-mono text-xs text-[#e9e6dc]/70 leading-relaxed border-t border-[#e9e6dc]/10 pt-2">
-                      <span className="text-[#f0562b] font-bold">PLATE 00 &middot;</span> {NASA_IMAGE_PLATES[10].caption}
-                      <span className="block mt-0.5 text-[#e9e6dc]/40 font-mono text-[11px]">
+                    <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
+                      <span className="text-signal font-bold">PLATE 00 &middot;</span> {NASA_IMAGE_PLATES[10].caption}
+                      <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
                         Credit: {NASA_IMAGE_PLATES[10].credit}
                       </span>
                     </figcaption>
                   </figure>
 
                   {/* Exoplanet Archive Dossier Ledger */}
-                  <div className="border border-[#e9e6dc]/15 p-5 bg-[#0a0c10] font-mono text-xs space-y-3">
-                    <div className="text-[#f0562b] font-bold uppercase tracking-wider border-b border-[#e9e6dc]/10 pb-2">
+                  <div className="border border-paper/15 p-5 bg-void font-mono text-xs space-y-3">
+                    <h2 className="label text-signal border-b border-paper/10 pb-2">
                       NASA Exoplanet Archive Composite Parameters
+                    </h2>
+                    <div className="flex justify-between py-1 border-b border-paper/10">
+                      <span className="text-paper font-bold">&check; Target: TOI-700 e (Harbor)</span>
+                      <span className="text-signal font-mono text-xs uppercase">Optimistic Habitable Zone</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-[#e9e6dc]/10">
-                      <span className="text-[#e9e6dc] font-bold">✓ Target: TOI-700 e (Harbor)</span>
-                      <span className="text-[#f0562b]">Optimistic Habitable Zone</span>
-                    </div>
-                    <div className="text-[#e9e6dc]/70 pl-2 space-y-0.5 text-[11px]">
-                      <div>Radius: 0.919 R⊕ &middot; Mass: 0.718 M⊕ &middot; Orbital Period: 27.81 days</div>
+                    <div className="text-paper-muted pl-2 space-y-0.5 text-[11px] tabular-nums">
+                      <div>Radius: 0.919 R&oplus; &middot; Mass: 0.718 M&oplus; &middot; Orbital Period: 27.81 days</div>
                       <div>Insolation: 1.27 &middot; Equilibrium Temp: 272.9 K &middot; Distance: 101.5 ly (31.13 pc)</div>
-                      <div className="text-[#e9e6dc]/50 italic">Discovered 2023 by transit photometry.</div>
+                      <div className="text-paper-muted italic">Discovered 2023 by transit photometry.</div>
                     </div>
 
-                    <div className="flex justify-between py-1 border-b border-[#e9e6dc]/10 pt-2">
-                      <span className="text-[#e9e6dc]/50 font-bold">✕ Twin You Do Not Fly: TOI-700 d</span>
-                      <span className="text-[#e9e6dc]/40">Outer Conservative Zone</span>
+                    <div className="flex justify-between py-1 border-b border-paper/10 pt-2">
+                      <span className="text-paper-muted font-bold">&cross; Twin You Do Not Fly: TOI-700 d</span>
+                      <span className="text-paper-muted text-[11px] uppercase">Outer Conservative Zone</span>
                     </div>
-                    <div className="text-[#e9e6dc]/50 pl-2 text-[11px]">
-                      1.145 R⊕ &middot; 1.580 M⊕ &middot; 37.42 days &middot; 268.8 K &middot; Discovered 2020.
+                    <div className="text-paper-muted pl-2 text-[11px] tabular-nums">
+                      1.145 R&oplus; &middot; 1.580 M&oplus; &middot; 37.42 days &middot; 268.8 K &middot; Discovered 2020.
                     </div>
                   </div>
                 </div>
 
                 {/* Right Column: 3D Vessel View + Pre-Flight Directives */}
                 <div className="lg:col-span-6 space-y-6">
-                  <div className="border border-[#e9e6dc]/15 h-[360px] relative bg-[#0a0c10]">
+                  <div className="border border-paper/15 h-[360px] relative bg-void">
                     <div className="absolute top-3 left-3 z-10 label text-[11px]">
                       Integration Gantry &middot; Tenth Light Cabin
                     </div>
                     <Ship3DView design={gameState.shipDesign} interactive={true} />
                   </div>
 
-                  <div className="border border-[#e9e6dc]/15 p-5 bg-[#0a0c10] space-y-4">
-                    <h2 className="label text-[#f0562b]">Specialist Flight Orders</h2>
-                    <p className="font-serif text-sm text-[#e9e6dc]/80 leading-relaxed">
-                      “Scientists demand empirical soil and water samples from Harbor. The hatch never opens
+                  <div className="border border-paper/15 p-5 bg-void space-y-4">
+                    <h2 className="label text-signal">Specialist Flight Orders</h2>
+                    <p className="font-serif text-sm text-paper leading-relaxed">
+                      &ldquo;Scientists demand empirical soil and water samples from Harbor. The hatch never opens
                       for human footsteps. At TOI-700 e, Droid Nori walks the sample sleeve across the cryogenic
-                      regolith. Earth’s reception when you coast home depends entirely on what your sensors certify.”
+                      regolith. Earth’s reception when you coast home depends entirely on what your sensors certify.&rdquo;
                     </p>
                     <button
                       onClick={handleBriefingComplete}
                       onMouseEnter={() => sound.playHoverBlip()}
                       className="btn w-full text-center"
                     >
-                      Enter VAB Assembly Bay (Stage 0) &rarr;
+                      <span>Enter VAB Assembly Bay (Stage 0)</span>
+                      <span aria-hidden="true">&rarr;</span>
                     </button>
                   </div>
                 </div>
@@ -666,26 +701,26 @@ export default function TenthLightGame() {
         {gameState.phase === 'transit' && (
           <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
             {/* Top Dossier Ledger Bar */}
-            <div className="flex items-baseline justify-between border-b border-[#e9e6dc]/15 pb-4 mb-8">
+            <div className="flex items-baseline justify-between border-b border-paper/15 pb-4 mb-8">
               <div className="flex items-baseline gap-4">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#f0562b] font-bold">
-                  DOSSIER // TRANSIT LEG 0{gameState.currentStop}
+                <span className="label text-signal">
+                  DOSSIER &middot; TRANSIT LEG 0<span className="tabular-nums">{gameState.currentStop}</span>
                 </span>
-                <span className="text-[#e9e6dc]/40 text-xs font-mono">/</span>
-                <span className="font-mono text-xs uppercase tracking-wider text-[#e9e6dc]/70">
+                <span className="text-paper/40 text-xs font-mono">/</span>
+                <span className="label text-paper-muted">
                   INTERPLANETARY CORRIDOR &middot; {stopNames[gameState.currentStop]}
                 </span>
               </div>
-              <div className="font-mono text-xs text-[#e9e6dc]/70">
-                REMAINING DELTA-V: <span className="text-[#f0562b] font-bold">{gameState.currentDeltaV} m/s</span>
+              <div className="label text-paper-muted">
+                REMAINING DELTA-V: <span className="text-signal font-bold tabular-nums font-mono">{gameState.currentDeltaV} m/s</span>
               </div>
             </div>
 
             {/* Monumental Headline */}
             <div className="mb-6">
               <p className="label">Interplanetary Burn &middot; Hazard Avoidance</p>
-              <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#e9e6dc] mt-1">
-                Cruising to <span className="font-extrabold text-[#e9e6dc]">{stopNames[gameState.currentStop].split(' ')[0]}</span>
+              <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-6xl tracking-tight text-paper mt-1">
+                Cruising to <span className="font-extrabold text-paper">{stopNames[gameState.currentStop].split(' ')[0]}</span>
               </h1>
             </div>
 
@@ -694,16 +729,16 @@ export default function TenthLightGame() {
               {/* Left Column: Approaching Target Real NASA Image Plate */}
               <div className="lg:col-span-5 space-y-4">
                 {NASA_IMAGE_PLATES[gameState.currentStop] && (
-                  <figure className="w-full border border-[#e9e6dc]/15 bg-[#0a0c10] p-3">
+                  <figure className="w-full border border-paper/15 bg-void p-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={NASA_IMAGE_PLATES[gameState.currentStop].url}
                       alt={NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                      className="w-full max-h-[380px] object-contain bg-[#0a0c10]"
+                      className="w-full max-h-[380px] object-contain bg-void"
                     />
-                    <figcaption className="mt-3 font-mono text-xs text-[#e9e6dc]/70 leading-relaxed border-t border-[#e9e6dc]/10 pt-2">
-                      <span className="text-[#f0562b] font-bold">APPROACH TARGET &middot;</span> {NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                      <span className="block mt-0.5 text-[#e9e6dc]/40 font-mono text-[11px]">
+                    <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
+                      <span className="text-signal font-bold">APPROACH TARGET &middot;</span> {NASA_IMAGE_PLATES[gameState.currentStop].caption}
+                      <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
                         Credit: {NASA_IMAGE_PLATES[gameState.currentStop].credit}
                       </span>
                     </figcaption>
@@ -713,7 +748,7 @@ export default function TenthLightGame() {
 
               {/* Right Column: 3D Cruising View & Dodge Ring */}
               <div className="lg:col-span-7 space-y-4">
-                <div className="border border-[#e9e6dc]/15 h-[420px] relative bg-[#0a0c10]">
+                <div className="border border-paper/15 h-[420px] relative bg-void">
                   <Ship3DView design={gameState.shipDesign} cruiseMode={true} interactive={true} />
                   <DodgeRing
                     isPaused={isPaused}
@@ -733,32 +768,32 @@ export default function TenthLightGame() {
           <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-12 select-none animate-fadeIn flex flex-col justify-between min-h-[calc(100vh-160px)]">
             <div>
               {/* Top Dossier Ledger Bar */}
-              <div className="flex flex-wrap items-baseline justify-between border-b border-[#e9e6dc]/15 pb-4 mb-8 gap-4">
+              <div className="flex flex-wrap items-baseline justify-between border-b border-paper/15 pb-4 mb-8 gap-4">
                 <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#f0562b] font-bold">
-                    DOSSIER // STOP 0{gameState.currentStop}
+                  <span className="label text-signal">
+                    DOSSIER &middot; STOP 0<span className="tabular-nums">{gameState.currentStop}</span>
                   </span>
-                  <span className="text-[#e9e6dc]/40 text-xs font-mono">/</span>
-                  <span className="font-mono text-xs uppercase tracking-wider text-[#e9e6dc]/70">
-                    {STOP_DOSSIER_INFO[gameState.currentStop]?.sector || 'Planetary Waypoint'} &middot; {STOP_DOSSIER_INFO[gameState.currentStop]?.distance}
+                  <span className="text-paper/40 text-xs font-mono">/</span>
+                  <span className="label text-paper-muted">
+                    {STOP_DOSSIER_INFO[gameState.currentStop]?.sector || 'Planetary Waypoint'} &middot; <span className="tabular-nums">{STOP_DOSSIER_INFO[gameState.currentStop]?.distance}</span>
                   </span>
                 </div>
-                <div className="font-mono text-xs text-[#e9e6dc]/40">
+                <div className="label text-paper-muted font-mono">
                   HERITAGE: {STOP_DOSSIER_INFO[gameState.currentStop]?.historicalMission}
                 </div>
               </div>
 
               {/* Monumental Type-Led Headline */}
-              <div className="mb-8 border-b border-[#e9e6dc]/15 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div className="mb-8 border-b border-paper/15 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                   <p className="label">Planetary Gate Challenge &middot; Clearance Required</p>
-                  <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-7xl tracking-tight text-[#e9e6dc] mt-1">
-                    {stopNames[gameState.currentStop].split(' ')[0]} <span className="font-extrabold text-[#e9e6dc]">Station</span>
+                  <h1 className="font-serif font-extralight text-4xl sm:text-5xl md:text-7xl tracking-tight text-paper mt-1">
+                    {stopNames[gameState.currentStop].split(' ')[0]} <span className="font-extrabold text-paper">Station</span>
                   </h1>
                 </div>
 
-                <div className="font-mono text-xs text-[#e9e6dc]/60">
-                  Hull: <span className="text-[#f0562b] font-bold">{gameState.lives}/3</span> &middot; Delta-V: <span className="text-[#e9e6dc] font-bold">{gameState.currentDeltaV} m/s</span>
+                <div className="label text-paper-muted font-mono">
+                  Hull: <span className="text-signal font-bold tabular-nums">{gameState.lives}/3</span> &middot; Delta-V: <span className="text-paper font-bold tabular-nums">{gameState.currentDeltaV} m/s</span>
                 </div>
               </div>
 
@@ -767,16 +802,16 @@ export default function TenthLightGame() {
                 {/* Left Column: Large Uncropped Real NASA Image */}
                 <div className="lg:col-span-5 space-y-4">
                   {NASA_IMAGE_PLATES[gameState.currentStop] && (
-                    <figure className="w-full border border-[#e9e6dc]/15 bg-[#0a0c10] p-3">
+                    <figure className="w-full border border-paper/15 bg-void p-3">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={NASA_IMAGE_PLATES[gameState.currentStop].url}
                         alt={NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                        className="w-full max-h-[460px] object-contain bg-[#0a0c10]"
+                        className="w-full max-h-[460px] object-contain bg-void"
                       />
-                      <figcaption className="mt-3 font-mono text-xs text-[#e9e6dc]/70 leading-relaxed border-t border-[#e9e6dc]/10 pt-2">
-                        <span className="text-[#f0562b] font-bold">PLATE 0{gameState.currentStop} &middot;</span> {NASA_IMAGE_PLATES[gameState.currentStop].caption}
-                        <span className="block mt-0.5 text-[#e9e6dc]/40 font-mono text-[11px]">
+                      <figcaption className="mt-3 font-mono text-xs text-paper-muted leading-relaxed border-t border-paper/10 pt-2">
+                        <span className="text-signal font-bold">PLATE 0<span className="tabular-nums">{gameState.currentStop}</span> &middot;</span> {NASA_IMAGE_PLATES[gameState.currentStop].caption}
+                        <span className="block mt-0.5 text-paper-muted font-mono text-[11px]">
                           Credit: {NASA_IMAGE_PLATES[gameState.currentStop].credit}
                         </span>
                       </figcaption>
@@ -787,7 +822,7 @@ export default function TenthLightGame() {
                 {/* Right Column: Interactive Puzzle Console */}
                 <div className="lg:col-span-7">
                   {!dialoguePhase ? (
-                    <div className="w-full border border-[#e9e6dc]/15 p-6 bg-[#0a0c10]">
+                    <div className="w-full border border-paper/15 p-6 bg-void">
                       {gameState.currentStop === 1 && <MoonHorizons onSuccess={handlePuzzleSuccess} />}
                       {gameState.currentStop === 2 && <MarsSouvenir onSuccess={handlePuzzleSuccess} />}
                       {gameState.currentStop === 3 && <CeresSelection onSuccess={handlePuzzleSuccess} />}
@@ -827,9 +862,9 @@ export default function TenthLightGame() {
                       )}
                     </div>
                   ) : (
-                    <div className="w-full border border-[#e9e6dc]/15 p-6 bg-[#0a0c10] space-y-4">
-                      <span className="label text-[#f0562b]">Incoming Gate Transmission</span>
-                      <p className="font-serif italic text-base text-[#e9e6dc]/90 leading-relaxed">
+                    <div className="w-full border border-paper/15 p-6 bg-void space-y-4">
+                      <span className="label text-signal">Incoming Gate Transmission</span>
+                      <p className="font-serif italic text-base text-paper leading-relaxed">
                         Communications feed established with the planetary gate entity. Review mission dialogue below.
                       </p>
                     </div>

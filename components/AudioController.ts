@@ -1,6 +1,8 @@
 // Web Audio API procedural sound engine for Tenth Light
 // Pure procedural synthesis - no copyrighted clips, no external files
 
+export type SoundCaptionCallback = (caption: string) => void;
+
 class AudioController {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
@@ -8,9 +10,26 @@ class AudioController {
   private ambientOsc2: OscillatorNode | null = null;
   private ambientGain: GainNode | null = null;
   private isAmbientActive: boolean = false;
+  private captionListeners: Set<SoundCaptionCallback> = new Set();
 
   constructor() {
     // AudioContext will be initialized on first user gesture
+  }
+
+  public addCaptionListener(cb: SoundCaptionCallback) {
+    this.captionListeners.add(cb);
+  }
+
+  public removeCaptionListener(cb: SoundCaptionCallback) {
+    this.captionListeners.delete(cb);
+  }
+
+  private notifyCaption(caption: string) {
+    this.captionListeners.forEach((cb) => {
+      try {
+        cb(caption);
+      } catch {}
+    });
   }
 
   private initContext() {
@@ -52,6 +71,7 @@ class AudioController {
 
     try {
       this.isAmbientActive = true;
+      this.notifyCaption('[Audio: Starship Life-Support & Reactor Hum Engaged]');
       const now = this.ctx.currentTime;
 
       const osc1 = this.ctx.createOscillator();
@@ -92,6 +112,7 @@ class AudioController {
   public stopAmbientHum() {
     if (!this.isAmbientActive || !this.ctx) return;
     this.isAmbientActive = false;
+    this.notifyCaption('[Audio: Reactor Hum Disengaged]');
     const now = this.ctx.currentTime;
     if (this.ambientGain) {
       this.ambientGain.gain.linearRampToValueAtTime(0.0001, now + 0.4);
@@ -162,6 +183,7 @@ class AudioController {
   }
 
   public playSwitchClick() {
+    this.notifyCaption('[Audio: Relay Switch Toggled]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -211,6 +233,7 @@ class AudioController {
   }
 
   public playUiClick() {
+    this.notifyCaption('[Audio: Interface Key Activated]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -234,6 +257,7 @@ class AudioController {
   }
 
   public playTalkBeep(isDroid = false) {
+    this.notifyCaption(isDroid ? '[Audio: Nori Telemetry Chime]' : '[Audio: Specialist Radio Squelch]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -265,6 +289,7 @@ class AudioController {
   }
 
   public playSuccess() {
+    this.notifyCaption('[Audio: Telemetry Verified · Clearance Chime]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -292,6 +317,7 @@ class AudioController {
   }
 
   public playMiss() {
+    this.notifyCaption('[Audio: Warning: Hull Scrape / Impact Deflection]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -317,6 +343,7 @@ class AudioController {
   }
 
   public playLaunch() {
+    this.notifyCaption('[Audio: Bipropellant Main Ignition & Burn]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -342,6 +369,7 @@ class AudioController {
   }
 
   public playLaserShot() {
+    this.notifyCaption('[Audio: Point-Defense Pulse Discharge]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
@@ -367,6 +395,7 @@ class AudioController {
   }
 
   public playExplosion() {
+    this.notifyCaption('[Audio: Target Neutralized / Debris Dispersed]');
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
