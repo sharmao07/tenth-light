@@ -5,6 +5,20 @@ export interface HorizonsParsedResult {
 }
 
 /**
+ * Format a Date object into JPL Horizons standard input string: YYYY-MM-DD HH:MM in UTC.
+ * Ensures zero-padding across year, month, day, hours, and minutes for midnight and rollover boundaries.
+ */
+export function formatHorizonsDateTime(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const year = d.getUTCFullYear();
+  const month = pad(d.getUTCMonth() + 1);
+  const day = pad(d.getUTCDate());
+  const hours = pad(d.getUTCHours());
+  const minutes = pad(d.getUTCMinutes());
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+/**
  * Robust parser for JPL Horizons ASCII observer table output.
  * Extracts apparent azimuth and elevation between $$SOE and $$EOE markers.
  * Handles various timestamp formats (including optional fractional seconds),

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { parseHorizonsEphemeris } from '../lib/horizonsParser';
+import { parseHorizonsEphemeris, formatHorizonsDateTime } from '../lib/horizonsParser';
 
 test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
   test('NASA Exoplanet Archive API returns TOI-700 system parameters', async ({ request }) => {
@@ -33,6 +33,17 @@ test.describe('Systems Engineering, Astrodynamics & NASA APIs', () => {
     if (json.source === 'live') {
       expect(json.data).toHaveProperty('coordinateConvention');
       expect(json.data.coordinateConvention).toContain('GEODETIC');
+
+      // Assert that the returned epoch matches the current UTC date
+      const now = new Date();
+      const year = now.getUTCFullYear();
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const monthStr = monthNames[now.getUTCMonth()];
+      const pad = (n: number) => String(n).padStart(2, '0');
+      const dayStr = pad(now.getUTCDate());
+
+      // Matches both Horizons textual month ("2026-Nov-15 13:23") and numeric format ("2026-11-15 13:23")
+      expect(json.data.epoch).toMatch(new RegExp(`^${year}-(?:${monthStr}|${pad(now.getUTCMonth() + 1)})-${dayStr}`));
     }
   });
 
@@ -273,5 +284,29 @@ $$EOE
     expect(parseHorizonsEphemeris('$$SOE\n$$EOE')).toBeNull();
     expect(parseHorizonsEphemeris('No markers in this response')).toBeNull();
     expect(parseHorizonsEphemeris('$$SOE\n2026-Nov-15 00:00\n$$EOE')).toBeNull();
+  });
+
+  test('formatHorizonsDateTime correctly formats UTC dates, midnight, and rollovers', () => {
+    // 1. Standard daytime in UTC
+    const d1 = new Date(Date.UTC(2026, 10, 15, 13, 25)); // Nov 15, 2026 13:25 UTC
+    expect(formatHorizonsDateTime(d1)).toBe('2026-11-15 13:25');
+
+    // 2. Exact midnight (00:00) with zero padding
+    const d2 = new Date(Date.UTC(2026, 10, 15, 0, 0)); // Nov 15, 2026 00:00 UTC
+    expect(formatHorizonsDateTime(d2)).toBe('2026-11-15 00:00');
+
+    // 3. Single-digit month, day, hour, and minute
+    const d3 = new Date(Date.UTC(2026, 0, 5, 4, 7)); // Jan 5, 2026 04:07 UTC
+    expect(formatHorizonsDateTime(d3)).toBe('2026-01-05 04:07');
+
+    // 4. Leap year rollover (Feb 28 to Feb 29 and March 1)
+    const d4 = new Date(Date.UTC(2028, 1, 29, 23, 59)); // Feb 29, 2028 23:59 UTC
+    expect(formatHorizonsDateTime(d4)).toBe('2028-02-29 23:59');
+
+    // 5. Year-end rollover across midnight
+    const d5 = new Date(Date.UTC(2026, 11, 31, 23, 59)); // Dec 31, 2026 23:59 UTC
+    expect(formatHorizonsDateTime(d5)).toBe('2026-12-31 23:59');
+    const d5Next = new Date(d5.getTime() + 60 * 1000); // Jan 1, 2027 00:00 UTC
+    expect(formatHorizonsDateTime(d5Next)).toBe('2027-01-01 00:00');
   });
 });

@@ -1,16 +1,6 @@
 import { NextResponse } from 'next/server';
 import { HORIZONS_MOON_SNAPSHOT, ARCHIVE_SNAPSHOT_DATE } from '@/lib/nasaSnapshots';
-import { parseHorizonsEphemeris } from '@/lib/horizonsParser';
-
-function formatHorizonsDateTime(d: Date): string {
-  const pad = (n: number) => String(n).padStart(2, '0');
-  const year = d.getUTCFullYear();
-  const month = pad(d.getUTCMonth() + 1);
-  const day = pad(d.getUTCDate());
-  const hours = pad(d.getUTCHours());
-  const minutes = pad(d.getUTCMinutes());
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
+import { parseHorizonsEphemeris, formatHorizonsDateTime } from '@/lib/horizonsParser';
 
 export async function GET() {
   const controller = new AbortController();
