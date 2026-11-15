@@ -1,18 +1,21 @@
 # Comprehensive Submission Report & Project Dossier
 ### NASA Space Apps Challenge 2026: Space Mission Design Game
-**Project:** Tenth Light  
+**Project:** The Tenth Light  
+**Team:** Hubble Horizons (`hubble-horizons`)  
 **Target Destination:** TOI-700 e (Harbor), 101.5 light-years from Earth  
 **Live Application Build:** [https://tenth-light.vercel.app](https://tenth-light.vercel.app)  
+**Space Apps Submission:** [https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project](https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project)  
+**Demonstration Deck (OneDrive):** [https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE](https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE)  
 **Public Code Repository:** [https://github.com/sharmao07/tenth-light](https://github.com/sharmao07/tenth-light)  
 **Submission Kit Root:** `submission-kit/`  
-**Audit & Generation Date:** 15 November 2026  
+**Submission Status:** **OFFICIALLY SUBMITTED (15 November 2026)**  
 
 ---
 
 ## 1. FINAL SUBMISSION STATUS
 
 > [!IMPORTANT]
-> This status overview highlights the confirmed assets, licensing boundaries, unverified third-party items requiring immediate replacement, and mandatory human verification steps prior to final competition submission.
+> The project has been officially submitted to the 2026 NASA Space Apps Challenge under team **Hubble Horizons** (*The Tenth Light*). This dossier preserves the final verification record, asset rights breakdown, and technical evidence.
 
 ### A. NASA Resources Confirmed (5 Qualifying + 1 Connectivity Check + 1 Archival Collection)
 * **NASA Exoplanet Archive (Live TAP API + Snapshot Fallback):** Confirmed active live integration consuming transit photometry and planetary parameters for TOI-700 e and companion TOI-700 d from `pscomppars` (`app/api/nasa/exoplanet/route.ts`).

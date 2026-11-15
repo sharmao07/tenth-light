@@ -1,7 +1,7 @@
-<p align="center"># The Tenth Light</p>
+<h1 align="center">The Tenth Light</h1>
 
 <p align="center">
-  <img src="public/nori-logo.svg" width="96" height="96" alt="Tenth Light Insignia - Astromech Droid Nori" />
+  <img src="public/nori-logo.svg" width="96" height="96" alt="The Tenth Light Insignia - Astromech Droid Nori" />
   <br />
   <strong>A space mission design game for the NASA Space Apps Challenge 2026</strong>
   <br />
@@ -10,8 +10,9 @@
 
 <p align="center">
   <a href="https://tenth-light.vercel.app"><strong>Play Live on Vercel</strong></a> &nbsp;&bull;&nbsp;
-  <a href="https://tenth-light.vercel.app/data"><strong>NASA Data &amp; Disclosures</strong></a> &nbsp;&bull;&nbsp;
-  <a href="https://tenth-light.vercel.app/presentation"><strong>In-Game Presentation Deck</strong></a> &nbsp;&bull;&nbsp;
+  <a href="https://www.spaceappschallenge.org/2026/find-a-team/hubble-horizons/?tab=project"><strong>Space Apps Submission</strong></a> &nbsp;&bull;&nbsp;
+  <a href="https://1drv.ms/p/c/5d6c8f0368f48b28/IQAK4XN06IYmS6RtsfYhzG--AeyV_eGfnFNZQRdago5KvD0?e=pgJLsE"><strong>Demo Deck (OneDrive)</strong></a> &nbsp;&bull;&nbsp;
+  <a href="https://tenth-light.vercel.app/data"><strong>NASA Data Disclosures</strong></a> &nbsp;&bull;&nbsp;
   <a href="submission-kit/"><strong>Submission Kit</strong></a>
 </p>
 
