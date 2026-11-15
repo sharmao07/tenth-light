@@ -7,9 +7,20 @@ import type { PartId } from "@/lib/game/types";
 import { blip } from "./audio";
 import { ShipMesh } from "./ShipMesh";
 
-type Craft = { mesh: Group; x: number; z: number; phase: number; alive: boolean };
-type Bolt = { mesh: Mesh; x: number; z: number; alive: boolean };
-type Sim = { enemies: Craft[]; shots: Bolt[]; wave: number; cool: number; hurt: number; won: boolean; x: number };
+type Ufo = { mesh: Group; gx: number; gy: number; alive: boolean };
+type Bolt = { mesh: Mesh; x: number; y: number; alive: boolean };
+type Sim = {
+  ufos: Ufo[];
+  shots: Bolt[];
+  originX: number;
+  originY: number;
+  dir: number;
+  playerX: number;
+  wave: number;
+  cool: number;
+  hurt: number;
+  won: boolean;
+};
 
 export function Fight({
   parts,
@@ -26,14 +37,14 @@ export function Fight({
 }) {
   return (
     <div className="fight">
-      <Canvas camera={{ position: [0, 11, 10], fov: 42 }}>
+      <Canvas orthographic camera={{ position: [0, 0, 20], zoom: 52, near: 0.1, far: 80 }}>
         <color attach="background" args={["#14120e"]} />
         <ambientLight intensity={0.7} />
         <directionalLight position={[4, 8, 6]} intensity={1.3} />
         <Battle parts={parts} paused={paused} onHit={onHit} onWin={onWin} />
       </Canvas>
       <div className="fight-hud">
-        <p>Ambush. Wave fight. Move and shoot. Hull lives: {lives}.</p>
+        <p>Wave fight. Slide with A D or the arrows. Space shoots up. Hull lives: {lives}.</p>
         <div className="pad">
           <PadButton code="ArrowLeft" label="Left" />
           <PadButton code="Space" label="Shoot" />
@@ -97,11 +108,11 @@ function Battle({
       if (event.key === "ArrowRight" || event.key === "d" || event.key === "D") keys.current.right = false;
       if (event.key === " " || event.key === "ArrowUp" || event.key === "w" || event.key === "W") keys.current.fire = false;
     }
-    window.addEventListener("keydown", down);
-    window.addEventListener("keyup", up);
+    window.addEventListener("keydown", down, true);
+    window.addEventListener("keyup", up, true);
     return () => {
-      window.removeEventListener("keydown", down);
-      window.removeEventListener("keyup", up);
+      window.removeEventListener("keydown", down, true);
+      window.removeEventListener("keyup", up, true);
     };
   }, []);
 
@@ -110,61 +121,74 @@ function Battle({
     const dt = Math.min(delta, 0.05);
     sim.current ??= boot(state.scene);
     const world = sim.current;
-    if (keys.current.left) world.x -= dt * 7;
-    if (keys.current.right) world.x += dt * 7;
-    world.x = Math.max(-7, Math.min(7, world.x));
-    if (player.current) player.current.position.x = world.x;
+    if (keys.current.left) world.playerX -= dt * 6.5;
+    if (keys.current.right) world.playerX += dt * 6.5;
+    world.playerX = Math.max(-7.2, Math.min(7.2, world.playerX));
+    if (player.current) player.current.position.x = world.playerX;
     world.cool -= dt;
     world.hurt -= dt;
     if (keys.current.fire && world.cool <= 0) {
-      world.cool = 0.28;
+      world.cool = 0.22;
       const mesh = shotMesh();
-      mesh.position.set(world.x, 0, 4.2);
+      mesh.position.set(world.playerX, -4.4, 0);
       state.scene.add(mesh);
-      world.shots.push({ mesh, x: world.x, z: 4.2, alive: true });
+      world.shots.push({ mesh, x: world.playerX, y: -4.4, alive: true });
       blip("shoot");
     }
-    for (const shot of world.shots) {
-      if (!shot.alive) continue;
-      shot.z -= dt * 14;
-      shot.mesh.position.set(shot.x, 0, shot.z);
-      if (shot.z < -12) shot.alive = false;
+    world.originX += world.dir * dt * (1.35 + world.wave * 0.45);
+    let turn = false;
+    for (const ufo of world.ufos) {
+      if (!ufo.alive) continue;
+      const x = world.originX + ufo.gx;
+      if (x > 7.4 || x < -7.4) turn = true;
+    }
+    if (turn) {
+      world.dir *= -1;
+      world.originX += world.dir * 0.2;
+      world.originY -= 0.32;
     }
     let removed = false;
-    for (const enemy of world.enemies) {
-      if (!enemy.alive) continue;
-      enemy.phase += dt;
-      enemy.x += Math.sin(enemy.phase * 1.4) * dt * 1.3;
-      enemy.z += dt * (0.85 + world.wave * 0.18);
-      enemy.mesh.position.set(enemy.x, 0, enemy.z);
-      if (enemy.z > 4.6 && world.hurt <= 0) {
-        enemy.alive = false;
-        world.hurt = 0.9;
+    for (const ufo of world.ufos) {
+      if (!ufo.alive) continue;
+      const x = world.originX + ufo.gx;
+      const y = world.originY + ufo.gy;
+      ufo.mesh.position.set(x, y, 0);
+      ufo.mesh.rotation.z = Math.sin(state.clock.elapsedTime * 3 + ufo.gx) * 0.08;
+      if (y < -4.15 && world.hurt <= 0) {
+        ufo.alive = false;
+        world.hurt = 0.8;
         removed = true;
         callbacks.current.onHit();
       }
       for (const shot of world.shots) {
-        if (!shot.alive || !enemy.alive) continue;
-        const dx = shot.x - enemy.x;
-        const dz = shot.z - enemy.z;
-        if (dx * dx + dz * dz < 0.85) {
+        if (!shot.alive || !ufo.alive) continue;
+        const dx = shot.x - x;
+        const dy = shot.y - y;
+        if (dx * dx + dy * dy < 0.55) {
           shot.alive = false;
-          enemy.alive = false;
+          ufo.alive = false;
           removed = true;
         }
       }
     }
-    if (!removed) return;
     for (const shot of world.shots) {
-      if (!shot.alive) state.scene.remove(shot.mesh);
+      if (!shot.alive) continue;
+      shot.y += dt * 11;
+      shot.mesh.position.set(shot.x, shot.y, 0);
+      if (shot.y > 7) shot.alive = false;
     }
-    world.shots = world.shots.filter((shot) => shot.alive);
-    world.enemies = world.enemies.filter((enemy) => {
-      if (enemy.alive) return true;
-      state.scene.remove(enemy.mesh);
-      return false;
-    });
-    if (world.enemies.length === 0) {
+    if (world.shots.some((shot) => !shot.alive) || removed) {
+      for (const shot of world.shots) {
+        if (!shot.alive) state.scene.remove(shot.mesh);
+      }
+      world.shots = world.shots.filter((shot) => shot.alive);
+      world.ufos = world.ufos.filter((ufo) => {
+        if (ufo.alive) return true;
+        state.scene.remove(ufo.mesh);
+        return false;
+      });
+    }
+    if (world.ufos.length === 0) {
       if (world.wave >= 3) {
         if (!world.won) {
           world.won = true;
@@ -172,7 +196,9 @@ function Battle({
         }
       } else {
         world.wave += 1;
-        world.enemies = bootWave(state.scene, world.wave);
+        world.originX = 0;
+        world.originY = 0.4 + world.wave * 0.15;
+        world.ufos = bootWave(state.scene, world.wave);
       }
     }
   });
@@ -181,7 +207,7 @@ function Battle({
     return () => {
       const world = sim.current;
       if (!world) return;
-      for (const enemy of world.enemies) enemy.mesh.removeFromParent();
+      for (const ufo of world.ufos) ufo.mesh.removeFromParent();
       for (const shot of world.shots) shot.mesh.removeFromParent();
       sim.current = null;
     };
@@ -189,47 +215,70 @@ function Battle({
 
   return (
     <>
-      <group ref={player} position={[0, 0, 5]} scale={0.5}>
+      <group ref={player} position={[0, -5.2, 0]} scale={0.38}>
         <ShipMesh parts={parts} />
       </group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.8, 0]}>
-        <planeGeometry args={[24, 24]} />
-        <meshStandardMaterial color="#1c1914" />
-      </mesh>
     </>
   );
 }
 
 function boot(scene: Scene): Sim {
-  return { enemies: bootWave(scene, 1), shots: [], wave: 1, cool: 0, hurt: 0, won: false, x: 0 };
+  return {
+    ufos: bootWave(scene, 1),
+    shots: [],
+    originX: 0,
+    originY: 0.6,
+    dir: 1,
+    playerX: 0,
+    wave: 1,
+    cool: 0,
+    hurt: 0,
+    won: false,
+  };
 }
 
-function bootWave(scene: Scene, wave: number): Craft[] {
-  return Array.from({ length: 4 }, (_, index) => {
-    const mesh = ufo();
-    const craft = {
-      mesh,
-      x: -4.5 + index * 3,
-      z: -7 - (index % 2),
-      phase: index * 0.7 + wave,
-      alive: true,
-    };
-    mesh.position.set(craft.x, 0, craft.z);
-    scene.add(mesh);
-    return craft;
-  });
+function bootWave(scene: Scene, wave: number): Ufo[] {
+  const cols = 6;
+  const rows = 3;
+  const flock: Ufo[] = [];
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      const mesh = ufo(row);
+      const craft: Ufo = {
+        mesh,
+        gx: (col - (cols - 1) / 2) * 1.45,
+        gy: 3.1 - row * 1.15 - wave * 0.05,
+        alive: true,
+      };
+      mesh.position.set(craft.gx, craft.gy, 0);
+      scene.add(mesh);
+      flock.push(craft);
+    }
+  }
+  return flock;
 }
 
-function ufo() {
+function ufo(row: number) {
   const mesh = new Group();
-  const body = new Mesh(new SphereGeometry(0.55, 18, 12), new MeshStandardMaterial({ color: "#c4452d" }));
-  body.scale.set(1.3, 0.28, 1.3);
-  const dome = new Mesh(new SphereGeometry(0.28, 14, 10), new MeshStandardMaterial({ color: "#e6dfd0" }));
-  dome.position.y = 0.28;
-  mesh.add(body, dome);
+  const colors = ["#c4452d", "#e39b12", "#efe6d6"];
+  const body = new Mesh(
+    new SphereGeometry(0.42, 16, 10),
+    new MeshStandardMaterial({ color: colors[row] ?? "#c4452d" }),
+  );
+  body.scale.set(1.45, 0.38, 1);
+  const dome = new Mesh(new SphereGeometry(0.2, 12, 8), new MeshStandardMaterial({ color: "#9fd7e8" }));
+  dome.position.y = 0.22;
+  const wingL = new Mesh(new SphereGeometry(0.16, 8, 6), new MeshStandardMaterial({ color: "#1a1714" }));
+  wingL.position.set(-0.48, -0.02, 0);
+  wingL.scale.set(1.2, 0.45, 0.4);
+  const wingR = wingL.clone();
+  wingR.position.x = 0.48;
+  mesh.add(body, dome, wingL, wingR);
   return mesh;
 }
 
 function shotMesh() {
-  return new Mesh(new SphereGeometry(0.12, 8, 8), new MeshStandardMaterial({ color: "#e39b12" }));
+  const mesh = new Mesh(new SphereGeometry(0.1, 8, 8), new MeshStandardMaterial({ color: "#e39b12" }));
+  mesh.scale.set(0.7, 1.8, 0.7);
+  return mesh;
 }

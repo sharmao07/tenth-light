@@ -173,11 +173,13 @@ export function Game() {
         </ol>
         <div className="lives" aria-label={`${state.lives} lives`}>
           {[0, 1, 2].map((index) => (
-            <span key={index} className={index < state.lives ? "life on" : "life"} />
+            <span key={index} className={index < state.lives ? "life on" : "life"} aria-hidden="true">♥</span>
           ))}
         </div>
         <div className="hud-tools">
-          <HoldControls paused={paused} onToggle={() => setPaused((value) => !value)} onMenu={toMenu} />
+          {state.phase.kind !== "title" && (
+            <HoldControls paused={paused} onToggle={() => setPaused((value) => !value)} onMenu={toMenu} />
+          )}
           <button type="button" onClick={toggleSound}>{muted ? "Sound" : "Mute"}</button>
         </div>
       </header>

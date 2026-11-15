@@ -4,22 +4,26 @@ import { useEffect, useRef, useState } from "react";
 import { PARTS, URANUS_AU } from "@/lib/game/catalog";
 import { aliveDraw, analyze, scienceDraw } from "@/lib/game/ship";
 import type { PartId, ShipDesign } from "@/lib/game/types";
+import { MOON_SNAPSHOT } from "@/lib/game/snapshot";
 import { Plate } from "./Plate";
 
 export function MoonPuzzle({ onPass }: { onPass: () => void }) {
-  const [fix, setFix] = useState<{ azimuth: number; elevation: number; source: string; note: string } | null>(null);
+  const [fix, setFix] = useState({
+    azimuth: MOON_SNAPSHOT.azimuth,
+    elevation: MOON_SNAPSHOT.elevation,
+    source: "snapshot",
+    note: MOON_SNAPSHOT.note,
+  });
   const [angle, setAngle] = useState(20);
 
   useEffect(() => {
     let dead = false;
-    fetch("/api/horizons")
+    fetch("/api/horizons", { signal: AbortSignal.timeout(8000) })
       .then((response) => response.json())
       .then((data) => {
-        if (!dead) setFix(data);
+        if (!dead && Number.isFinite(data.azimuth)) setFix(data);
       })
-      .catch(() => {
-        if (!dead) setFix({ azimuth: 124, elevation: 18, source: "snapshot", note: "Sample fix." });
-      });
+      .catch(() => undefined);
     return () => {
       dead = true;
     };
@@ -33,11 +37,8 @@ export function MoonPuzzle({ onPass }: { onPass: () => void }) {
     <div className="puzzle">
       <Plate id="moon" alt="NASA photograph of the lunar surface" />
       <p>Lock the dish to the azimuth of Earth. Elevation says whether Earth is above the rim.</p>
-      {!fix && <p>Asking JPL Horizons…</p>}
-      {fix && (
-        <>
-          <p className="caption">{fix.note} Source: {fix.source}.</p>
-          <p>Elevation {fix.elevation.toFixed(1)}°. Target azimuth {target.toFixed(1)}°.</p>
+      <p className="caption">{fix.note} Source: {fix.source}.</p>
+      <p>Elevation {fix.elevation.toFixed(1)}°. Target azimuth {target.toFixed(1)}°.</p>
           <label>
             Dish bearing {angle.toFixed(0)}°
             <input
@@ -49,11 +50,9 @@ export function MoonPuzzle({ onPass }: { onPass: () => void }) {
             />
           </label>
           <p>{locked ? "Earth is in the beam." : `${gap.toFixed(0)}° off the bearing.`}</p>
-          <button type="button" className="primary" disabled={!locked} onClick={onPass}>
-            Lock the dish
-          </button>
-        </>
-      )}
+      <button type="button" className="primary" disabled={!locked} onClick={onPass}>
+        Lock the dish
+      </button>
     </div>
   );
 }

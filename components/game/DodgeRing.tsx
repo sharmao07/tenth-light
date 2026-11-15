@@ -82,15 +82,15 @@ export function DodgeRing({
 
   return (
     <div className="dodge">
-      <div>
+      <div className="ring-wrap">
         <button type="button" className="ring-button" onClick={resolve} data-testid="dodge">
           <svg ref={ring} viewBox="0 0 240 240" className="ring" aria-hidden="true">
             <circle cx="120" cy="120" r="78" fill="none" stroke="#2a261f" strokeWidth="10" />
             <path d={arc(START, END, 78)} fill="none" stroke="#e39b12" strokeWidth="16" strokeLinecap="butt" />
             <circle ref={dot} cx="120" cy="42" r="8" fill="#f3eee4" />
           </svg>
-          <span className="ring-label">Click on the amber arc</span>
         </button>
+        <p className="ring-label">Click while the white mark sits on the amber arc</p>
       </div>
       <div className="neo-card">
         {showTip && (

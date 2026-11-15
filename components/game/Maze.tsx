@@ -46,6 +46,7 @@ export function Maze({
   const takenRef = useRef(taken);
   const aliensRef = useRef(aliens);
   const hurtRef = useRef(false);
+  const graceRef = useRef(0);
   const pausedRef = useRef(paused);
   const onHitRef = useRef(onHit);
   const onDoneRef = useRef(onDone);
@@ -69,13 +70,14 @@ export function Maze({
   }
 
   function struck() {
-    if (hurtRef.current) return;
+    if (hurtRef.current || performance.now() < graceRef.current) return;
     hurtRef.current = true;
     onHitRef.current();
     const home = mazeStart();
     cellRef.current = home;
     setCell(home);
     setNote("An alien touched the droid. Nori is back at the sleeve mouth.");
+    graceRef.current = performance.now() + 900;
     window.setTimeout(() => {
       hurtRef.current = false;
     }, 700);
@@ -130,6 +132,10 @@ export function Maze({
   }
 
   useEffect(() => {
+    graceRef.current = performance.now() + 900;
+  }, []);
+
+  useEffect(() => {
     function onKey(event: KeyboardEvent) {
       const step: Record<string, [number, number]> = {
         ArrowUp: [-1, 0],
@@ -151,8 +157,8 @@ export function Maze({
       event.preventDefault();
       moveRef.current(delta[0], delta[1]);
     }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
   }, []);
 
   useEffect(() => {

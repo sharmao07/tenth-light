@@ -12,6 +12,17 @@ export async function GET(request: Request) {
     neptune: { q: "Neptune Voyager 2", title: "Neptune" },
   };
   const plate = plates[id] ?? plates.earth;
+  const fallback: Record<string, string> = {
+    moon: "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg",
+    mars: "https://images-assets.nasa.gov/image/PIA00405/PIA00405~medium.jpg",
+    earth: "https://images-assets.nasa.gov/image/PIA00148/PIA00148~medium.jpg",
+    ceres: "https://images-assets.nasa.gov/image/PIA20180/PIA20180~medium.jpg",
+    jupiter: "https://images-assets.nasa.gov/image/PIA21974/PIA21974~medium.jpg",
+    uranus: "https://images-assets.nasa.gov/image/PIA18182/PIA18182~medium.jpg",
+    neptune: "https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg",
+    enceladus: "https://images-assets.nasa.gov/image/PIA11688/PIA11688~medium.jpg",
+    pluto: "https://images-assets.nasa.gov/image/PIA19952/PIA19952~medium.jpg",
+  };
   try {
     const response = await fetch(
       `https://images-api.nasa.gov/search?q=${encodeURIComponent(plate.q)}&media_type=image`,
@@ -36,6 +47,11 @@ export async function GET(request: Request) {
       nasaId: item?.data?.[0]?.nasa_id ?? "",
     });
   } catch {
-    return Response.json({ source: "snapshot", href: null, title: plate.title, nasaId: "" });
+    return Response.json({
+      source: "snapshot",
+      href: fallback[id] ?? fallback.earth,
+      title: plate.title,
+      nasaId: "",
+    });
   }
 }
