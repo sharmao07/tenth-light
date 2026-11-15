@@ -49,6 +49,18 @@ You play as the **Specialist** (default callsign **Wren**). You never leave the 
 
 ---
 
+## 🎨 Design System
+
+Tenth Light follows a deliberate, anti-slop visual language inspired by mission control telemetry and historical deep-space instrumentation. Full design tokens, typography rules, and spacing specifications are detailed in [DESIGN.md](DESIGN.md).
+
+![Tenth Light Title Screen](docs/screenshots/title.png)
+
+- **Typography:** Fraunces (display, weight 200/800 contrast), Instrument Sans (body readability), and Martian Mono (readouts and telemetry).
+- **Palette:** `--void` (`#0a0c10`), `--signal` (`#f0562b` accent), and `--paper` (`#e9e6dc` neutral ramp).
+- **Chrome:** Clean borders, zero AI-slop gradients or rounded blobs, 8px layout rhythm, and pure SVG/procedural visuals.
+
+---
+
 ## 🛠️ Stack & Data Sources
 
 - **Framework**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4.
