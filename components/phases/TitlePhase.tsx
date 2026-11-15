@@ -2,6 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { sound } from '@/components/AudioController';
+import { NoriPixelToken } from '@/components/SleevePixelTokens';
 
 interface TitlePhaseProps {
   callsign: string;
@@ -22,8 +23,16 @@ export function TitlePhase({
 }: TitlePhaseProps) {
   return (
     <div className="w-full max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24 select-none grid gap-16 lg:gap-24 lg:grid-cols-[1.5fr_1fr] items-end animate-fadeIn">
-      <div className="space-y-12">
-        <p className="label">NASA Space Apps 2026 &middot; Space Mission Design Game</p>
+      <div className="space-y-10">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-surface border border-signal/70 flex items-center justify-center p-2 shadow-sm shrink-0">
+            <NoriPixelToken size={34} />
+          </div>
+          <div>
+            <p className="label !text-signal">Mission Insignia &middot; Droid Nori</p>
+            <p className="text-xs font-mono text-paper-muted">NASA Space Apps 2026 &middot; Space Mission Design Game</p>
+          </div>
+        </div>
         <h1 className="display-xl">
           <span className="block font-extralight">Tenth</span>
           <span className="block font-extrabold -mt-[0.08em]">Light</span>

@@ -2,6 +2,7 @@
 import React from 'react';
 import { sound } from './AudioController';
 import { AudioMorphIcon, ClearanceMorphIcon } from './MorphingIcons';
+import { NoriPixelToken } from './SleevePixelTokens';
 
 interface PersistentHeaderProps {
   lives: number;
@@ -52,10 +53,21 @@ export function PersistentHeader({
   return (
     <header className="w-full bg-void text-paper z-50 select-none border-b border-paper/10">
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-4 pb-3 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-baseline gap-6">
-          <span className="font-serif text-2xl font-extrabold tracking-tight text-paper">Tenth Light</span>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={act(onMenu)}
+            title="Tenth Light — Click to return to Title & Corridor"
+            className="flex items-center gap-3 group text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-signal"
+          >
+            <div className="w-8 h-8 rounded-full bg-surface border border-signal/60 flex items-center justify-center p-1 group-hover:border-signal transition-colors shrink-0 shadow-sm">
+              <NoriPixelToken size={20} />
+            </div>
+            <span className="font-serif text-2xl font-extrabold tracking-tight text-paper group-hover:text-signal transition-colors">
+              Tenth Light
+            </span>
+          </button>
           {currentStopName && (
-            <span className="label text-paper-muted">
+            <span className="label text-paper-muted border-l border-paper/15 pl-4 ml-1 hidden sm:inline-block">
               Stop <span className="tabular-nums">{currentStopIndex}</span> &middot; <span className="text-paper font-semibold">{currentStopName}</span>
             </span>
           )}

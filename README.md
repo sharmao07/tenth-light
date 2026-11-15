@@ -1,83 +1,139 @@
-# Tenth Light — Space Mission Design Game
+# Tenth Light
 
-> **NASA Space Apps 2026 Challenge Entry: “Space Mission Design Game”**  
-> *“Design the ship. Stay in the seat. Send the droid.”*
+<p align="center">
+  <img src="public/nori-logo.svg" width="96" height="96" alt="Tenth Light Insignia - Astromech Droid Nori" />
+  <br />
+  <strong>A space mission design game for the NASA Space Apps Challenge 2026</strong>
+  <br />
+  <em>"Design the ship. Stay in the seat. Send the droid."</em>
+</p>
 
----
-
-> “Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive’s numbers. The aliens, the depot fight, and the droid are the story.”
-
----
-
-## 🌟 Overview
-
-**Tenth Light** is a browser-based space mission design game built from scratch for the NASA Space Apps 2026 challenge. 
-
-You play as the **Specialist** (default callsign **Wren**). You never leave the ship's pressurized cabin and appear only in dialogue. Your companion is **Nori**, an astromech-style droid who ventures out into the vacuum, braving alien mazes and sub-zero surface environments to retrieve soil and water readings from **TOI-700 e** (nicknamed *Harbor*).
-
----
-
-## 🚀 Key Features & Narrative Depth
-
-### 1. Best Storytelling Architecture (Inspired by *A Solar Tale*)
-- **11-Act Mission Logbook (`📖 Logbook`)**: Accessible from the header or title screen at any moment. As you journey across Stops 0 to 10, unlock chapters containing:
-  - **Poetic Epigraph**: Mythic and philosophical framing of cosmic exploration.
-  - **✍️ Specialist's Personal Journal**: First-person reflections on isolation, duty, and human hope.
-  - **🤖 Droid Nori's Sensor Telemetry**: Whimsical sensor logs, gyroscopic stabilization reports, and cabin atmosphere compensation.
-  - **🛰️ NASA Planetary Heritage**: Historical real-world mission context bridging Apollo, Pioneer, Voyager, Cassini, Dawn, and New Horizons to the Exoplanet Archive.
-- **Starship Cabin Ambience**: Procedural dual-harmonic synthesizer (55 Hz & 110 Hz low-pass resonance) evokes the hum of living inside a sealed deep space vessel.
-- **3-Button Dialogue Bar**: `◀ Previous` to review past dialogue, `▶ Auto (3s)` for automated 3-second pacing, and `Next ▶` to advance.
-
-### 2. Engineering & Mission Design
-- **Kerbal-Style Vertical Hangar**: Bolt together engines, propellant tanks, command capsules, high-gain dishes, and science instrumentation.
-- **Strict Budget & Mass Constraints**:
-  - Teaching budget of 140 credits (Kite 18c/400kg vs Keel 36c/560kg).
-  - Patched-conic delta-v table: 2,400 m/s per tank (3 tanks required to clear the 6,700 m/s burn to Jupiter and 7,100 m/s post-refuel).
-  - Uranus $1/r^2$ thermal check: Solar drops to ~0.43 W at 19.2 AU; a 100 W RTG is required to maintain the 55 W heater/computer/antenna bus.
-- **Real NASA Planetary Gates**:
-  - **Stop 1 Moon (Lumen)**: Align high-gain dish with Earth's JPL Horizons azimuth (124° ± 14°).
-  - **Stop 2 Mars (Redline)**: Drop souvenir excess mass while safeguarding Nori's optical sensors.
-  - **Stop 3 Ceres (Pebble)**: Query JPL SBDB to identify Dawn's target (1 Ceres, 939.4 km).
-  - **Stop 4 Jupiter (Bolt)**: 3-wave arcade formation gallery shooter followed by tank refuel.
-  - **Stop 5 Enceladus (Spray)**: Locate south-pole cryovolcanic vapor plumes on Cassini imagery.
-  - **Stop 6 Uranus (Tilt)**: Breaker management under $1/r^2$ solar dropoff.
-  - **Stop 7 Neptune (Lag)**: 7-second light-time lag countdown (simulating 4.17 hours one-way).
-  - **Stop 8 Pluto (Heart ❤️)**: Identify Tombaugh Regio (*"A photograph is not a soil sample"*).
-  - **Stop 9 Heliopause (Whisper)**: Packet sequence ordering at 122 AU.
-  - **Stop 10 Harbor (TOI-700 e)**: 2D top-down probe maze; Nori evades patrolling drones, acquires the amber key, unlocks the red gate, and extracts certified water and soil canisters.
-- **Certified Return**: Directorate verdict depending on physical samples and instrumentation survival.
+<p align="center">
+  <a href="https://tenth-light.vercel.app"><strong>Play Live on Vercel</strong></a> &nbsp;&bull;&nbsp;
+  <a href="https://tenth-light.vercel.app/data"><strong>NASA Data &amp; Disclosures</strong></a> &nbsp;&bull;&nbsp;
+  <a href="https://tenth-light.vercel.app/presentation"><strong>In-Game Presentation Deck</strong></a> &nbsp;&bull;&nbsp;
+  <a href="submission-kit/"><strong>Submission Kit</strong></a>
+</p>
 
 ---
 
-## 🎨 Design System
+## What this is
 
-Tenth Light follows a deliberate, anti-slop visual language inspired by mission control telemetry and historical deep-space instrumentation. Full design tokens, typography rules, and spacing specifications are detailed in [DESIGN.md](DESIGN.md).
+Tenth Light is a web-based space mission design game built for the 2026 NASA Space Apps Challenge (*Space Mission Design Game*).
 
-![Tenth Light Title Screen](docs/screenshots/title.png)
+You play as flight specialist Wren, sealed inside the command capsule of an exploratory vessel heading out from Earth orbit to TOI-700 e, a terrestrial exoplanet 101.5 light-years away in the constellation Dorado. You never leave your seat. You configure the vehicle in an orbital assembly bay, balance mass against delta-V, manage power through the outer Solar System, and deploy an autonomous surface droid named Nori down to the regolith to collect candidate biosignature samples.
 
-- **Typography:** Fraunces (display, weight 200/800 contrast), Instrument Sans (body readability), and Martian Mono (readouts and telemetry).
-- **Palette:** `--void` (`#0a0c10`), `--signal` (`#f0562b` accent), and `--paper` (`#e9e6dc` neutral ramp).
-- **Chrome:** Clean borders, zero AI-slop gradients or rounded blobs, 8px layout rhythm, and pure SVG/procedural visuals.
+The project grounds its choices in actual aerospace constraints:
 
----
-
-## 🛠️ Stack & Data Sources
-
-- **Framework**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4.
-- **3D Engine**: Three.js WebGL canvas (orbit camera, modular procedural meshes, starfield particles).
-- **Audio Engine**: 100% procedural Web Audio API synthesis (UI chirps, laser bursts, explosions, cabin hum).
-- **NASA Local Server Endpoints** (`app/api/nasa/`):
-  - NASA Exoplanet Archive (TOI-700 e & d composite parameters)
-  - JPL Horizons System (Earth ephemeris from Moon)
-  - JPL Small-Body Database (Ceres, Vesta, Pallas)
-  - NASA NeoWs (Asteroid dodge hazards)
-  - NASA Image and Video Library & NASA EPIC
-  - Dated 15 November 2026 fallback snapshots for offline resilience.
-- **Save State**: Local browser `localStorage` under `tenth-light-v1`. Zero external database or tracking.
+- If your launch vehicle can only loft 400 kg to orbit, you cannot carry both a deep-core drill and a mass spectrometer. You have to pick one.
+- If you skip a radioisotope generator, the inverse-square law cuts your solar power down to 3.7 W/m² past the asteroid belt, freezing your avionics.
+- Every transit stop connects directly to NASA open data: live orbital parameters from the NASA Exoplanet Archive, topocentric ephemerides from JPL Horizons, and historical reconnaissance photography from Apollo, Cassini, Dawn, Voyager, and New Horizons.
 
 ---
 
-## 💻 Local Development
+## Systems engineering & gameplay loop
+
+### 1. Vehicle Assembly Bay (VAB)
+
+<p align="center">
+  <img src="submission-kit/screenshots/03_vab_spacecraft_3d.png" width="100%" alt="Vehicle Assembly Bay - 3D Spacecraft Configuration & Engineering Trade-offs" />
+  <br/>
+  <em>Figure 1: Vehicle Assembly Bay — configuring launcher capacity, structural mass fractions, and propulsion in real-time 3D.</em>
+</p>
+
+Before launch, you configure the spacecraft across four interlocked engineering budgets:
+
+- **Launcher class & payload mass:** Sized against structural limits. The light Kite launcher costs 18 credits with a 400 kg limit. The heavy Keel launcher costs 36 credits and lifts up to 560 kg, leaving less budget for secondary propellant tanks.
+- **Delta-V ($\Delta v$):** Sized with patched-conic approximation. Each auxiliary propellant tank adds 2,400 m/s of vacuum $\Delta v$. Reaching the heliopause gate requires 7,200 m/s minimum, plus an orbital refueling rendezvous at the Jupiter Depot.
+- **Power curves & inverse-square law:** Solar irradiance falls off as $1/r^2$. At Uranus (19.2 AU), solar flux drops from 1,361 W/m² at Earth to 3.7 W/m², leaving standard photovoltaic panels with just 0.43 W per array. Running life support, heaters, and communications requires an RTG (Radioisotope Thermoelectric Generator).
+- **Science suite:** A mass spectrometer confirms isotopic water ratios; a core drill extracts subsurface regolith. At mission debrief, the Directorate grades your return based on which instruments survived the voyage.
+
+### 2. The Solar System expedition route
+
+<p align="center">
+  <img src="submission-kit/screenshots/06_moon_horizons_telemetry.png" width="100%" alt="Stop 1: Moon Station - Real-time NASA JPL Horizons Topocentric Dish Alignment" />
+  <br/>
+  <em>Figure 2: Moon Station — aligning the high-gain dish using live topocentric azimuth and elevation calculated via the NASA JPL Horizons API.</em>
+</p>
+
+The outbound route steps through ten distinct stages, each paired with a systems challenge and NASA/JPL telemetry:
+
+| Stop | Location | Focus | Integrated NASA / Space Agency Resource |
+| :--- | :--- | :--- | :--- |
+| **00** | Earth Orbit / VAB | Vehicle configuration | Systems Engineering Handbook mass fractions |
+| **01** | Moon (Lumen) | High-gain dish alignment | **JPL Horizons Ephemeris API** (live topocentric Az/El from `coord@301`) |
+| **02** | Mars (Redline) | Orbital capture mass cap | Mars Global Surveyor MOC wide-angle imagery (`PIA04304`) |
+| **03** | Ceres (Pebble) | Asteroid belt navigation | **JPL Small-Body Database** (connectivity verification) + Dawn Ceres benchmarks |
+| **04** | Jupiter Depot (Bolt) | Orbital propellant transfer | Cassini true-color Jupiter imagery (`PIA02873`) & kinetic interception |
+| **05** | Enceladus (Spray) | Plume detection | Cassini imaging of south polar cryovolcanic water geysers (`PIA07758`) |
+| **06** | Uranus (Tilt) | Breaker load triage | Voyager 2 true-color encounter imagery (`PIA18182`) & $1/r^2$ power shedding |
+| **07** | Neptune (Lag) | Radio latency | Voyager 2 Great Dark Spot (`PIA01492`) & 4.17-hour light-speed delay |
+| **08** | Pluto (Heart) | Cryo-geomorphology | New Horizons high-res color mosaic of Tombaugh Regio (`PIA19952`) |
+| **09** | Heliopause (Whisper) | Telemetry packet queues | Voyager 1 termination shock data & departure gate (`PIA17046`) |
+| **10** | Harbor (TOI-700 e) | Autonomous surface sampling | **NASA Exoplanet Archive** (live TAP transit parameters) & Droid Nori |
+
+---
+
+## Scientific disclosures
+
+Tenth Light keeps a clear line between verified astrophysics and speculative narrative:
+
+> *"Stops 1 through 9 are real places. Harbor is TOI-700 e, from the NASA Exoplanet Archive. The voyage past the heliopause is a mission simulation that uses the archive's numbers. The aliens, the depot fight, and the droid are the story."*
+
+- **The interstellar cruise:** TOI-700 e is 101.5 light-years away (31.13 parsecs). Traveling at 0.1c (~30,000 km/s) takes roughly 1,015 years in Earth's reference frame. While radiation-pressure sails (JAXA IKAROS, NASA ACS3) and ion drives (Dawn, Deep Space 1) are flight-proven, macroscopic travel at 0.1c remains theoretical.
+- **Surface conditions:** NASA TESS transit photometry gives us TOI-700 e's 27.81-day orbital period, 0.919 Earth radius, and position in the optimistic habitable zone. No existing telescope has detected an atmosphere, surface water, or magnetic field there. The canisters retrieved by Droid Nori in Act 10 are designated as candidate biosignature simulants.
+- **Complete disclosures dossier:** Available in-game at [`/data`](https://tenth-light.vercel.app/data).
+
+---
+
+## Technical architecture
+
+- **Framework:** Next.js 16.4.6 (App Router), React 19.3.0, TypeScript 5
+- **Styling:** Tailwind CSS v4 with custom CSS variables (no bloated component libraries)
+- **3D Graphics:** Three.js 0.187.0 rendering procedural spacecraft meshes, gantry frames, and lighting in the VAB. **Zero external 3D models** (`.gltf`, `.glb`, or `.obj`) are downloaded.
+- **Procedural Audio:** 100% synthesized in real time via the browser's native Web Audio API (55 Hz / 110 Hz cabin drone, filtered white-noise thrusters, and bandpass telemetry chirps). **Zero external audio files** (`.wav`, `.mp3`) are loaded.
+- **Micro-Interactions:** Morphicons 2.0.2 for spring-physics directional indicators; Canvas-Confetti 1.9.4 on mission completion.
+- **APIs & Live Endpoints:**
+  - NASA Exoplanet Archive (synchronous Table Access Protocol via `pscomppars`)
+  - JPL Horizons Ephemeris REST API (rolling 24-hour UTC window)
+  - NASA Near Earth Object Web Service (NeoWs API)
+  - NASA DSCOVR EPIC API (daily natural-color Earth disc imagery)
+  - NASA Image and Video Library API (reconnaissance photograph gateway)
+  - JPL Small-Body Database API (endpoint connectivity verification)
+- **Fallback Snapshots:** If external network latency exceeds 2,500 ms, endpoints automatically fall back to dated archival snapshots (`lib/nasaSnapshots.ts`, captured 15 November 2026).
+- **State & Storage:** Clean client-side state with `localStorage` persistence (`tenth-light-v1`). No tracking cookies, external analytics, or accounts required.
+- **Automated QA:** Comprehensive Playwright test suite (18/18 passing tests) covering full mission progression, Horizons date calculations, and trade-off mechanics.
+
+---
+
+## Project identity & logo
+
+The project insignia and favicon represent **Astromech Droid Nori**, Wren's loyal robotic flight companion. Designed on a strict 16x16 pixel grid using the project's terminal palette (deep void `#0a0c10`, signal orange `#f0562b`, and paper cream `#e9e6dc`).
+
+- Master vector logo: [`public/nori-logo.svg`](public/nori-logo.svg)
+- Style guide and token rules: [`docs/assets/STYLE_GUIDE.md`](docs/assets/STYLE_GUIDE.md)
+- UI and typographic guidelines: [`DESIGN.md`](DESIGN.md)
+
+---
+
+## Submission kit
+
+All competition submission files are compiled in the [`submission-kit/`](submission-kit/) directory:
+
+- **Presentation:** [`Tenth-Light-NASA-Space-Apps-2026.pptx`](submission-kit/Tenth-Light-NASA-Space-Apps-2026.pptx) (7 widescreen slides with speaker notes)
+- **Video Demo:** [`Tenth-Light-30s-Demo.mp4`](submission-kit/Tenth-Light-30s-Demo.mp4) (29.5-second high-definition gameplay walkthrough)
+- **Screenshots:** 13 authentic 1920×1080 gameplay captures in [`submission-kit/screenshots/`](submission-kit/screenshots/)
+- **Audited Reports:**
+  - [`nasa-data-submission.md`](submission-kit/notes/nasa-data-submission.md): Copy-paste ready NASA data table and consumed API fields
+  - [`other-resources-submission.md`](submission-kit/notes/other-resources-submission.md): Copy-paste ready software and partner table
+  - [`asset-license-audit.md`](submission-kit/notes/asset-license-audit.md): Individual NASA image plate audit and IP breakdown
+  - [`submission-report.md`](submission-kit/notes/submission-report.md): Master report with pre-submission checklist
+
+---
+
+## Running locally
+
+Requirements: Node.js 20+ and npm.
 
 ```bash
 # Clone the repository
@@ -87,17 +143,24 @@ cd tenth-light
 # Install dependencies
 npm install
 
-# Setup environment (Optional personal NASA API key)
-cp .env.example .env.local
-
-# Run dev server
+# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) or [http://localhost:3001](http://localhost:3001) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+To run the automated Playwright test suite:
+
+```bash
+# Run all 18 end-to-end tests
+npm run test
+```
 
 ---
 
-## 📜 License & Disclaimers
+## License & credits
 
-Photographs courtesy of NASA. Unaltered and credited. Educational simulation built for NASA Space Apps 2026.
+- **Source Code:** Open source under the [MIT License](LICENSE).
+- **Astronaut Photography:** Apollo 11 (`as11-40-5903`) and Apollo 17 (`as17-148-22727`) photography by NASA astronauts are public domain works of the United States Government under 17 U.S.C. § 105.
+- **Planetary Mission Imagery:** Plates from Cassini, Dawn, Mars Global Surveyor, Voyager, and New Horizons are displayed unaltered with credits to NASA, JPL-Caltech, and their respective science teams in accordance with NASA Media Usage Guidelines.
+- **Typefaces:** Fraunces, Instrument Sans, and Martian Mono are licensed under the SIL Open Font License 1.1.

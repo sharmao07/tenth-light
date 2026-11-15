@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { NASA_IMAGE_PLATES, EXOPLANET_SNAPSHOT } from '@/lib/nasaSnapshots';
 import { CORE_PARTS, OPTIONAL_PARTS, LAUNCHERS } from '@/lib/gameTypes';
+import { NoriPixelToken } from '@/components/SleevePixelTokens';
 
 export default function DataPage() {
   const plates = Object.values(NASA_IMAGE_PLATES).sort((a, b) => a.stopIndex - b.stopIndex);
@@ -13,8 +14,10 @@ export default function DataPage() {
         {/* Header navigation & dossier masthead */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-paper/15 pb-8">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 bg-signal" aria-hidden="true" />
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-7 h-7 rounded-full bg-surface border border-signal/60 flex items-center justify-center p-1 shrink-0 shadow-sm" title="Tenth Light — Astromech Droid Nori">
+                <NoriPixelToken size={18} />
+              </div>
               <span className="label text-signal">NASA Space Apps Challenge 2026</span>
               <span className="text-paper/40 text-xs font-mono">/</span>
               <span className="label text-paper-muted">ARCHIVAL REFERENCE DOSSIER</span>
