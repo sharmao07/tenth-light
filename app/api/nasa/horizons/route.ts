@@ -2,23 +2,33 @@ import { NextResponse } from 'next/server';
 import { HORIZONS_MOON_SNAPSHOT, ARCHIVE_SNAPSHOT_DATE } from '@/lib/nasaSnapshots';
 import { parseHorizonsEphemeris } from '@/lib/horizonsParser';
 
+function formatHorizonsDateTime(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const year = d.getUTCFullYear();
+  const month = pad(d.getUTCMonth() + 1);
+  const day = pad(d.getUTCDate());
+  const hours = pad(d.getUTCHours());
+  const minutes = pad(d.getUTCMinutes());
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
 export async function GET() {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 2500);
 
   try {
-    // Rolling 24-hour UTC ephemeris window
+    // Rolling 24-hour UTC ephemeris window anchored at current request minute
     const now = new Date();
     const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-    const startDate = now.toISOString().slice(0, 10);
-    const stopDate = tomorrow.toISOString().slice(0, 10);
+    const startDateTime = formatHorizonsDateTime(now);
+    const stopDateTime = formatHorizonsDateTime(tomorrow);
 
     // JPL Horizons Observer Ephemeris Query:
-    // COMMAND='399' (Target: Earth)
+    // COMMAND='399' (Target: Earth center)
     // CENTER='coord@301' (Center: Coordinate site on Moon body 301)
     // COORD_TYPE='GEODETIC' (JPL Geodetic standard: East Longitude, Latitude, Altitude in km above ellipsoid)
     // SITE_COORD='0,-89,0' (0 deg East, -89 deg South polar Aitken rim, 0 km altitude)
-    const horizonsUrl = `https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27399%27&CENTER=%27coord@301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%270,-89,0%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&QUANTITIES=%274%27&STEP_SIZE=%271d%27&START_TIME=%27${startDate}%27&STOP_TIME=%27${stopDate}%27`;
+    const horizonsUrl = `https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27399%27&CENTER=%27coord@301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%270,-89,0%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&QUANTITIES=%274%27&STEP_SIZE=%271d%27&START_TIME=%27${encodeURIComponent(startDateTime)}%27&STOP_TIME=%27${encodeURIComponent(stopDateTime)}%27`;
 
     const res = await fetch(horizonsUrl, {
       signal: controller.signal,

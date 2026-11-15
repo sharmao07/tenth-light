@@ -62,7 +62,7 @@ export default function DataPage() {
                 Speculative Interstellar Propulsion Disclosure
               </span>
               <p className="text-paper-muted leading-relaxed text-[11px]">
-                Stops 1 through 9 depict active and historical Solar System exploration governed by demonstrated spaceflight engineering. Chemical and electric propulsion, as well as solar-sail technology, have been demonstrated in space (e.g. Dawn, Deep Space 1, ACS3). However, no demonstrated propulsion system can accelerate a practical spacecraft to 0.1c (~30,000 km/s). The proposed interstellar transit to TOI-700 e (101.5 light-years out) is therefore a speculative educational scenario, entailing an approximate 1,015-year journey in Earth&rsquo;s reference frame at 0.1c.
+                Stops 1 through 9 depict active and historical Solar System exploration governed by demonstrated spaceflight engineering. Chemical and electric propulsion have demonstrated long-duration deep-space travel (e.g. Dawn, Deep Space 1), and solar sails have demonstrated in-space deployment (e.g. NASA&rsquo;s ACS3 composite-boom sail deployment; JAXA&rsquo;s IKAROS for radiation-pressure navigation). However, no demonstrated propulsion system can accelerate a practical spacecraft to 0.1c (~30,000 km/s). The proposed interstellar transit to TOI-700 e (101.5 light-years out) is therefore a speculative educational scenario, entailing an approximate 1,015-year journey in Earth&rsquo;s reference frame at 0.1c.
               </p>
             </div>
 
