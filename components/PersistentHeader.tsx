@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { sound } from './AudioController';
+import { AudioMorphIcon, ClearanceMorphIcon } from './MorphingIcons';
 
 interface PersistentHeaderProps {
   lives: number;
@@ -77,10 +78,11 @@ export function PersistentHeader({
               <button 
                 onClick={act(onOpenClearance)} 
                 onMouseEnter={() => sound.playHoverBlip()} 
-                className="btn-quiet !border-signal !text-signal font-mono text-xs uppercase" 
+                className="btn-quiet !border-signal !text-signal font-mono text-xs uppercase flex items-center gap-1.5" 
                 title="View How This Works Clearance Protocol [H]"
               >
-                How this works
+                <ClearanceMorphIcon isCleared={false} size={13} />
+                <span>How this works</span>
               </button>
             )}
             <button 
@@ -94,10 +96,11 @@ export function PersistentHeader({
             <button 
               onClick={act(onToggleMute)} 
               onMouseEnter={() => sound.playHoverBlip()} 
-              className="btn-quiet font-mono text-xs uppercase" 
+              className="btn-quiet font-mono text-xs uppercase flex items-center gap-1.5" 
               title={isMuted ? 'Unmute audio (M)' : 'Mute audio (M)'}
             >
-              {isMuted ? 'Muted' : 'Audio'}
+              <AudioMorphIcon isMuted={isMuted} size={14} />
+              <span>{isMuted ? 'Muted' : 'Audio'}</span>
             </button>
             <button 
               onClick={act(onPause)} 

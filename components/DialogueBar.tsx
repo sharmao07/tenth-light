@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { DialogueLine } from '@/lib/gameTypes';
 import { PixelPortrait } from './PixelPortraits';
 import { sound } from './AudioController';
+import { AutoPlayMorphIcon } from './MorphingIcons';
 
 interface DialogueBarProps {
   lines: DialogueLine[];
@@ -161,7 +162,7 @@ export function DialogueBar({
             }`}
             title="Automatically advance dialogue every 3 seconds"
           >
-            <span aria-hidden="true">{isAuto ? '||' : '>'}</span>
+            <AutoPlayMorphIcon isAuto={isAuto} size={12} />
             <span>Auto</span>
           </button>
 
